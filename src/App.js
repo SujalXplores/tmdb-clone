@@ -1,5 +1,7 @@
+import TrendingMovies from "./Components/TrendingMovies/TrendingMovies";
+
 const App = () => {
-  return <h1>Movie DB App</h1>;
+  return <TrendingMovies />;
 };
 
 export default App;
