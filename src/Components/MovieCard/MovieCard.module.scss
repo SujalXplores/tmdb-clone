@@ -1,0 +1,58 @@
+.movie__card {
+    width: 150px;
+    min-width: 150px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    margin-top: 0;
+    overflow: visible;
+    position: relative;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    margin-left: 20px;
+}
+
+.movie__img-container {
+    border-radius: 8px;
+    width: 100%;
+    min-height: calc(150px * 1.5);
+    height: calc(150px * 1.5);
+    background: #dbdbdb;
+    overflow: hidden;
+}
+
+.movie__content {
+    width: 100%;
+    padding: 26px 10px 12px 10px;
+    position: relative;
+    white-space: normal;
+    display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.title {
+    font-size: 1em;
+    margin: 0;
+    width: 100%;
+    word-wrap: normal;
+    overflow-wrap: break-word;
+
+    a {
+        font-weight: 700;
+        color: #000;
+    }
+}
+
+.rating {
+    position: absolute;
+    top: -20px;
+}
+
+.release_date {
+    font-size: 1em;
+    color: rgba(0, 0, 0, 0.6);
+}
