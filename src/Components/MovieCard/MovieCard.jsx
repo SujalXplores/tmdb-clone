@@ -14,6 +14,9 @@ const MovieCard = ({ data }) => {
     return formateDate.format(newDate);
   };
 
+  const rating = data.vote_average * 10;
+  const ratingColor = rating >= 70 ? 'success' : rating < 70 && rating >= 50 ? 'warning' : 'error';
+
   return (
     <div className={styles.movie__card}>
       <div className={styles['movie__img-container']}>
@@ -30,50 +33,24 @@ const MovieCard = ({ data }) => {
       </div>
       <div className={styles.movie__content}>
         <div className={styles.rating}>
-          <Box
-            sx={{
-              position: 'relative',
-              display: 'inline-flex',
-              background: '#000000bd',
-              borderRadius: '50%',
-            }}
-          >
+          <Box className={styles.rating__circle}>
             <CircularProgress
               variant='determinate'
-              color={
-                data.vote_average * 10 >= 70
-                  ? 'success'
-                  : data.vote_average * 10 < 70 && data.vote_average * 10 >= 50
-                  ? 'warning'
-                  : 'error'
-              }
-              value={data.vote_average * 10}
+              color={ratingColor}
+              value={rating}
             />
-            <Box
-              sx={{
-                top: 0,
-                left: 0,
-                bottom: 0,
-                right: 0,
-                position: 'absolute',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
+            <Box className={styles['rating__text-container']}>
               <Typography
                 variant='caption'
-                component='div'
-                color='text.secondary'
+                component='span'
+                className={styles.rating__text}
               >
-                {data.vote_average * 10}%
+                {rating}<sup>%</sup>
               </Typography>
             </Box>
           </Box>
         </div>
-        <h2 className={styles.title}>
-          <a>{data.title || data.name}</a>
-        </h2>
+        <h2 className={styles.title}>{data.title || data.name}</h2>
         <p className={styles.release_date}>
           {convertDate(data.release_date || data.first_air_date)}
         </p>

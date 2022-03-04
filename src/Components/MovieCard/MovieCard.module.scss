@@ -50,9 +50,32 @@
 .rating {
     position: absolute;
     top: -20px;
+
+    .rating__circle {
+        position: relative;
+        display: inline-flex;
+        background: #000000bd;
+        border-radius: 50%;
+
+        .rating__text-container {
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .rating__text {
+                font-weight: 600;
+                color: #fff;
+            }
+        }
+    }
 }
 
 .release_date {
     font-size: 1em;
-    color: rgba(0, 0, 0, 0.6);
+    color: #00000099;
 }
