@@ -1,6 +1,6 @@
 import { CircularProgress, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import { BASE_URL } from '../../Constants';
+import { IMAGE_URL } from '../../Constants';
 import styles from './MovieCard.module.scss';
 
 const MovieCard = ({ data }) => {
@@ -15,7 +15,7 @@ const MovieCard = ({ data }) => {
   };
 
   const rating = data.vote_average * 10;
-  const ratingColor = rating >= 70 ? 'success' : rating < 70 && rating >= 50 ? 'warning' : 'error';
+  const ratingColor = rating >= 70 ? 'success' : rating < 70 && rating >= 40 ? 'warning' : 'error';
 
   return (
     <div className={styles.movie__card}>
@@ -25,7 +25,7 @@ const MovieCard = ({ data }) => {
             <img
               loading='lazy'
               className={styles.poster}
-              src={`${BASE_URL}${data.poster_path}`}
+              src={`${IMAGE_URL}${data.poster_path}`}
               alt={data.title || data.name}
             />
           </div>

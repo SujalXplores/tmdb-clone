@@ -16,12 +16,21 @@
 }
 
 .movie__img-container {
+    box-shadow: 0px 2px 8px #0000001a;
     border-radius: 8px;
     width: 100%;
     min-height: calc(150px * 1.5);
     height: calc(150px * 1.5);
     background: #dbdbdb;
     overflow: hidden;
+
+    .wrapper {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        top: 0;
+        left: 0;
+    }
 }
 
 .movie__content {
@@ -47,6 +56,10 @@
     }
 }
 
+.poster {
+    width: inherit;
+}
+
 .rating {
     position: absolute;
     top: -20px;
@@ -70,6 +83,12 @@
             .rating__text {
                 font-weight: 600;
                 color: #fff;
+                font-size: 1em;
+                font-family: inherit;
+
+                sup {
+                    font-size: 0.4em;
+                }
             }
         }
     }
