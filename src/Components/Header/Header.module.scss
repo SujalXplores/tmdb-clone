@@ -1,5 +1,5 @@
 .appbar {
-    background: rgb(3, 37, 65) !important;
+    background: #032541 !important;
 }
 
 .toolbar {
@@ -8,18 +8,49 @@
     .hamburger {
         margin-right: 2rem;
     }
+
+    .header-container {
+        max-width: 1400px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+
+        .inner-nav {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+    }
 }
 
 .nav-items {
     display: none;
     list-style: none;
     margin-left: 16px;
+    align-items: center;
     cursor: pointer;
+
+    .nav-item {
+        padding: 8px;
+        margin-right: 14px;
+        font-weight: 600;
+    }
 }
 
-.nav-item {
-    padding: 8px;
-    margin-right: 14px;
+.search {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2em;
+    height: 2em;
+    font-size: 0.8rem;
+    line-height: inherit;
+    vertical-align: middle;
+    background: url("https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-28-search-blue-177462d06db81ff2a02aa022c1c0be5ba4200d7bd3f51091ed9298980e3a26a1.svg")
+        no-repeat center center;
 }
 
 @media (min-width: 745px) {
@@ -29,8 +60,8 @@
         .hamburger {
             display: none;
         }
-    }
-    .nav-items {
-        display: flex;
+        .nav-items {
+            display: flex;
+        }
     }
 }
