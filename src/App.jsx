@@ -1,8 +1,10 @@
+import Header from './Components/Header/Header';
 import MoviesContainer from './Components/MoviesContainer/MoviesContainer';
 
 const App = () => {
   return (
     <>
+      <Header />
       <MoviesContainer
         category='movie'
         mediaType='popular'
