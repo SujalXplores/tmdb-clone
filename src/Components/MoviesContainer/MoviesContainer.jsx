@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+
 import { API, BASE_URL } from '../../Constants';
 import MovieCard from '../MovieCard/MovieCard';
 import { SkeletonLoader } from '../MovieCard/SkeletonLoader';
@@ -10,12 +12,14 @@ const MoviesContainer = ({
   category,
   mediaType,
   tabs,
-  time = '',
-  title = '',
+  time,
+  title,
+  isBackground,
 }) => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [tabValue, setTabValue] = useState((tabs && tabs[0]) || '');
+  const [timeM, setTime] = useState(time);
 
   const handleChange = (event, tabValue) => {
     setTabValue(tabValue);
@@ -23,14 +27,30 @@ const MoviesContainer = ({
   };
 
   useEffect(() => {
+    switch (tabValue) {
+      case 'Today':
+        setTime('day');
+        break;
+      case 'This Week':
+        setTime('week');
+        break;
+
+      default:
+        break;
+    }
+  }, [tabValue]);
+
+  useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const res = await fetch(
-          `${BASE_URL}/${category}/${mediaType}/${time}?api_key=${API}`
-        );
+        const URL = `${BASE_URL}/${category}/${mediaType}/${timeM}?api_key=${API}`;
+        console.warn(URL);
+        const res = await fetch(URL);
+        if (!res.ok) {
+          throw new Error(res.statusText);
+        }
         const data = await res.json();
         setMovies(data.results);
-        console.table(data.results);
       } catch (error) {
         alert(error.message);
       } finally {
@@ -38,7 +58,7 @@ const MoviesContainer = ({
       }
     };
     fetchMovies();
-  }, [category, mediaType, time]);
+  }, [category, mediaType, timeM]);
 
   return (
     <section className={styles.scroll__wrap}>
@@ -48,7 +68,11 @@ const MoviesContainer = ({
           <CustomTab tabs={tabs} handleChange={handleChange} value={tabValue} />
         )}
       </div>
-      <div className={styles.inner__column}>
+      <div
+        className={`${styles.inner__column} ${
+          isBackground ? styles['bg-image'] : ''
+        }`}
+      >
         {loading && [...Array(10)].map((_, i) => <SkeletonLoader key={i} />)}
         {!loading && movies ? (
           movies.map((movie) => (
@@ -60,6 +84,24 @@ const MoviesContainer = ({
       </div>
     </section>
   );
+};
+
+MoviesContainer.propTypes = {
+  category: PropTypes.string,
+  mediaType: PropTypes.string,
+  tabs: PropTypes.arrayOf(PropTypes.string),
+  time: PropTypes.string,
+  title: PropTypes.string,
+  isBackground: PropTypes.bool,
+};
+
+MoviesContainer.defaultProps = {
+  category: '',
+  mediaType: '',
+  tabs: [''],
+  time: '',
+  title: '',
+  isBackground: false,
 };
 
 export default MoviesContainer;
