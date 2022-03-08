@@ -6,22 +6,22 @@ import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
 import PropTypes from 'prop-types';
 
 const Tab = styled(TabUnstyled)`
-  font-family: IBM Plex Sans, sans-serif;
-  color: rgb(3, 37, 65);
+  color: #032541;
+  font-family: inherit;
   cursor: pointer;
-  font-size: 0.875rem;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 16px;
   height: 30px;
   background-color: transparent;
   width: 100%;
-  padding: 7px 16px;
+  padding: 4px 16px;
   border: none;
   border-radius: 40px;
   display: flex;
   justify-content: center;
 
   &.${tabUnstyledClasses.selected} {
-    background-color: rgb(3, 37, 65);
+    background-color: #032541;
 
     span {
       background: linear-gradient(to right, #c0fecf 0%, #1ed5a9 100%);
@@ -46,7 +46,7 @@ const TabsList = styled(TabsListUnstyled)`
   align-items: center;
   justify-content: center;
   align-content: space-between;
-  border: 1px solid rgb(3, 37, 65);
+  border: 1px solid #032541;
 `;
 function CustomTab({ tabs, value, handleChange }) {
   return (

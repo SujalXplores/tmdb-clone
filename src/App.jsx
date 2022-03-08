@@ -7,7 +7,7 @@ const App = () => {
     <>
       <Header />
       <MoviesContainer
-        category='movie'
+        category='tv'
         mediaType='popular'
         title="What's Popular"
         tabs={['Streaming', 'On TV', 'For Rent', 'In Theaters']}
@@ -16,8 +16,9 @@ const App = () => {
         category='trending'
         mediaType='all'
         time='day'
-        title='Trending Movies'
+        title='Trending'
         tabs={['Today', 'This Week']}
+        isBackground
       />
       <Footer />
     </>
