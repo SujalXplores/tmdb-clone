@@ -38,6 +38,7 @@ const MovieCard = ({ data }) => {
               variant='determinate'
               color={ratingColor}
               value={rating}
+              size={35}
             />
             <Box className={styles['rating__text-container']}>
               <Typography
