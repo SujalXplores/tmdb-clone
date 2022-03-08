@@ -13,7 +13,6 @@
 }
 
 .inner__column {
-    min-height: 0;
     height: auto;
     width: 100%;
     max-width: 1400px;
@@ -25,9 +24,12 @@
     justify-content: flex-start;
     align-items: flex-start;
     align-content: flex-start;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 20px 0;
     white-space: nowrap;
+}
+
+.bg-image {
+    background-image: url("../../assets/section-bg.png");
 }
 
 .inner__column::after {
