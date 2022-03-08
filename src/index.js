@@ -5,6 +5,11 @@ import App from './App';
 import './index.scss';
 
 const theme = createTheme({
+  typography: {
+    button: {
+      textTransform: 'none'
+    }
+  },
   palette: {
     success: {
       main: '#21d07a',
