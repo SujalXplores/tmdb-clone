@@ -1,3 +1,4 @@
+import Footer from './Components/Footer/Footer';
 import Header from './Components/Header/Header';
 import MoviesContainer from './Components/MoviesContainer/MoviesContainer';
 
@@ -9,13 +10,16 @@ const App = () => {
         category='movie'
         mediaType='popular'
         title="What's Popular"
+        tabs={['Streaming', 'On TV', 'For Rent', 'In Theaters']}
       />
       <MoviesContainer
         category='trending'
         mediaType='all'
         time='day'
         title='Trending Movies'
+        tabs={['Today', 'This Week']}
       />
+      <Footer />
     </>
   );
 };
