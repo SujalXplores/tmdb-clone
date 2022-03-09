@@ -1,5 +1,6 @@
 import { CircularProgress, Typography } from '@mui/material';
 import { Box } from '@mui/system';
+import imageErrorSrc from '../../assets/image-fallback.svg';
 import { IMAGE_URL } from '../../Constants';
 import styles from './MovieCard.module.scss';
 
@@ -15,20 +16,24 @@ const MovieCard = ({ data }) => {
   };
 
   const rating = data.vote_average * 10;
-  const ratingColor = rating >= 70 ? 'success' : rating < 70 && rating >= 40 ? 'warning' : 'error';
+  const ratingColor =
+    rating >= 70
+      ? 'success'
+      : rating < 70 && rating >= 40
+      ? 'warning'
+      : 'error';
 
   return (
     <div className={styles.movie__card}>
       <div className={styles['movie__img-container']}>
-        <div className={styles.image}>
-          <div className={styles.wrapper}>
-            <img
-              loading='lazy'
-              className={styles.poster}
-              src={`${IMAGE_URL}${data.poster_path}`}
-              alt={data.title || data.name}
-            />
-          </div>
+        <div className={styles.wrapper}>
+          <img
+            loading='lazy'
+            className={styles.poster}
+            src={`${IMAGE_URL}${data.poster_path}`}
+            alt={data.title || data.name}
+            onError={(e) => (e.target.src = imageErrorSrc)}
+          />
         </div>
       </div>
       <div className={styles.movie__content}>
@@ -46,7 +51,8 @@ const MovieCard = ({ data }) => {
                 component='span'
                 className={styles.rating__text}
               >
-                {rating}<sup>%</sup>
+                {rating}
+                <sup>%</sup>
               </Typography>
             </Box>
           </Box>
