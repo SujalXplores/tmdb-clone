@@ -15,7 +15,7 @@
 .inner__column {
     height: auto;
     width: 100%;
-    max-width: 1400px;
+    max-width: 1300px;
     min-height: 355px;
     overflow-x: scroll;
     overflow-y: hidden;
@@ -48,4 +48,5 @@
 
 .movie-header-container {
     display: flex;
+    padding: 0 40px;
 }

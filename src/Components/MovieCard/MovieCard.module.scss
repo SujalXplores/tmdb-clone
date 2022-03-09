@@ -13,6 +13,10 @@
     flex-wrap: wrap;
     align-content: flex-start;
     margin-left: 20px;
+
+    &:first-child {
+        margin-left: 40px;
+    }
 }
 
 .movie__img-container {
@@ -49,15 +53,18 @@
     width: 100%;
     word-wrap: normal;
     overflow-wrap: break-word;
-
-    a {
-        font-weight: 700;
-        color: #000;
+    font-weight: 700;
+    color: #000;
+    cursor: pointer;
+    
+    &:hover {
+        color: #01b4e4;
     }
 }
 
 .poster {
     width: inherit;
+    cursor: pointer;
 }
 
 .rating {
