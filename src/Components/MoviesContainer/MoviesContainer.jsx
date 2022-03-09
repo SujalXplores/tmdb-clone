@@ -26,7 +26,9 @@ const MoviesContainer = ({
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [tabValue, setTabValue] = useState((tabs && tabs[0]) || '');
-  const [url, setURL] = useState(`${BASE_URL}/${category}/${mediaType}/${time}?api_key=${API}`);
+  const [url, setURL] = useState(
+    `${BASE_URL}/${category}/${mediaType}/${time}?api_key=${API}`
+  );
 
   const handleChange = (event, tabValue) => {
     setTabValue(tabValue);
@@ -62,6 +64,7 @@ const MoviesContainer = ({
         }
         const data = await res.json();
         setMovies(data.results);
+        console.table(data.results);
       } catch (error) {
         alert(error.message);
       } finally {
