@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { API, BASE_URL } from '../../Constants';
+import {
+  API,
+  BASE_URL,
+  IN_THEATERS,
+  POPULAR_ON_TV,
+  TRENDING_DAY,
+  TRENDING_WEEK,
+} from '../../Constants';
 import MovieCard from '../MovieCard/MovieCard';
 import { SkeletonLoader } from '../MovieCard/SkeletonLoader';
 import CustomTab from '../Tabs/Tabs';
@@ -19,7 +26,7 @@ const MoviesContainer = ({
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [tabValue, setTabValue] = useState((tabs && tabs[0]) || '');
-  const [timeM, setTime] = useState(time);
+  const [url, setURL] = useState(`${BASE_URL}/${category}/${mediaType}/${time}?api_key=${API}`);
 
   const handleChange = (event, tabValue) => {
     setTabValue(tabValue);
@@ -29,12 +36,17 @@ const MoviesContainer = ({
   useEffect(() => {
     switch (tabValue) {
       case 'Today':
-        setTime('day');
+        setURL(TRENDING_DAY);
         break;
       case 'This Week':
-        setTime('week');
+        setURL(TRENDING_WEEK);
         break;
-
+      case 'On TV':
+        setURL(POPULAR_ON_TV);
+        break;
+      case 'In Theaters':
+        setURL(IN_THEATERS);
+        break;
       default:
         break;
     }
@@ -43,9 +55,8 @@ const MoviesContainer = ({
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const URL = `${BASE_URL}/${category}/${mediaType}/${timeM}?api_key=${API}`;
-        console.warn(URL);
-        const res = await fetch(URL);
+        console.log('URL-->', url);
+        const res = await fetch(url);
         if (!res.ok) {
           throw new Error(res.statusText);
         }
@@ -58,7 +69,7 @@ const MoviesContainer = ({
       }
     };
     fetchMovies();
-  }, [category, mediaType, timeM]);
+  }, [url]);
 
   return (
     <section className={styles.scroll__wrap}>
