@@ -1,5 +1,5 @@
-import HomeBanner from '../Components/HomeBanner/HomeBanner';
-import MoviesContainer from '../Components/MoviesContainer/MoviesContainer';
+import HomeBanner from '../../Components/HomeBanner/HomeBanner';
+import MoviesContainer from '../../Components/MoviesContainer/MoviesContainer';
 
 const HomePage = () => {
   return (

@@ -32,7 +32,7 @@ const MoviesContainer = ({
 
   const handleChange = (event, tabValue) => {
     setTabValue(tabValue);
-    console.log(tabValue);
+    // console.log(tabValue);
   };
 
   useEffect(() => {
