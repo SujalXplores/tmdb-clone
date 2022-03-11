@@ -1,7 +1,6 @@
 import { Box, CircularProgress, Typography } from '@mui/material';
-import styles from '../MovieCard/MovieCard.module.scss';
 
-export const RatingProgress = ({ size, vote_average }) => {
+export const RatingProgress = ({ size, vote_average, styles }) => {
   const rating = vote_average * 10;
 
   const ratingColor =
@@ -26,7 +25,7 @@ export const RatingProgress = ({ size, vote_average }) => {
             component='span'
             className={styles.rating__text}
           >
-            {rating}
+            {rating || 'NA'}
             <sup>%</sup>
           </Typography>
         </Box>
