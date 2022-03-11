@@ -7,6 +7,10 @@
     position: relative;
     z-index: 1;
 
+    h3 {
+        margin: 0 0 8px 0;
+    }
+
     .backdrop {
         display: flex;
         justify-content: center;
@@ -15,15 +19,21 @@
         .single-column {
             max-width: 1400px;
             width: 100%;
-            padding: 30px 40px;
+            padding: 30px 10px;
 
-            & * {
-                color: #fff;
+            @media (min-width: 745px) {
+                padding: 30px 40px;
             }
 
             .inner-section {
                 display: flex;
-                flex-wrap: nowrap;
+                flex-wrap: wrap;
+                justify-content: center;
+
+                @media (min-width: 745px) {
+                    flex-wrap: nowrap;
+                    justify-content: unset;
+                }
             }
         }
     }
@@ -54,7 +64,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(3, 37, 65, 1);
+    background-color: #032541;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -81,7 +91,7 @@
         display: flex;
         align-content: center;
         align-items: center;
-        padding-right: 8px;
+        padding-right: 12px;
 
         img {
             border-radius: 4px;
@@ -118,8 +128,15 @@
         flex-wrap: wrap;
         align-items: flex-start;
         align-content: center;
-        box-sizing: border-box;
-        padding-left: 40px;
+        padding-left: 0px;
+        padding-top: 20px;
+        text-align: center;
+
+        @media (min-width: 745px) {
+            padding-left: 40px;
+            padding-top: 0px;
+            text-align: start;
+        }
 
         .title {
             width: 100%;
@@ -140,6 +157,10 @@
                 }
             }
 
+            .facts {
+                width: 100%;
+            }
+
             .divider {
                 padding: 0 10px;
             }
@@ -154,8 +175,125 @@
     align-items: flex-start;
     align-content: flex-start;
     width: 100%;
-    box-sizing: border-box;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 50% 50%;
+}
+
+.rating {
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+    }
+
+    .rating__circle {
+        position: relative;
+        display: inline-flex;
+        background: #081c22;
+        border-radius: 50%;
+        border: 3px solid #000;
+
+        .rating__text-container {
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .rating__text {
+                font-weight: 600;
+                color: #fff;
+                font-size: 1.4em;
+                font-family: inherit;
+
+                sup {
+                    font-size: 0.4em;
+                }
+            }
+        }
+    }
+}
+
+.actions {
+    margin-bottom: 20px;
+    width: 100%;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media (min-width: 745px) {
+        justify-content: flex-start;
+    }
+
+    .chart {
+        background: transparent;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 68px;
+
+        .text {
+            font-weight: 700;
+            margin-left: 6px;
+            white-space: pre-line;
+        }
+    }
+}
+
+.tagline {
+    margin-bottom: 0;
+    font-size: 1.1em;
+    font-weight: 400;
+    font-style: italic;
+    opacity: 0.7;
+
+    & + h3 {
+        margin-top: 10px;
+    }
+}
+
+ol.people {
+    margin-top: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    list-style-type: none;
+    list-style-position: inside;
+    display: flex;
+    position: relative;
+    top: 0;
+    left: 0;
+
+    @media (min-width: 745px) {
+        justify-content: flex-start;
+    }
+
+    li {
+        width: 33%;
+        flex-basis: 33%;
+        text-align: center;
+        margin-bottom: 14px;
+        
+        @media (min-width: 745px) {
+            padding-right: 20px;
+            text-align: left;
+        }
+
+        p {
+            font-size: 1em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            a {
+                font-weight: bold;
+            }
+        }
+
+        .character {
+            font-size: 0.9em;
+        }
+    }
 }
