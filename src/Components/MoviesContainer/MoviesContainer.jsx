@@ -32,7 +32,6 @@ const MoviesContainer = ({
 
   const handleChange = (event, tabValue) => {
     setTabValue(tabValue);
-    // console.log(tabValue);
   };
 
   useEffect(() => {
@@ -64,7 +63,7 @@ const MoviesContainer = ({
         }
         const data = await res.json();
         setMovies(data.results);
-        console.table(data.results);
+        // console.table(data.results);
       } catch (error) {
         alert(error.message);
       } finally {

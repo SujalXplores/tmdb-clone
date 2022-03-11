@@ -1,8 +1,12 @@
-import { styled } from '@mui/system';
-import TabsUnstyled from '@mui/base/TabsUnstyled';
-import TabsListUnstyled from '@mui/base/TabsListUnstyled';
-import { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
-import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
+import styled from '@emotion/styled';
+import {
+  TabUnstyled,
+  TabsUnstyled,
+  TabsListUnstyled,
+  buttonUnstyledClasses,
+  tabUnstyledClasses,
+} from '@mui/base';
+
 import PropTypes from 'prop-types';
 
 const Tab = styled(TabUnstyled)`
