@@ -35,3 +35,11 @@ body {
 a {
   text-decoration: none;
 }
+
+div[class^="ViewMore_single-column"] *:not([class^="ViewMore_chart"] *) {
+  color: #fff;
+}
+
+ul {
+  list-style: none;
+}
