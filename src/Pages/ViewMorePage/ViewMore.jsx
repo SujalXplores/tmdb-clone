@@ -9,6 +9,7 @@ import { genereNames } from '../../Helpers/Generes';
 import styles from './ViewMore.module.scss';
 import { convertRuntime } from '../../Helpers/ConvertRuntime';
 import { RatingProgress } from '../../Components/RatingProgress/RatingProgress';
+import { mediaType } from '../../Helpers/MediaType';
 
 const ViewMore = () => {
   const location = useLocation();
@@ -20,9 +21,8 @@ const ViewMore = () => {
     const fetchMovie = async () => {
       console.log('STATE:', location.state);
       const { id, media_type } = location.state;
-      const url = `https://api.themoviedb.org/3/${
-        media_type === 'movie' ? 'movie' : 'tv'
-      }/${id}?api_key=${API}`;
+      const mt = mediaType(media_type);
+      const url = `https://api.themoviedb.org/3/${mt}/${id}?api_key=${API}`;
       console.log(url);
       try {
         const res = await fetch(url);
@@ -163,7 +163,9 @@ const ViewMore = () => {
                       {data.created_by?.map((creator) => (
                         <li className='profile' key={creator.id}>
                           <p>
-                            <a href='/person/15277-jon-favreau'>{creator.name}</a>
+                            <a href='/person/15277-jon-favreau'>
+                              {creator.name}
+                            </a>
                           </p>
                           <p className={styles.character}>Creator</p>
                         </li>

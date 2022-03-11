@@ -14,6 +14,7 @@ import { SkeletonLoader } from '../MovieCard/SkeletonLoader';
 import CustomTab from '../Tabs/Tabs';
 import Title from '../Title/Title';
 import styles from './MoviesContainer.module.scss';
+import { Zoom } from '@mui/material';
 
 const MoviesContainer = ({
   category,
@@ -81,20 +82,22 @@ const MoviesContainer = ({
           <CustomTab tabs={tabs} handleChange={handleChange} value={tabValue} />
         )}
       </div>
-      <div
-        className={`${styles.inner__column} ${
-          isBackground ? styles['bg-image'] : ''
-        }`}
-      >
-        {loading && [...Array(10)].map((_, i) => <SkeletonLoader key={i} />)}
-        {!loading && movies ? (
-          movies.map((movie) => (
-            <MovieCard data={movie} key={movie.id} loading={loading} />
-          ))
-        ) : (
-          <h1>Failed to fetch movies!</h1>
-        )}
-      </div>
+      <Zoom in={true}>
+        <div
+          className={`${styles.inner__column} ${
+            isBackground ? styles['bg-image'] : ''
+          }`}
+        >
+          {loading && [...Array(10)].map((_, i) => <SkeletonLoader key={i} />)}
+          {!loading && movies ? (
+            movies.map((movie) => (
+              <MovieCard data={movie} key={movie.id} loading={loading} />
+            ))
+          ) : (
+            <h1>Failed to fetch movies!</h1>
+          )}
+        </div>
+      </Zoom>
     </section>
   );
 };
