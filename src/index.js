@@ -1,8 +1,9 @@
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import React from 'react';
-import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
+
 import './index.scss';
 
 const theme = createTheme({
@@ -24,13 +25,14 @@ const theme = createTheme({
   },
 });
 
-ReactDOM.render(
-  <React.StrictMode>
+const rootElement = document.getElementById('root');
+
+createRoot(rootElement).render(
+  <StrictMode>
     <ThemeProvider theme={theme}>
       <Router>
         <App />
       </Router>
     </ThemeProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 );
