@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import imageErrorSrc from '../../assets/image-fallback.svg';
 import { IMAGE_URL } from '../../Constants';
 import { convertDate } from '../../Helpers/ConvertDate';
-import { mediaType } from '../../Helpers/MediaType';
 import { RatingProgress } from '../RatingProgress/RatingProgress';
 import styles from './MovieCard.module.scss';
 
@@ -12,7 +11,7 @@ const MovieCard = ({ data }) => {
   const navigate = useNavigate();
 
   const onViewMoreInfo = () => {
-    const type = mediaType(data.media_type);
+    const type = data.first_air_date ? 'tv' : 'movie';
     navigate(`/${type}/${data.id}`, { state: data });
   };
 

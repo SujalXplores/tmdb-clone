@@ -1,5 +1,5 @@
 import { useLayoutEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { ColorExtractor } from 'react-color-extractor';
 
 import { API, BACKDROP_URL, POSTER_URL, STREAMING_URL } from '../../Constants';
@@ -9,28 +9,29 @@ import { genereNames } from '../../Helpers/Generes';
 import styles from './ViewMore.module.scss';
 import { convertRuntime } from '../../Helpers/ConvertRuntime';
 import { RatingProgress } from '../../Components/RatingProgress/RatingProgress';
-import { mediaType } from '../../Helpers/MediaType';
+import { Spinner } from '../../Components/Spinner/Spinner';
 
 const ViewMore = () => {
   const location = useLocation();
+  const params = useParams();
   const [colors, setColors] = useState([]);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useLayoutEffect(() => {
     const fetchMovie = async () => {
-      console.log('STATE:', location.state);
-      const { id, media_type } = location.state;
-      const mt = mediaType(media_type);
-      const url = `https://api.themoviedb.org/3/${mt}/${id}?api_key=${API}`;
-      console.log(url);
+      // console.log('STATE:', location.state);
+      const { id } = location.state;
+      console.log('media type:', params.type);
+      const url = `https://api.themoviedb.org/3/${params.type}/${id}?api_key=${API}`;
+      console.log('url:', url);
       try {
         const res = await fetch(url);
         if (!res.ok) {
           throw new Error(res.statusText);
         }
         const data = await res.json();
-        console.log(data);
+        // console.log(data);
         setData(data);
       } catch (e) {
         console.log(e);
@@ -108,7 +109,7 @@ const ViewMore = () => {
                         {data.title || data.name}
                       </a>
                       <span className={styles.release_date}>
-                        {console.log(data)}(
+                        {/* {console.log(data)} */}(
                         {dateToYear(data.release_date || data.first_air_date)})
                       </span>
                     </h2>

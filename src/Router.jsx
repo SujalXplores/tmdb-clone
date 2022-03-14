@@ -11,8 +11,7 @@ const Router = () => {
     <Suspense fallback={<Spinner />}>
       <Routes>
         <Route index path='/' element={<HomePage />} />
-        <Route path='movie/:id' element={<ViewMore />} />
-        <Route path='tv/:id' element={<ViewMore />} />
+        <Route path=':type/:id' element={<ViewMore />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </Suspense>
