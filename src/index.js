@@ -20,7 +20,7 @@ const theme = createTheme({
       main: '#d2d531',
     },
     error: {
-      main: '#da3e63',
+      main: '#db2360',
     },
   },
 });
