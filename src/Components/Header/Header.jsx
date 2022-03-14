@@ -48,6 +48,7 @@ export default function Header(props) {
                 alt='The Movie Database (TMDB)'
                 width='154'
                 height='20'
+                loading='lazy'
               />
               <ul className={styles['nav-items']}>
                 <li className={styles['nav-item']}>Movies</li>

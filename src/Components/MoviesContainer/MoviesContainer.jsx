@@ -1,3 +1,5 @@
+import axios from 'axios';
+import { Fade } from '@mui/material';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -14,7 +16,6 @@ import { SkeletonLoader } from '../MovieCard/SkeletonLoader';
 import CustomTab from '../Tabs/Tabs';
 import Title from '../Title/Title';
 import styles from './MoviesContainer.module.scss';
-import { Zoom } from '@mui/material';
 
 const MoviesContainer = ({
   category,
@@ -57,17 +58,15 @@ const MoviesContainer = ({
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        // console.log('URL-->', url);
-        const res = await fetch(url);
-        if (!res.ok) {
+        const res = await axios.get(url);
+        if (!res.status === 200) {
           throw new Error(res.statusText);
         }
-        const data = await res.json();
+        const data = await res.data;
         setMovies(data.results);
-        // console.table(data.results);
+        setLoading(false);
       } catch (error) {
         alert(error.message);
-      } finally {
         setLoading(false);
       }
     };
@@ -82,7 +81,7 @@ const MoviesContainer = ({
           <CustomTab tabs={tabs} handleChange={handleChange} value={tabValue} />
         )}
       </div>
-      <Zoom in={true}>
+      <Fade in={true}>
         <div
           className={`${styles.inner__column} ${
             isBackground ? styles['bg-image'] : ''
@@ -97,7 +96,7 @@ const MoviesContainer = ({
             <h1>Failed to fetch movies!</h1>
           )}
         </div>
-      </Zoom>
+      </Fade>
     </section>
   );
 };

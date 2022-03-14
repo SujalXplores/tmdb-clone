@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useLayoutEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { ColorExtractor } from 'react-color-extractor';
@@ -5,11 +6,10 @@ import { ColorExtractor } from 'react-color-extractor';
 import { API, BACKDROP_URL, POSTER_URL, STREAMING_URL } from '../../Constants';
 import { dateToYear, slashDate } from '../../Helpers/ConvertDate';
 import { genereNames } from '../../Helpers/Generes';
-
-import styles from './ViewMore.module.scss';
 import { convertRuntime } from '../../Helpers/ConvertRuntime';
 import { RatingProgress } from '../../Components/RatingProgress/RatingProgress';
-import { Spinner } from '../../Components/Spinner/Spinner';
+
+import styles from './ViewMore.module.scss';
 
 const ViewMore = () => {
   const location = useLocation();
@@ -20,27 +20,23 @@ const ViewMore = () => {
 
   useLayoutEffect(() => {
     const fetchMovie = async () => {
-      // console.log('STATE:', location.state);
       const { id } = location.state;
-      console.log('media type:', params.type);
       const url = `https://api.themoviedb.org/3/${params.type}/${id}?api_key=${API}`;
-      console.log('url:', url);
       try {
-        const res = await fetch(url);
-        if (!res.ok) {
+        const res = await axios.get(url);
+        if (!res.status === 200) {
           throw new Error(res.statusText);
         }
-        const data = await res.json();
-        // console.log(data);
+        const data = await res.data;
         setData(data);
-      } catch (e) {
-        console.log(e);
-      } finally {
         setLoading(false);
+      } catch (e) {
+        setLoading(false);
+        console.log(e);
       }
     };
     fetchMovie();
-  }, [location]);
+  }, [location, params]);
 
   const getColors = (color) => {
     setColors((prevState) => [...prevState, ...color]);
@@ -70,6 +66,7 @@ const ViewMore = () => {
                         className={styles.poster}
                         src={`${POSTER_URL}/${data.poster_path}`}
                         alt='poster'
+                        loading='lazy'
                       />
                     </ColorExtractor>
                   </div>
@@ -84,6 +81,7 @@ const ViewMore = () => {
                           width='36'
                           height='36'
                           alt='Now Streaming on Hotstar'
+                          loading='lazy'
                         />
                       </div>
                       <div className={styles.text}>
@@ -129,7 +127,7 @@ const ViewMore = () => {
                       </span>
                       <span className={styles.divider}>•</span>
                       <span className={styles.runtime}>
-                        {convertRuntime(data.runtime || '60')}
+                        {convertRuntime(data.runtime || data.episode_run_time[0] || '60')}
                       </span>
                     </div>
                   </div>
@@ -157,7 +155,10 @@ const ViewMore = () => {
 
                     <h3 dir='auto'>Overview</h3>
                     <div className='overview' dir='auto'>
-                      <p>{data.overview}</p>
+                      <p>
+                        {data.overview ||
+                          "We don't have an overview translated in English. Help us expand our database by adding one."}
+                      </p>
                     </div>
 
                     <ol className={styles.people}>
