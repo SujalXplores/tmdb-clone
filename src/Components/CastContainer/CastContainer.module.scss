@@ -115,3 +115,26 @@
         }
     }
 }
+
+.grey_column {
+    min-width: 260px;
+    width: 260px;
+    display: flex;
+    flex-wrap: wrap;
+
+    .split_column {
+        section {
+            margin-bottom: 30px;
+            width: 100%;
+        }
+    }
+
+    div.column p {
+        margin: 0 0 20px 0;
+        font-size: 1em;
+
+        & strong {
+            display: block;
+        }
+    }
+}

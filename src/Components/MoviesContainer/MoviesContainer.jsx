@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import {
   API,
-  BASE_URL,
+  API_URL,
   IN_THEATERS,
   POPULAR_ON_TV,
   TRENDING_DAY,
@@ -29,7 +29,7 @@ const MoviesContainer = ({
   const [loading, setLoading] = useState(true);
   const [tabValue, setTabValue] = useState((tabs && tabs[0]) || '');
   const [url, setURL] = useState(
-    `${BASE_URL}/${category}/${mediaType}/${time}?api_key=${API}`
+    `${API_URL}/${category}/${mediaType}/${time}?api_key=${API}`
   );
 
   const handleChange = (event, tabValue) => {
@@ -66,7 +66,7 @@ const MoviesContainer = ({
         setMovies(data.results);
         setLoading(false);
       } catch (error) {
-        alert(error.message);
+        console.error(error.message);
         setLoading(false);
       }
     };

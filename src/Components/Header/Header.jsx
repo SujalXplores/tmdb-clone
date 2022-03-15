@@ -58,9 +58,6 @@ export default function Header(props) {
             <ul className={styles['nav-items']}>
               <li className={styles['nav-item']}>Login</li>
               <li className={styles['nav-item']}>Join TMDB</li>
-              <li className={styles['nav-item']}>
-                <span className={styles.search}></span>
-              </li>
             </ul>
           </div>
         </Toolbar>

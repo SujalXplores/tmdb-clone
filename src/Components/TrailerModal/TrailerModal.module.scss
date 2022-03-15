@@ -1,0 +1,15 @@
+.title-bar {
+    background-color: #000;
+    border-color: #000;
+    color: #fff;
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .title {
+        font-size: 1.25rem;
+        line-height: 1.5;
+        text-overflow: ellipsis;
+    }
+}

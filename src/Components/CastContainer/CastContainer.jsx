@@ -6,7 +6,7 @@ import { API, API_URL, CAST_URL } from '../../Constants';
 
 import styles from './CastContainer.module.scss';
 
-export const CastContainer = ({ type, id }) => {
+export const CastContainer = ({ type, id, movieData }) => {
   const [castData, setCastData] = useState([]);
 
   useLayoutEffect(() => {
@@ -57,6 +57,60 @@ export const CastContainer = ({ type, id }) => {
                     </li>
                   ))}
                 </ol>
+              </div>
+            </section>
+          </div>
+        </div>
+        <div className={styles.grey_column}>
+          <div>
+            <section className={styles.split_column}>
+              <div>
+                <div className={styles.column}>
+                  <section className={styles.left_column}>
+                    <p>
+                      <strong>Status</strong>
+                      {movieData.status}
+                    </p>
+                    {movieData.type && (
+                      <p>
+                        <strong>Type</strong>
+                        {movieData.type}
+                      </p>
+                    )}
+                    <p>
+                      <strong>Original Language</strong>
+                      {new Intl.DisplayNames(['en'], {
+                        type: 'language',
+                      }).of(movieData.original_language)}
+                    </p>
+                    {movieData.budget && (
+                      <p>
+                        <strong>Budget</strong>
+                        {new Intl.NumberFormat('en-US', {
+                          style: 'currency',
+                          currency: 'USD',
+                        }).format(movieData.budget)}
+                      </p>
+                    )}
+                    {movieData.revenue > 0 && (
+                      <p>
+                        <strong>Revenue</strong>
+                        {new Intl.NumberFormat('en-US', {
+                          style: 'currency',
+                          currency: 'USD',
+                        }).format(movieData.revenue)}
+                      </p>
+                    )}
+                  </section>
+                  <section className={styles.right_column}>
+                    <h4>Keywords</h4>
+                    <ul>
+                      <li>
+                        <span>new york city</span>
+                      </li>
+                    </ul>
+                  </section>
+                </div>
               </div>
             </section>
           </div>
