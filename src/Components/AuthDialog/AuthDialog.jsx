@@ -34,7 +34,7 @@ export const AuthDialog = ({ open, handleClose }) => {
   let signUpFormIsValid = false;
 
   const [tabIndex, setTabIndex] = useState(0);
-  const { login, currentUser, error, signUp } = useAuth();
+  const { login, currentUser, signUp } = useAuth();
 
   const isNotEmpty = (val) => val.trim() !== '';
   const isValidEmail = (val) => /^\S+@\S+\.\S+$/.test(val);
