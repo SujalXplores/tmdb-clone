@@ -1,4 +1,3 @@
-import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -29,13 +28,11 @@ const theme = createTheme({
 const rootElement = document.getElementById('root');
 
 createRoot(rootElement).render(
-  <StrictMode>
-    <ThemeProvider theme={theme}>
-      <Router>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
-      </Router>
-    </ThemeProvider>
-  </StrictMode>
+  <ThemeProvider theme={theme}>
+    <Router>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </Router>
+  </ThemeProvider>
 );
