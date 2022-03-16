@@ -42,10 +42,10 @@ const ViewMore = () => {
       const trailerUrl = `${API_URL}/${params.type}/${id}/videos?api_key=${API}`;
       try {
         const res = await axios.all([axios.get(url), axios.get(trailerUrl)]);
-        const [movie, trailer] = res;
         if (!res.status === 200) {
           throw new Error(res.statusText);
         }
+        const [movie, trailer] = res;
         console.log(movie.data);
         setMovieData(movie.data);
         setTrailerData(
@@ -53,8 +53,8 @@ const ViewMore = () => {
         );
         setLoading(false);
       } catch (e) {
-        setLoading(false);
         console.log(e);
+        setLoading(false);
       }
     };
     fetchMovie();
