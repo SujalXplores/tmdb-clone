@@ -46,7 +46,6 @@ const ViewMore = () => {
           throw new Error(res.statusText);
         }
         const [movie, trailer] = res;
-        console.log(movie.data);
         setMovieData(movie.data);
         setTrailerData(
           trailer.data.results.find((trailer) => trailer.type === 'Trailer')
@@ -151,11 +150,9 @@ const ViewMore = () => {
                             {movieData.title || movieData.name}
                           </a>
                           <span className={styles.release_date}>
-                            {/* {console.log(movieData)} */}(
                             {dateToYear(
                               movieData.release_date || movieData.first_air_date
                             )}
-                            )
                           </span>
                         </h2>
 
