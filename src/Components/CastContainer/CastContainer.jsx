@@ -15,7 +15,6 @@ export const CastContainer = ({ type, id, movieData }) => {
     const fetchCast = async () => {
       const credits_url = `${API_URL}/${type}/${id}/credits?api_key=${API}`;
       const keywords_url = `${API_URL}/${type}/${id}/keywords?api_key=${API}`;
-      console.log('url', credits_url, keywords_url);
       try {
         const res = await axios.all([
           axios.get(credits_url),
@@ -115,14 +114,15 @@ export const CastContainer = ({ type, id, movieData }) => {
                       <section className={styles.keywords_section}>
                         <h4>Keywords</h4>
                         <ul className={styles.keywords}>
-                          {(keywordData &&
+                          {keywordData &&
                             keywordData.map((keyword_data) => (
                               <li key={keyword_data.id}>
                                 <span className={styles.keyword}>
                                   {keyword_data.name}
                                 </span>
                               </li>
-                            ))) ||
+                            ))}
+                          {!keywordData?.length &&
                             'No keywords have been added.'}
                         </ul>
                       </section>
