@@ -6,17 +6,14 @@ import {
   DialogActions,
   TextField,
   DialogContentText,
-  Slide,
   Tabs,
   Tab,
+  Slide,
 } from '@mui/material';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 
 import useInput from '../../Hooks/useInput';
-
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction='up' ref={ref} {...props} />;
-});
+import { useAuth } from '../../Auth/authContext';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -28,12 +25,17 @@ function TabPanel(props) {
   );
 }
 
-export const LoginDialog = ({ open, handleClose }) => {
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction='up' ref={ref} {...props} />;
+});
+
+export const AuthDialog = ({ open, handleClose }) => {
   let loginFormIsValid = false;
   let signUpFormIsValid = false;
-  
+
   const [tabIndex, setTabIndex] = useState(0);
-  
+  const { login, currentUser, error, signUp } = useAuth();
+
   const isNotEmpty = (val) => val.trim() !== '';
   const isValidEmail = (val) => /^\S+@\S+\.\S+$/.test(val);
 
@@ -99,13 +101,16 @@ export const LoginDialog = ({ open, handleClose }) => {
     resetAllInputs();
   }, [open]);
 
+  useEffect(() => {
+    currentUser && onClose();
+  }, [currentUser]);
+
   const handleLogin = (e) => {
     e.preventDefault();
     if (!loginFormIsValid) {
       return;
     }
-    console.log('Yay! You are logged in!');
-    onClose();
+    login(enteredLoginInEmail, enteredLoginInPassword);
   };
 
   const handleSignUp = (e) => {
@@ -113,8 +118,7 @@ export const LoginDialog = ({ open, handleClose }) => {
     if (!signUpFormIsValid) {
       return;
     }
-    console.log('Yay! You are signed up!');
-    onClose();
+    signUp(enteredSignUpEmail, enteredSignUpPasswordConfirm);
   };
 
   const handleChangeTab = (event, newValue) => {
@@ -125,17 +129,17 @@ export const LoginDialog = ({ open, handleClose }) => {
     loginFormIsValid = true;
   }
 
-  if (signUpEmailIsValid && signUpPasswordIsValid && signUpPasswordConfirmIsValid) {
+  if (
+    signUpEmailIsValid &&
+    signUpPasswordIsValid &&
+    signUpPasswordConfirmIsValid
+  ) {
     signUpFormIsValid = true;
   }
 
   return (
     <Dialog open={open} TransitionComponent={Transition}>
-      <Tabs
-        value={tabIndex}
-        onChange={handleChangeTab}
-        aria-label='basic tabs example'
-      >
+      <Tabs value={tabIndex} onChange={handleChangeTab}>
         <Tab label='Login' />
         <Tab label='Sign Up' />
       </Tabs>

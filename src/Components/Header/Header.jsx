@@ -7,10 +7,14 @@ import {
   IconButton,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import LogoutIcon from '@mui/icons-material/Logout';
+
 import PropTypes from 'prop-types';
 
-import { LoginDialog } from '../LoginDialog/LoginDialog';
+import { AuthDialog } from '../AuthDialog/AuthDialog';
+import { useAuth } from '../../Auth/authContext';
 import styles from './Header.module.scss';
+import { LogoutDialog } from '../LogoutDialog/LogoutDialog';
 
 function HideOnScroll(props) {
   const { children, window } = props;
@@ -31,12 +35,18 @@ Header.propTypes = {
 };
 
 export default function Header(props) {
+  const { currentUser, logout } = useAuth();
   const INITIAL_PROPS = {
     open: false,
     handleClose: () => {},
   };
 
   const [dialogProps, setDialogProps] = useState(INITIAL_PROPS);
+  const [logoutProps, setLogoutProps] = useState({
+    open: false,
+    handleClose: () => {},
+    logout,
+  });
 
   const handleClose = () => {
     setDialogProps(INITIAL_PROPS);
@@ -48,6 +58,20 @@ export default function Header(props) {
       handleClose,
     });
   };
+
+  const openLogoutDialog = () => {
+    setLogoutProps({
+      open: true,
+      handleClose: () =>
+        setLogoutProps({
+          open: false,
+          handleClose: () => {},
+          logout,
+        }),
+      logout,
+    });
+  };
+
   return (
     <>
       <HideOnScroll {...props}>
@@ -76,16 +100,31 @@ export default function Header(props) {
                 </ul>
               </div>
               <ul className={styles['nav-items']}>
-                <li className={styles['nav-item']} onClick={openModal}>
-                  Login
-                </li>
-                <li className={styles['nav-item']}>Join TMDB</li>
+                {!currentUser && (
+                  <li className={styles['nav-item']} onClick={openModal}>
+                    Login
+                  </li>
+                )}
+                {currentUser && (
+                  <>
+                    <li className={styles['nav-item']}>{currentUser.email}</li>
+                    <li className={styles['nav-item']}>
+                      <IconButton
+                        onClick={openLogoutDialog}
+                        sx={{ color: '#fff' }}
+                      >
+                        <LogoutIcon />
+                      </IconButton>
+                    </li>
+                  </>
+                )}
               </ul>
             </div>
           </Toolbar>
         </AppBar>
       </HideOnScroll>
-      <LoginDialog {...dialogProps} />
+      <AuthDialog {...dialogProps} />
+      <LogoutDialog {...logoutProps} />
     </>
   );
 }
