@@ -19,7 +19,7 @@ const MovieCard = ({ data }) => {
     <div className={styles.movie__card}>
       <CardActionArea onClick={onViewMoreInfo}>
         <div className={styles['movie__img-container']}>
-          <div className={styles.wrapper}>
+          <div className={styles.wrapper} title={data.title || data.name}>
             <img
               loading='lazy'
               className={styles.poster}
@@ -36,7 +36,9 @@ const MovieCard = ({ data }) => {
           vote_average={data.vote_average}
           styles={styles}
         />
-        <h2 className={styles.title}>{data.title || data.name}</h2>
+        <h2 className={styles.title} onClick={onViewMoreInfo}>
+          {data.title || data.name}
+        </h2>
         <p className={styles.release_date}>
           {convertDate(data.release_date || data.first_air_date)}
         </p>
