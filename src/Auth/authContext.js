@@ -1,5 +1,10 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
 import { createContext, useContext, useEffect, useState } from 'react';
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from 'firebase/auth';
 import { auth } from '../Firebase/firebase.utils';
 
 const AuthContext = createContext();
@@ -12,14 +17,29 @@ const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [error, setError] = useState('');
 
+  const signUp = async (email, password) => {
+    try {
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      console.log(user);
+      setCurrentUser(user);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   const login = async (email, password) => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(
+      const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
       const user = userCredential.user;
+      setCurrentUser(user);
       console.log(user);
     } catch (error) {
       const errorMessage = error.message;
@@ -38,21 +58,32 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setCurrentUser(user);
-      } else {
-        setCurrentUser(null);
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (user) => {
+        if (user) {
+          setCurrentUser(user);
+          console.log('state changed:', user);
+        } else {
+          setCurrentUser(null);
+        }
+      },
+      (error) => {
+        setError(error.message);
+      },
+      () => {
+        setError('');
       }
-    });
+    );
 
-    return unsubscribe;
+    return () => unsubscribe();
   }, []);
 
   const value = {
     currentUser,
     login,
     logout,
+    signUp,
     error,
   };
 
