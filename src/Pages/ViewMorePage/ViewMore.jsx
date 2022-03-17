@@ -150,9 +150,9 @@ const ViewMore = () => {
                             {movieData.title || movieData.name}
                           </a>
                           <span className={styles.release_date}>
-                            {dateToYear(
+                            {' (' + dateToYear(
                               movieData.release_date || movieData.first_air_date
-                            )}
+                            ) + ')'}
                           </span>
                         </h2>
 
