@@ -19,7 +19,6 @@ const useActivity = () => {
 
   const increaseActivityCount = () => {
     setActivityCount(activityCount + 1);
-    console.log('activityCount->', activityCount);
   };
 
   const attachListeners = () => {
@@ -37,7 +36,6 @@ const useActivity = () => {
   useEffect(() => {
     !currentUser && attachListeners();
     if (!currentUser && activityCount >= MAX_ACTIVITY_COUNT) {
-      console.log('Hands up!');
       detachListeners();
       return;
     }
