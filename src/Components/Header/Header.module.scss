@@ -28,7 +28,7 @@
 }
 
 .nav-items {
-    display: none;    
+    display: none;
     margin-left: 16px;
     align-items: center;
     cursor: pointer;
@@ -37,6 +37,12 @@
         padding: 8px;
         margin-right: 14px;
         font-weight: 600;
+
+        .avatar-text {
+            font-size: 0.7em;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
     }
 }
 

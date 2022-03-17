@@ -5,6 +5,7 @@ import {
   useScrollTrigger,
   Slide,
   IconButton,
+  Avatar,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -76,7 +77,7 @@ export default function Header(props) {
   };
 
   useEffect(() => {
-    if(activityCount === 3) {
+    if (activityCount === 3) {
       openModal();
     }
   }, [activityCount]);
@@ -116,7 +117,15 @@ export default function Header(props) {
                 )}
                 {currentUser && (
                   <>
-                    <li className={styles['nav-item']}>{currentUser.email}</li>
+                    <li className={styles['nav-item']}>
+                      <Avatar
+                        sx={{ bgcolor: 'primary.main', width: 32, height: 32 }}
+                      >
+                        <span className={styles['avatar-text']}>
+                          {currentUser.email.charAt(0)}
+                        </span>
+                      </Avatar>
+                    </li>
                     <li className={styles['nav-item']}>
                       <IconButton
                         onClick={openLogoutDialog}
