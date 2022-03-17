@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -13,8 +13,9 @@ import PropTypes from 'prop-types';
 
 import { AuthDialog } from '../AuthDialog/AuthDialog';
 import { useAuth } from '../../Auth/authContext';
-import styles from './Header.module.scss';
 import { LogoutDialog } from '../LogoutDialog/LogoutDialog';
+import useActivity from '../../Hooks/useActivity';
+import styles from './Header.module.scss';
 
 function HideOnScroll(props) {
   const { children, window } = props;
@@ -36,6 +37,8 @@ Header.propTypes = {
 
 export default function Header(props) {
   const { currentUser, logout } = useAuth();
+  const activityCount = useActivity();
+
   const INITIAL_PROPS = {
     open: false,
     handleClose: () => {},
@@ -71,6 +74,12 @@ export default function Header(props) {
       logout,
     });
   };
+
+  useEffect(() => {
+    if(activityCount === 3) {
+      openModal();
+    }
+  }, [activityCount]);
 
   return (
     <>
