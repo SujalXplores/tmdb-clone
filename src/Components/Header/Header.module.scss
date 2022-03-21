@@ -1,4 +1,4 @@
-.appbar {
+.app-bar {
     background: #032541 !important;
 }
 
@@ -37,11 +37,63 @@
         padding: 8px;
         margin-right: 14px;
         font-weight: 600;
+        position: relative;
 
         .avatar-text {
             font-size: 0.7em;
             font-weight: 500;
             text-transform: uppercase;
+        }
+
+        .nav-item-dropdown {
+            width: 173.078px;
+            height: 138px;
+            overflow: visible;
+            z-index: 10002;
+            top: 35px;
+            left: 0;
+            box-sizing: content-box;
+            display: none;
+            position: absolute;
+
+            .sub-nav-items {
+                border-radius: 0.25rem;
+                max-height: 911px;
+                overflow: auto;
+                position: absolute;
+                font-family: "Source Sans Pro", Arial, sans-serif;
+                line-height: 24px;
+                display: none;
+                transform: translateY(-138px);
+                border-color: rgba(0, 0, 0, 0.15);
+                color: #212529;
+                background-color: #fff;
+                padding: 0.5rem 0;
+
+                .sub-nav-item {
+                    position: relative;
+                    font-size: 1rem;
+                    line-height: 1.5;
+                    padding: 3px 1.5rem;
+                    padding-right: calc(3rem + 16px);
+
+                    &:hover {
+                        color: #16181b;
+                        background-color: #f8f9fa;
+                    }
+                }
+            }
+        }
+
+        &:hover {
+            .nav-item-dropdown {
+                display: block;
+
+                .sub-nav-items {
+                    display: block;
+                    transform: translateY(0);
+                }
+            }
         }
     }
 }

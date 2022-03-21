@@ -86,7 +86,7 @@ export default function Header(props) {
   return (
     <>
       <HideOnScroll {...props}>
-        <AppBar position='sticky' className={styles.appbar}>
+        <AppBar position='sticky' className={styles['app-bar']}>
           <Toolbar className={styles.toolbar}>
             <IconButton
               size='large'
@@ -106,8 +106,30 @@ export default function Header(props) {
                   loading='lazy'
                 />
                 <ul className={styles['nav-items']}>
-                  <li className={styles['nav-item']}>Movies</li>
-                  <li className={styles['nav-item']}>TV Shows</li>
+                  <li className={styles['nav-item']}>
+                    Movies
+                    <div className={styles['nav-item-dropdown']}>
+                      <ul className={styles['sub-nav-items']}>
+                        <li className={styles['sub-nav-item']}>Popular</li>
+                        <li className={styles['sub-nav-item']}>Now Playing</li>
+                        <li className={styles['sub-nav-item']}>Upcoming</li>
+                        <li className={styles['sub-nav-item']}>Top Rated</li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li className={styles['nav-item']}>
+                    TV Shows
+                    <div className={styles['nav-item-dropdown']}>
+                      <ul className={styles['sub-nav-items']}>
+                        <li className={styles['sub-nav-item']}>Popular</li>
+                        <li className={styles['sub-nav-item']}>
+                          Airing Today
+                        </li>
+                        <li className={styles['sub-nav-item']}>On TV</li>
+                        <li className={styles['sub-nav-item']}>Top Rated</li>
+                      </ul>
+                    </div>
+                  </li>
                 </ul>
               </div>
               <ul className={styles['nav-items']}>
