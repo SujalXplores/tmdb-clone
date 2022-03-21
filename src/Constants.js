@@ -5,6 +5,7 @@ export const POSTER_URL = `${BASE_URL}/w300_and_h450_bestv2`;
 export const BACKDROP_URL = `${BASE_URL}/w1920_and_h800_multi_faces`;
 export const STREAMING_URL = `${BASE_URL}/original`;
 export const CAST_URL = `${BASE_URL}/w138_and_h175_face`;
+export const NETWORK_URL = `${BASE_URL}/h30`;
 
 export const API_URL = 'https://api.themoviedb.org/3';
 export const TRENDING_DAY = `${API_URL}/trending/all/day?api_key=${API}`;

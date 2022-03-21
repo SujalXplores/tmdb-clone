@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useLayoutEffect, useState } from 'react';
 import { ReactComponent as PersonMale } from '../../assets/person-male.svg';
 import { ReactComponent as PersonFemale } from '../../assets/person-female.svg';
-import { API, API_URL, CAST_URL } from '../../Constants';
+import { API, API_URL, CAST_URL, NETWORK_URL } from '../../Constants';
 
 import styles from './CastContainer.module.scss';
 
@@ -25,7 +25,7 @@ export const CastContainer = ({ type, id, movieData }) => {
         }
         const [credits, keywords] = res;
         setCastData(credits.data.cast);
-        setKeywordData(keywords.data.keywords);
+        setKeywordData(keywords.data.results || keywords.data.keywords);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -44,7 +44,9 @@ export const CastContainer = ({ type, id, movieData }) => {
             <div>
               <div className={styles.white_column}>
                 <section className={styles.cast_section}>
-                  <h3 dir='auto'>Top Billed Cast</h3>
+                  <h3 dir='auto'>
+                    {type === 'movie' ? 'Top Billed Cast' : 'Series Cast'}
+                  </h3>
                   <div className={styles.scroll_fade}>
                     <ol className={styles.people}>
                       {castData.slice(0, 9).map((cast) => (
@@ -65,6 +67,12 @@ export const CastContainer = ({ type, id, movieData }) => {
                           <p className={styles.character}>{cast.character}</p>
                         </li>
                       ))}
+                      {!castData.length && (
+                        <li>
+                          We don't have any cast added to this Show. You can
+                          help by adding some!
+                        </li>
+                      )}
                     </ol>
                   </div>
                 </section>
@@ -80,6 +88,22 @@ export const CastContainer = ({ type, id, movieData }) => {
                           <strong>Status</strong>
                           {movieData.status}
                         </p>
+                        <p className={styles.no_bottom_spacing}>
+                          <strong>Networks</strong>
+                        </p>
+                        {movieData.networks && (
+                          <ul className={styles.networks}>
+                            {movieData.networks.map((network) => (
+                              <li key={network.id}>
+                                <img
+                                  src={`${NETWORK_URL}${network.logo_path}`}
+                                  alt={network.name}
+                                  loading='lazy'
+                                />
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                         {movieData.type && (
                           <p>
                             <strong>Type</strong>
