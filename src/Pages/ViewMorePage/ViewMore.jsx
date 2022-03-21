@@ -11,20 +11,29 @@ import {
   POSTER_URL,
   STREAMING_URL,
 } from '../../Constants';
+import useTitle from '../../Hooks/useTitle';
 import { dateToYear, slashDate } from '../../Helpers/ConvertDate';
 import { genereNames } from '../../Helpers/Generes';
 import { convertRuntime } from '../../Helpers/ConvertRuntime';
 import { RatingProgress } from '../../Components/RatingProgress/RatingProgress';
 import { CastContainer } from '../../Components/CastContainer/CastContainer';
 import { TrailerModal } from '../../Components/TrailerModal/TrailerModal';
+import imageErrorSrc from '../../assets/image-fallback.svg';
 
 import styles from './ViewMore.module.scss';
 
 const ViewMore = () => {
   const location = useLocation();
   const { id } = location.state;
-
   const params = useParams();
+
+  useTitle(
+    `${location.state.title || location.state.name}${
+      params.type === 'movie'
+        ? ` (${location.state.release_date.slice(0, 4)})`
+        : ` (TV Series ${location.state.first_air_date.slice(0, 4)})`
+    } - The Movie Database (TMDB)`,
+  );
 
   const [colors, setColors] = useState([]);
   const [movieData, setMovieData] = useState([]);
@@ -107,6 +116,7 @@ const ViewMore = () => {
                             src={`${POSTER_URL}/${movieData.poster_path}`}
                             alt='poster'
                             loading='lazy'
+                            onError={(e) => (e.target.src = imageErrorSrc)}
                           />
                         </ColorExtractor>
                       </div>
@@ -150,9 +160,12 @@ const ViewMore = () => {
                             {movieData.title || movieData.name}
                           </a>
                           <span className={styles.release_date}>
-                            {' (' + dateToYear(
-                              movieData.release_date || movieData.first_air_date
-                            ) + ')'}
+                            {' (' +
+                              dateToYear(
+                                movieData.release_date ||
+                                  movieData.first_air_date
+                              ) +
+                              ')'}
                           </span>
                         </h2>
 
