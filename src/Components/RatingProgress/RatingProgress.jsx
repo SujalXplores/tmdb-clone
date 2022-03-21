@@ -26,7 +26,7 @@ export const RatingProgress = ({ size, vote_average, styles }) => {
             className={styles.rating__text}
           >
             {rating || 'NA'}
-            <sup>%</sup>
+            {rating !== 0 && <sup>%</sup>}
           </Typography>
         </Box>
       </Box>
