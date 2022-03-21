@@ -65,6 +65,11 @@
 .poster {
     width: inherit;
     cursor: pointer;
+    height: 100%;
+}
+
+.fallback-poster {
+    transform: scale(0.5);
 }
 
 .rating {

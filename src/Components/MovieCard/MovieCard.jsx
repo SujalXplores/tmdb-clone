@@ -22,7 +22,9 @@ const MovieCard = ({ data }) => {
           <div className={styles.wrapper} title={data.title || data.name}>
             <img
               loading='lazy'
-              className={styles.poster}
+              className={`${styles.poster} ${
+                !data.poster_path ? styles['fallback-poster'] : ''
+              }`}
               src={`${IMAGE_URL}${data.poster_path}`}
               alt={data.title || data.name}
               onError={(e) => (e.target.src = imageErrorSrc)}
