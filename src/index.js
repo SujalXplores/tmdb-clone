@@ -1,6 +1,8 @@
 import { createRoot } from 'react-dom/client';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { BrowserRouter as Router } from 'react-router-dom';
+
+import ErrorBoundary from './Components/ErrorBoundary/ErrorBoundary';
 import AuthProvider from './Auth/authContext';
 import App from './App';
 
@@ -28,11 +30,13 @@ const theme = createTheme({
 const rootElement = document.getElementById('root');
 
 createRoot(rootElement).render(
-  <ThemeProvider theme={theme}>
-    <Router>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </Router>
-  </ThemeProvider>
+  <ErrorBoundary>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </Router>
+    </ThemeProvider>
+  </ErrorBoundary>
 );
