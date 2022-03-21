@@ -9,6 +9,7 @@ import {
   Tabs,
   Tab,
   Slide,
+  Alert,
 } from '@mui/material';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 
@@ -34,7 +35,7 @@ export const AuthDialog = ({ open, handleClose }) => {
   let signUpFormIsValid = false;
 
   const [tabIndex, setTabIndex] = useState(0);
-  const { login, currentUser, signUp } = useAuth();
+  const { login, currentUser, signUp, loginError, signUpError } = useAuth();
 
   const isNotEmpty = (val) => val.trim() !== '';
   const isValidEmail = (val) => /^\S+@\S+\.\S+$/.test(val);
@@ -145,9 +146,7 @@ export const AuthDialog = ({ open, handleClose }) => {
       </Tabs>
       <TabPanel value={tabIndex} index={0}>
         <DialogContent dividers>
-          <DialogContentText gutterBottom>
-            Enter your username and password to Login.
-          </DialogContentText>
+          {loginError && <Alert severity='error'>{loginError}</Alert>}
           <TextField
             autoFocus
             required
@@ -187,9 +186,7 @@ export const AuthDialog = ({ open, handleClose }) => {
       </TabPanel>
       <TabPanel value={tabIndex} index={1}>
         <DialogContent dividers>
-          <DialogContentText gutterBottom>
-            Enter your username and password to Sign-up.
-          </DialogContentText>
+          {signUpError && <Alert severity='error'>{signUpError}</Alert>}
           <TextField
             autoFocus
             required

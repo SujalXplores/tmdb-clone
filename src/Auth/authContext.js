@@ -15,7 +15,9 @@ export function useAuth() {
 
 const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-  const [error, setError] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [signUpError, setSignUpError] = useState('');
+  const [logOutError, setLogOutError] = useState('');
 
   const signUp = async (email, password) => {
     try {
@@ -27,7 +29,7 @@ const AuthProvider = ({ children }) => {
       console.log(user);
       setCurrentUser(user);
     } catch (error) {
-      setError(error.message);
+      setSignUpError(error.message);
     }
   };
 
@@ -43,7 +45,7 @@ const AuthProvider = ({ children }) => {
       console.log(user);
     } catch (error) {
       const errorMessage = error.message;
-      setError(errorMessage);
+      setLoginError(errorMessage);
     }
   };
 
@@ -51,9 +53,11 @@ const AuthProvider = ({ children }) => {
     try {
       await signOut(auth);
       setCurrentUser(null);
+      setLoginError('');
+      setSignUpError('');
     } catch (error) {
       const errorMessage = error.message;
-      setError(errorMessage);
+      setLogOutError(errorMessage);
     }
   };
 
@@ -63,16 +67,19 @@ const AuthProvider = ({ children }) => {
       (user) => {
         if (user) {
           setCurrentUser(user);
-          console.log('state changed:', user);
+          console.log('State changed:', user);
         } else {
           setCurrentUser(null);
         }
       },
       (error) => {
-        setError(error.message);
+        // setError(error.message);
+        console.log('state error:', error);
       },
       () => {
-        setError('');
+        setLoginError('');
+        setSignUpError('');
+        setLogOutError('');
       }
     );
 
@@ -84,7 +91,9 @@ const AuthProvider = ({ children }) => {
     login,
     logout,
     signUp,
-    error,
+    loginError,
+    signUpError,
+    logOutError,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
