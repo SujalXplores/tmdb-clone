@@ -18,6 +18,7 @@ import { useAuth } from '../../Auth/authContext';
 import { LogoutDialog } from '../LogoutDialog/LogoutDialog';
 import useActivity from '../../Hooks/useActivity';
 import styles from './Header.module.scss';
+import { LOGO_URL } from '../../Constants';
 
 function HideOnScroll(props) {
   const { children, window } = props;
@@ -99,7 +100,7 @@ export default function Header(props) {
             <div className={styles['header-container']}>
               <div className={styles['inner-nav']}>
                 <img
-                  src='https://www.themoviedb.org/assets/2/v4/logos/v2/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg'
+                  src={LOGO_URL}
                   alt='The Movie Database (TMDB)'
                   width='154'
                   height='20'
