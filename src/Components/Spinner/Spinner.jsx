@@ -5,6 +5,6 @@ export const Spinner = () => (
     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
     open={true}
   >
-    <CircularProgress color='primary' variant='indeterminate' />
+    <CircularProgress sx={{ color: '#fff' }} variant='indeterminate' />
   </Backdrop>
 );
