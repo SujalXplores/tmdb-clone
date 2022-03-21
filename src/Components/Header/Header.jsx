@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import PropTypes from 'prop-types';
 
@@ -117,6 +118,11 @@ export default function Header(props) {
                 )}
                 {currentUser && (
                   <>
+                    <li className={styles['nav-item']}>
+                      <IconButton sx={{ color: '#fff' }}>
+                        <NotificationsIcon />
+                      </IconButton>
+                    </li>
                     <li className={styles['nav-item']}>
                       <Avatar
                         sx={{ bgcolor: 'primary.main', width: 32, height: 32 }}
