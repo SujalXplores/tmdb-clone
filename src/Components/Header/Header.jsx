@@ -19,6 +19,7 @@ import { LogoutDialog } from '../LogoutDialog/LogoutDialog';
 import useActivity from '../../Hooks/useActivity';
 import styles from './Header.module.scss';
 import { LOGO_URL } from '../../Constants';
+import { Link } from 'react-router-dom';
 
 function HideOnScroll(props) {
   const { children, window } = props;
@@ -111,10 +112,18 @@ export default function Header(props) {
                     Movies
                     <div className={styles['nav-item-dropdown']}>
                       <ul className={styles['sub-nav-items']}>
-                        <li className={styles['sub-nav-item']}>Popular</li>
-                        <li className={styles['sub-nav-item']}>Now Playing</li>
-                        <li className={styles['sub-nav-item']}>Upcoming</li>
-                        <li className={styles['sub-nav-item']}>Top Rated</li>
+                        <li className={styles['sub-nav-item']}>
+                          <Link to='movie/category/popular'>Popular</Link>
+                        </li>
+                        <li className={styles['sub-nav-item']}>
+                          <Link to='movie/category/now-playing'>Now Playing</Link>
+                        </li>
+                        <li className={styles['sub-nav-item']}>
+                          <Link to='movie/category/upcoming'>Upcoming</Link>
+                        </li>
+                        <li className={styles['sub-nav-item']}>
+                          <Link to='movie/category/top-rated'>Top Rated</Link>
+                        </li>
                       </ul>
                     </div>
                   </li>
@@ -122,12 +131,18 @@ export default function Header(props) {
                     TV Shows
                     <div className={styles['nav-item-dropdown']}>
                       <ul className={styles['sub-nav-items']}>
-                        <li className={styles['sub-nav-item']}>Popular</li>
                         <li className={styles['sub-nav-item']}>
-                          Airing Today
+                          <Link to='tv/category/popular'>Popular</Link>
                         </li>
-                        <li className={styles['sub-nav-item']}>On TV</li>
-                        <li className={styles['sub-nav-item']}>Top Rated</li>
+                        <li className={styles['sub-nav-item']}>
+                          <Link to='tv/category/airing-today'>Airing Today</Link>
+                        </li>
+                        <li className={styles['sub-nav-item']}>
+                          <Link to='tv/category/on-the-air'>On The Air</Link>
+                        </li>
+                        <li className={styles['sub-nav-item']}>
+                          <Link to='tv/category/top-rated'>Top Rated</Link>
+                        </li>
                       </ul>
                     </div>
                   </li>

@@ -4,14 +4,16 @@ import { Spinner } from './Components/Spinner/Spinner';
 import { NotFound } from './Pages/NotFoundPage/NotFound';
 
 const HomePage = lazy(() => import('./Pages/HomePage/Home'));
-const ViewMore = lazy(() => import('./Pages/ViewMorePage/ViewMore'));
+const ViewMorePage = lazy(() => import('./Pages/ViewMorePage/ViewMore'));
+const CategoriesPage = lazy(() => import('./Pages/CategoriesPage/Categories'));
 
 const Router = () => {
   return (
     <Suspense fallback={<Spinner />}>
       <Routes>
         <Route index path='/' element={<HomePage />} />
-        <Route path=':type/:id' element={<ViewMore />} />
+        <Route path='/:type/category/:category' element={<CategoriesPage />} />
+        <Route path='/:type/:id' element={<ViewMorePage />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </Suspense>

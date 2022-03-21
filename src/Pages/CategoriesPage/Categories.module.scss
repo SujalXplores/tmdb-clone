@@ -1,0 +1,38 @@
+.inner_content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    align-content: flex-start;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+
+    .column_wrapper {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        align-content: flex-start;
+
+        .content_wrapper {
+            max-width: 1400px;
+            display: flex;
+            align-items: flex-start;
+            align-content: flex-start;
+            padding: 30px 40px;
+            flex-wrap: wrap;
+
+            .title {
+                width: 100%;
+                margin-bottom: 20px;
+
+                h2 {
+                    font-size: 1.6em;
+                    font-weight: 600;
+                    text-transform: capitalize;
+                }
+            }
+        }
+    }
+}
