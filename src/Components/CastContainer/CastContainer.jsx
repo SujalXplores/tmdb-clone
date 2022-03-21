@@ -116,24 +116,28 @@ export const CastContainer = ({ type, id, movieData }) => {
                             type: 'language',
                           }).of(movieData.original_language)}
                         </p>
-                        <p>
-                          <strong>Budget</strong>
-                          {(movieData.budget &&
-                            new Intl.NumberFormat('en-US', {
-                              style: 'currency',
-                              currency: 'USD',
-                            }).format(movieData.budget)) ||
-                            '-'}
-                        </p>
-                        <p>
-                          <strong>Revenue</strong>
-                          {(movieData.revenue &&
-                            new Intl.NumberFormat('en-US', {
-                              style: 'currency',
-                              currency: 'USD',
-                            }).format(movieData.revenue)) ||
-                            '-'}
-                        </p>
+                        {type === 'movie' && (
+                          <>
+                            <p>
+                              <strong>Budget</strong>
+                              {(movieData.budget &&
+                                new Intl.NumberFormat('en-US', {
+                                  style: 'currency',
+                                  currency: 'USD',
+                                }).format(movieData.budget)) ||
+                                '-'}
+                            </p>
+                            <p>
+                              <strong>Revenue</strong>
+                              {(movieData.revenue &&
+                                new Intl.NumberFormat('en-US', {
+                                  style: 'currency',
+                                  currency: 'USD',
+                                }).format(movieData.revenue)) ||
+                                '-'}
+                            </p>
+                          </>
+                        )}
                       </section>
                       <section className={styles.keywords_section}>
                         <h4>Keywords</h4>
