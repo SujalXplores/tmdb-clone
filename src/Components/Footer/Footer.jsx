@@ -1,9 +1,9 @@
 import { Button } from '@mui/material';
-import React from 'react';
-
+import { useAuth } from '../../Auth/authContext';
 import styles from './Footer.module.scss';
 
 const Footer = () => {
+  const { currentUser } = useAuth();
   return (
     <section className={styles['footer-section']}>
       <div className={styles['content-wrapper']}>
@@ -20,9 +20,15 @@ const Footer = () => {
                 TV or available on popular streaming services like Netflix,
                 Hotstar, and Amazon Prime Video.
               </p>
-              <Button variant='contained' color='secondary' className={styles['sign-up-btn']}>
-                Sign Up
-              </Button>
+              {!currentUser && (
+                <Button
+                  variant='contained'
+                  color='secondary'
+                  className={styles['sign-up-btn']}
+                >
+                  Sign Up
+                </Button>
+              )}
             </div>
             <div className={styles['column']}>
               <ul>

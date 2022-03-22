@@ -1,11 +1,10 @@
 .footer-section {
-    background-image: url("https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces_filter(duotone,190235,ad47dd)/lMnoYqPIAVL0YaLP5YjRy7iwaYv.jpg");
+    background-image: url("../../assets/footer_bg.jpg");
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
     color: #fff;
     transition: all 0.5s;
-    margin-top: 30px;
 
     .content-wrapper {
         padding: 30px 40px;
@@ -38,7 +37,13 @@
 
                 .column {
                     width: auto;
-                    margin: 0;
+                    margin-bottom: 20px;
+
+                    ul {
+                        list-style-type: disc;
+                        list-style-position: outside;
+                        margin-left: 20px;
+                    }
                 }
 
                 .column:first-of-type {
@@ -57,7 +62,7 @@
             }
 
             .sign-up-btn {
-                margin: 20px 0;
+                margin-top: 20px;
                 background-color: #805be7;
                 font-weight: 600;
                 font-size: 0.9em;
