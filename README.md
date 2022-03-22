@@ -1,3 +1,7 @@
+## [API Docs](https://developers.themoviedb.org/3)
+
+## Create `.env.local` in root directory and paste `REACT_APP_TMDB_API_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
