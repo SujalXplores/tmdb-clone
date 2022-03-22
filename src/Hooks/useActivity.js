@@ -23,13 +23,13 @@ const useActivity = () => {
 
   const attachListeners = () => {
     DEFAULT_ACTIVITY_EVENTS.forEach((event) => {
-      document.body.addEventListener(event, increaseActivityCount, false);
+      window.addEventListener(event, increaseActivityCount, false);
     });
   };
 
   const detachListeners = () => {
     DEFAULT_ACTIVITY_EVENTS.forEach((event) => {
-      document.body.removeEventListener(event, increaseActivityCount, false);
+      window.removeEventListener(event, increaseActivityCount, false);
     });
   };
 
