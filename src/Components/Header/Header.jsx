@@ -69,12 +69,7 @@ export default function Header(props) {
   const openLogoutDialog = () => {
     setLogoutProps({
       open: true,
-      handleClose: () =>
-        setLogoutProps({
-          open: false,
-          handleClose: () => {},
-          logout,
-        }),
+      handleClose,
       logout,
     });
   };
@@ -116,7 +111,9 @@ export default function Header(props) {
                           <Link to='movie/category/popular'>Popular</Link>
                         </li>
                         <li className={styles['sub-nav-item']}>
-                          <Link to='movie/category/now-playing'>Now Playing</Link>
+                          <Link to='movie/category/now-playing'>
+                            Now Playing
+                          </Link>
                         </li>
                         <li className={styles['sub-nav-item']}>
                           <Link to='movie/category/upcoming'>Upcoming</Link>
@@ -135,7 +132,9 @@ export default function Header(props) {
                           <Link to='tv/category/popular'>Popular</Link>
                         </li>
                         <li className={styles['sub-nav-item']}>
-                          <Link to='tv/category/airing-today'>Airing Today</Link>
+                          <Link to='tv/category/airing-today'>
+                            Airing Today
+                          </Link>
                         </li>
                         <li className={styles['sub-nav-item']}>
                           <Link to='tv/category/on-the-air'>On The Air</Link>
