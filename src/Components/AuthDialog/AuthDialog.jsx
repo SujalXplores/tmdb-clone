@@ -144,99 +144,103 @@ export const AuthDialog = ({ open, handleClose }) => {
         <Tab label='Sign Up' />
       </Tabs>
       <TabPanel value={tabIndex} index={0}>
-        <DialogContent dividers>
-          {loginError && <Alert severity='error'>{loginError}</Alert>}
-          <TextField
-            autoFocus
-            required
-            margin='normal'
-            label='Email Address'
-            type='email'
-            fullWidth
-            variant='outlined'
-            InputProps={{
-              endAdornment: <MailOutlineIcon />,
-            }}
-            value={enteredLoginInEmail}
-            onChange={loginInEmailChangeHandler}
-            onBlur={loginInEmailBlurHandler}
-            error={loginInEmailHasError}
-            helperText={loginInEmailHasError ? 'Invalid email address' : ''}
-          />
-          <TextField
-            required
-            margin='normal'
-            label='Password'
-            type='password'
-            fullWidth
-            variant='outlined'
-            value={enteredLoginInPassword}
-            onChange={loginInPasswordChangeHandler}
-            onBlur={loginInPasswordBlurHandler}
-            error={loginInPasswordHasError}
-            helperText={loginInPasswordHasError ? 'Invalid password' : ''}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleLogin} disabled={!loginFormIsValid}>
-            Login
-          </Button>
-        </DialogActions>
+        <form onSubmit={handleLogin}>
+          <DialogContent dividers>
+            {loginError && <Alert severity='error'>{loginError}</Alert>}
+            <TextField
+              autoFocus
+              required
+              margin='normal'
+              label='Email Address'
+              type='email'
+              fullWidth
+              variant='outlined'
+              InputProps={{
+                endAdornment: <MailOutlineIcon />,
+              }}
+              value={enteredLoginInEmail}
+              onChange={loginInEmailChangeHandler}
+              onBlur={loginInEmailBlurHandler}
+              error={loginInEmailHasError}
+              helperText={loginInEmailHasError ? 'Invalid email address' : ''}
+            />
+            <TextField
+              required
+              margin='normal'
+              label='Password'
+              type='password'
+              fullWidth
+              variant='outlined'
+              value={enteredLoginInPassword}
+              onChange={loginInPasswordChangeHandler}
+              onBlur={loginInPasswordBlurHandler}
+              error={loginInPasswordHasError}
+              helperText={loginInPasswordHasError ? 'Invalid password' : ''}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button disabled={!loginFormIsValid} type='submit'>
+              Login
+            </Button>
+          </DialogActions>
+        </form>
       </TabPanel>
       <TabPanel value={tabIndex} index={1}>
-        <DialogContent dividers>
-          {signUpError && <Alert severity='error'>{signUpError}</Alert>}
-          <TextField
-            autoFocus
-            required
-            margin='normal'
-            label='Email Address'
-            type='email'
-            fullWidth
-            variant='outlined'
-            InputProps={{
-              endAdornment: <MailOutlineIcon />,
-            }}
-            value={enteredSignUpEmail}
-            onChange={signUpEmailChangeHandler}
-            onBlur={signUpEmailBlurHandler}
-            error={signUpEmailHasError}
-            helperText={signUpEmailHasError ? 'Invalid email address' : ''}
-          />
-          <TextField
-            required
-            margin='normal'
-            label='Password'
-            type='password'
-            fullWidth
-            variant='outlined'
-            value={enteredSignUpPassword}
-            onChange={signUpPasswordChangeHandler}
-            onBlur={signUpPasswordBlurHandler}
-            error={signUpPasswordHasError}
-            helperText={signUpPasswordHasError ? 'Invalid password' : ''}
-          />
-          <TextField
-            required
-            margin='normal'
-            label='Confirm Password'
-            type='password'
-            fullWidth
-            variant='outlined'
-            value={enteredSignUpPasswordConfirm}
-            onChange={signUpPasswordConfirmChangeHandler}
-            onBlur={signUpPasswordConfirmBlurHandler}
-            error={signUpPasswordConfirmHasError}
-            helperText={
-              signUpPasswordConfirmHasError ? 'Passwords do not match' : ''
-            }
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleSignUp} disabled={!signUpFormIsValid}>
-            SignUp
-          </Button>
-        </DialogActions>
+        <form onSubmit={handleSignUp}>
+          <DialogContent dividers>
+            {signUpError && <Alert severity='error'>{signUpError}</Alert>}
+            <TextField
+              autoFocus
+              required
+              margin='normal'
+              label='Email Address'
+              type='email'
+              fullWidth
+              variant='outlined'
+              InputProps={{
+                endAdornment: <MailOutlineIcon />,
+              }}
+              value={enteredSignUpEmail}
+              onChange={signUpEmailChangeHandler}
+              onBlur={signUpEmailBlurHandler}
+              error={signUpEmailHasError}
+              helperText={signUpEmailHasError ? 'Invalid email address' : ''}
+            />
+            <TextField
+              required
+              margin='normal'
+              label='Password'
+              type='password'
+              fullWidth
+              variant='outlined'
+              value={enteredSignUpPassword}
+              onChange={signUpPasswordChangeHandler}
+              onBlur={signUpPasswordBlurHandler}
+              error={signUpPasswordHasError}
+              helperText={signUpPasswordHasError ? 'Invalid password' : ''}
+            />
+            <TextField
+              required
+              margin='normal'
+              label='Confirm Password'
+              type='password'
+              fullWidth
+              variant='outlined'
+              value={enteredSignUpPasswordConfirm}
+              onChange={signUpPasswordConfirmChangeHandler}
+              onBlur={signUpPasswordConfirmBlurHandler}
+              error={signUpPasswordConfirmHasError}
+              helperText={
+                signUpPasswordConfirmHasError ? 'Passwords do not match' : ''
+              }
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button type='submit' disabled={!signUpFormIsValid}>
+              SignUp
+            </Button>
+          </DialogActions>
+        </form>
       </TabPanel>
     </Dialog>
   );
