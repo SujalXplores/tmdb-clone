@@ -22,7 +22,7 @@ export const CastContainer = ({ type, id, movieData }) => {
       const [credits, keywords] = res;
       setCastData(credits.data.cast);
       setKeywordData(keywords.data.results || keywords.data.keywords);
-      console.log('✅ Cast fetching done and cached');
+      console.log('✅ Cast fetching done');
     } catch (error) {
       console.log('💀 Cast fetching failed', error);
     } finally {
