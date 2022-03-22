@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useLayoutEffect, useState } from 'react';
+import { useCallback, useLayoutEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { ColorExtractor } from 'react-color-extractor';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
@@ -11,13 +11,13 @@ import {
   POSTER_URL,
   STREAMING_URL,
 } from '../../Constants';
-import useTitle from '../../Hooks/useTitle';
 import { dateToYear, slashDate } from '../../Helpers/ConvertDate';
 import { genereNames } from '../../Helpers/Generes';
 import { convertRuntime } from '../../Helpers/ConvertRuntime';
 import { RatingProgress } from '../../Components/RatingProgress/RatingProgress';
-import { CastContainer } from '../../Components/CastContainer/CastContainer';
 import { TrailerModal } from '../../Components/TrailerModal/TrailerModal';
+import { CastContainer } from '../../Components/CastContainer/CastContainer';
+import useTitle from '../../Hooks/useTitle';
 import imageErrorSrc from '../../assets/image-fallback.svg';
 
 import styles from './ViewMore.module.scss';
@@ -32,7 +32,7 @@ const ViewMore = () => {
       params.type === 'movie'
         ? ` (${location.state.release_date.slice(0, 4)})`
         : ` (TV Series ${location.state.first_air_date.slice(0, 4)})`
-    } - The Movie Database (TMDB)`,
+    } - The Movie Database (TMDB)`
   );
 
   const [colors, setColors] = useState([]);
@@ -45,28 +45,27 @@ const ViewMore = () => {
     handleClose: () => {},
   });
 
+  const fetchMovie = useCallback(async () => {
+    const url = `${API_URL}/${params.type}/${id}?api_key=${API}`;
+    const trailerUrl = `${API_URL}/${params.type}/${id}/videos?api_key=${API}`;
+    try {
+      const res = await axios.all([axios.get(url), axios.get(trailerUrl)]);
+      const [movie, trailer] = res;
+      setMovieData(movie.data);
+      setTrailerData(
+        trailer.data.results.find((trailer) => trailer.type === 'Trailer')
+      );
+      console.log('✅ Movie details fetched successfully');
+    } catch (e) {
+      console.log('💀 failed to fetch movie details:', e);
+    } finally {
+      setLoading(false);
+    }
+  }, [id, params.type]);
+
   useLayoutEffect(() => {
-    const fetchMovie = async () => {
-      const url = `${API_URL}/${params.type}/${id}?api_key=${API}`;
-      const trailerUrl = `${API_URL}/${params.type}/${id}/videos?api_key=${API}`;
-      try {
-        const res = await axios.all([axios.get(url), axios.get(trailerUrl)]);
-        if (!res.status === 200) {
-          throw new Error(res.statusText);
-        }
-        const [movie, trailer] = res;
-        setMovieData(movie.data);
-        setTrailerData(
-          trailer.data.results.find((trailer) => trailer.type === 'Trailer')
-        );
-        setLoading(false);
-      } catch (e) {
-        console.log(e);
-        setLoading(false);
-      }
-    };
     fetchMovie();
-  }, [location, params, id]);
+  }, [fetchMovie]);
 
   const getColors = (color) => {
     setColors((prevState) => [...prevState, ...color]);

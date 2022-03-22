@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useLayoutEffect, useState } from 'react';
+import { useCallback, useLayoutEffect, useState } from 'react';
 import { ReactComponent as PersonMale } from '../../assets/person-male.svg';
 import { ReactComponent as PersonFemale } from '../../assets/person-female.svg';
 import { API, API_URL, CAST_URL, NETWORK_URL } from '../../Constants';
@@ -11,29 +11,28 @@ export const CastContainer = ({ type, id, movieData }) => {
   const [keywordData, setKeywordData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const fetchCast = useCallback(async () => {
+    const credits_url = `${API_URL}/${type}/${id}/credits?api_key=${API}`;
+    const keywords_url = `${API_URL}/${type}/${id}/keywords?api_key=${API}`;
+    try {
+      const res = await axios.all([
+        axios.get(credits_url),
+        axios.get(keywords_url),
+      ]);
+      const [credits, keywords] = res;
+      setCastData(credits.data.cast);
+      setKeywordData(keywords.data.results || keywords.data.keywords);
+      console.log('✅ Cast fetching done and cached');
+    } catch (error) {
+      console.log('💀 Cast fetching failed', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [type, id]);
+
   useLayoutEffect(() => {
-    const fetchCast = async () => {
-      const credits_url = `${API_URL}/${type}/${id}/credits?api_key=${API}`;
-      const keywords_url = `${API_URL}/${type}/${id}/keywords?api_key=${API}`;
-      try {
-        const res = await axios.all([
-          axios.get(credits_url),
-          axios.get(keywords_url),
-        ]);
-        if (!res.status === 200) {
-          throw new Error(res.statusText);
-        }
-        const [credits, keywords] = res;
-        setCastData(credits.data.cast);
-        setKeywordData(keywords.data.results || keywords.data.keywords);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-        setLoading(false);
-      }
-    };
     fetchCast();
-  }, [id, type]);
+  }, [fetchCast]);
 
   return (
     !loading &&

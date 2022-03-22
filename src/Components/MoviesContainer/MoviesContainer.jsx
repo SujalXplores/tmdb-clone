@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Fade } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -55,23 +55,22 @@ const MoviesContainer = ({
     }
   }, [tabValue]);
 
-  useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        const res = await axios.get(url);
-        if (!res.status === 200) {
-          throw new Error(res.statusText);
-        }
-        const data = await res.data;
-        setMovies(data.results);
-        setLoading(false);
-      } catch (error) {
-        console.error(error.message);
-        setLoading(false);
-      }
-    };
-    fetchMovies();
+  const fetchMovies = useCallback(async () => {
+    try {
+      const res = await axios.get(url);
+      const data = await res.data;
+      setMovies(data.results);
+      console.log('✅ Movies fetching done');
+    } catch (error) {
+      console.log('💀 Movies fetching failed', error.message);
+    } finally {
+      setLoading(false);
+    }
   }, [url]);
+
+  useEffect(() => {
+    fetchMovies();
+  }, [fetchMovies]);
 
   return (
     <section className={styles.scroll__wrap}>
