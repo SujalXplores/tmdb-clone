@@ -5,7 +5,6 @@ import {
   DialogContent,
   DialogActions,
   TextField,
-  DialogContentText,
   Tabs,
   Tab,
   Slide,
@@ -150,7 +149,7 @@ export const AuthDialog = ({ open, handleClose }) => {
           <TextField
             autoFocus
             required
-            margin='dense'
+            margin='normal'
             label='Email Address'
             type='email'
             fullWidth
@@ -166,7 +165,7 @@ export const AuthDialog = ({ open, handleClose }) => {
           />
           <TextField
             required
-            margin='dense'
+            margin='normal'
             label='Password'
             type='password'
             fullWidth
@@ -190,7 +189,7 @@ export const AuthDialog = ({ open, handleClose }) => {
           <TextField
             autoFocus
             required
-            margin='dense'
+            margin='normal'
             label='Email Address'
             type='email'
             fullWidth
@@ -206,7 +205,7 @@ export const AuthDialog = ({ open, handleClose }) => {
           />
           <TextField
             required
-            margin='dense'
+            margin='normal'
             label='Password'
             type='password'
             fullWidth
@@ -219,7 +218,7 @@ export const AuthDialog = ({ open, handleClose }) => {
           />
           <TextField
             required
-            margin='dense'
+            margin='normal'
             label='Confirm Password'
             type='password'
             fullWidth
