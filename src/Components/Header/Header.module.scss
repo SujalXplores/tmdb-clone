@@ -34,10 +34,21 @@
     cursor: pointer;
 
     .nav-item {
-        padding: 8px;
         margin-right: 14px;
         font-weight: 600;
         position: relative;
+
+        .nav-heading {
+            padding: 0.5rem 0.5rem;
+            display: flex;
+            flex: 1 1 auto;
+            align-items: center;
+            position: relative;
+            white-space: nowrap;
+            cursor: pointer;
+            align-content: center;
+            line-height: 24px;
+        }
 
         .avatar-text {
             font-size: 0.7em;
@@ -61,11 +72,10 @@
                 max-height: 911px;
                 overflow: auto;
                 position: absolute;
-                font-family: "Source Sans Pro", Arial, sans-serif;
                 line-height: 24px;
                 display: none;
                 transform: translateY(-138px);
-                border-color: rgba(0, 0, 0, 0.15);
+                border: 1px solid #00000026;
                 color: #212529;
                 background-color: #fff;
                 padding: 0.5rem 0;

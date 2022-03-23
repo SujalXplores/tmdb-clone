@@ -109,7 +109,7 @@ export default function Header(props) {
                 />
                 <ul className={styles['nav-items']}>
                   <li className={styles['nav-item']}>
-                    <span>Movies</span>
+                    <span className={styles['nav-heading']}>Movies</span>
                     <div className={styles['nav-item-dropdown']}>
                       <ul className={styles['sub-nav-items']}>
                         <Link to='movie/category/popular'>
@@ -130,7 +130,7 @@ export default function Header(props) {
                     </div>
                   </li>
                   <li className={styles['nav-item']}>
-                    <span>TV Shows</span>
+                    <span className={styles['nav-heading']}>TV Shows</span>
                     <div className={styles['nav-item-dropdown']}>
                       <ul className={styles['sub-nav-items']}>
                         <Link to='tv/category/popular'>
