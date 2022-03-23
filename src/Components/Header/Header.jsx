@@ -19,7 +19,7 @@ import { LogoutDialog } from '../LogoutDialog/LogoutDialog';
 import useActivity from '../../Hooks/useActivity';
 import styles from './Header.module.scss';
 import { LOGO_URL } from '../../Constants';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function HideOnScroll(props) {
   const { children, window } = props;
@@ -40,6 +40,8 @@ Header.propTypes = {
 };
 
 export default function Header(props) {
+  const navigate = useNavigate();
+
   const INITIAL_PROPS = {
     open: false,
     handleClose: () => {},
@@ -106,6 +108,7 @@ export default function Header(props) {
                   width='154'
                   height='20'
                   loading='lazy'
+                  onClick={() => navigate('/')}
                 />
                 <ul className={styles['nav-items']}>
                   <li className={styles['nav-item']}>
