@@ -1,6 +1,11 @@
 import { Box, CircularProgress, Typography } from '@mui/material';
 
-export const RatingProgress = ({ size, vote_average, styles }) => {
+export const RatingProgress = ({
+  size,
+  vote_average,
+  styles,
+  showNR = false,
+}) => {
   const rating = vote_average * 10;
 
   const ratingColor =
@@ -25,8 +30,8 @@ export const RatingProgress = ({ size, vote_average, styles }) => {
             component='span'
             className={styles.rating__text}
           >
-            {rating || 'NR'}
-            {rating !== 0 && <sup>%</sup>}
+            {rating || (showNR ? 'NR' : 0)}
+            {!showNR && <sup>%</sup>}
           </Typography>
         </Box>
       </Box>

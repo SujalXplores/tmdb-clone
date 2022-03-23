@@ -37,6 +37,7 @@ const MovieCard = ({ data }) => {
           size={35}
           vote_average={data.vote_average}
           styles={styles}
+          showNR
         />
         <h2 className={styles.title} onClick={onViewMoreInfo}>
           {data.title || data.name}
