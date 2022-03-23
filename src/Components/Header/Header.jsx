@@ -40,14 +40,13 @@ Header.propTypes = {
 };
 
 export default function Header(props) {
-  const { currentUser, logout } = useAuth();
-  const activityCount = useActivity();
-
   const INITIAL_PROPS = {
     open: false,
     handleClose: () => {},
   };
 
+  const activityCount = useActivity();
+  const { currentUser, logout } = useAuth();
   const [dialogProps, setDialogProps] = useState(INITIAL_PROPS);
   const [logoutProps, setLogoutProps] = useState({
     open: false,
@@ -59,7 +58,7 @@ export default function Header(props) {
     setDialogProps(INITIAL_PROPS);
   };
 
-  const openModal = () => {
+  const openLoginPopup = () => {
     setDialogProps({
       open: true,
       handleClose,
@@ -69,14 +68,20 @@ export default function Header(props) {
   const openLogoutDialog = () => {
     setLogoutProps({
       open: true,
-      handleClose,
+      handleClose: () => {
+        setLogoutProps({
+          open: false,
+          handleClose: () => {},
+          logout,
+        });
+      },
       logout,
     });
   };
 
   useEffect(() => {
     if (activityCount === 3) {
-      openModal();
+      openLoginPopup();
     }
   }, [activityCount]);
 
@@ -104,44 +109,44 @@ export default function Header(props) {
                 />
                 <ul className={styles['nav-items']}>
                   <li className={styles['nav-item']}>
-                    Movies
+                    <span>Movies</span>
                     <div className={styles['nav-item-dropdown']}>
                       <ul className={styles['sub-nav-items']}>
-                        <li className={styles['sub-nav-item']}>
-                          <Link to='movie/category/popular'>Popular</Link>
-                        </li>
-                        <li className={styles['sub-nav-item']}>
-                          <Link to='movie/category/now-playing'>
+                        <Link to='movie/category/popular'>
+                          <li className={styles['sub-nav-item']}>Popular</li>
+                        </Link>
+                        <Link to='movie/category/now-playing'>
+                          <li className={styles['sub-nav-item']}>
                             Now Playing
-                          </Link>
-                        </li>
-                        <li className={styles['sub-nav-item']}>
-                          <Link to='movie/category/upcoming'>Upcoming</Link>
-                        </li>
-                        <li className={styles['sub-nav-item']}>
-                          <Link to='movie/category/top-rated'>Top Rated</Link>
-                        </li>
+                          </li>
+                        </Link>
+                        <Link to='movie/category/upcoming'>
+                          <li className={styles['sub-nav-item']}>Upcoming</li>
+                        </Link>
+                        <Link to='movie/category/top-rated'>
+                          <li className={styles['sub-nav-item']}>Top Rated</li>
+                        </Link>
                       </ul>
                     </div>
                   </li>
                   <li className={styles['nav-item']}>
-                    TV Shows
+                    <span>TV Shows</span>
                     <div className={styles['nav-item-dropdown']}>
                       <ul className={styles['sub-nav-items']}>
-                        <li className={styles['sub-nav-item']}>
-                          <Link to='tv/category/popular'>Popular</Link>
-                        </li>
-                        <li className={styles['sub-nav-item']}>
-                          <Link to='tv/category/airing-today'>
+                        <Link to='tv/category/popular'>
+                          <li className={styles['sub-nav-item']}>Popular</li>
+                        </Link>
+                        <Link to='tv/category/airing-today'>
+                          <li className={styles['sub-nav-item']}>
                             Airing Today
-                          </Link>
-                        </li>
-                        <li className={styles['sub-nav-item']}>
-                          <Link to='tv/category/on-the-air'>On The Air</Link>
-                        </li>
-                        <li className={styles['sub-nav-item']}>
-                          <Link to='tv/category/top-rated'>Top Rated</Link>
-                        </li>
+                          </li>
+                        </Link>
+                        <Link to='tv/category/on-the-air'>
+                          <li className={styles['sub-nav-item']}>On The Air</li>
+                        </Link>
+                        <Link to='tv/category/top-rated'>
+                          <li className={styles['sub-nav-item']}>Top Rated</li>
+                        </Link>
                       </ul>
                     </div>
                   </li>
@@ -149,7 +154,7 @@ export default function Header(props) {
               </div>
               <ul className={styles['nav-items']}>
                 {!currentUser && (
-                  <li className={styles['nav-item']} onClick={openModal}>
+                  <li className={styles['nav-item']} onClick={openLoginPopup}>
                     Login
                   </li>
                 )}

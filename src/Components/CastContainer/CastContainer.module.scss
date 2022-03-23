@@ -33,7 +33,7 @@
             min-width: 140px;
             width: 140px;
             background-color: #fff;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px #0000001a;
 
             a {
                 min-width: 138px;
@@ -83,7 +83,7 @@
             position: absolute;
             top: 0;
             right: 0;
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #fff 100%);
+            background-image: linear-gradient(to right, #ffffff00 0%, #fff 100%);
             will-change: opacity;
             pointer-events: none;
         }

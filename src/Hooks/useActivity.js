@@ -12,7 +12,6 @@ const useActivity = () => {
     'mousedown',
     'touchstart',
     'touchmove',
-    'focus',
   ];
 
   const MAX_ACTIVITY_COUNT = 3;
