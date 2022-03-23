@@ -1,9 +1,9 @@
 // function to convert 1-1-21 to Jan 1, 2021
-export const convertDate = (date) => {
+export const convertDate = (date, month = 'short') => {
   const newDate = new Date(date);
   const formateDate = new Intl.DateTimeFormat('default', {
     year: 'numeric',
-    month: 'short',
+    month: month,
     day: '2-digit',
   });
   return formateDate.format(newDate);

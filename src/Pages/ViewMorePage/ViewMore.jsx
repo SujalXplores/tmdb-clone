@@ -102,6 +102,7 @@ const ViewMore = () => {
     movieData && (
       <>
         <section className={styles.viewMore}>
+          {console.log('ViewMore Details', movieData)}
           <div className={styles.header} style={bgImage}>
             <div className={styles.backdrop} style={bgBackDrop}>
               <div className={styles['single-column']}>
@@ -167,7 +168,6 @@ const ViewMore = () => {
                               ')'}
                           </span>
                         </h2>
-
                         <div className={styles.facts}>
                           <span className={styles.release}>
                             {slashDate(
@@ -179,18 +179,26 @@ const ViewMore = () => {
                                 movieData.production_countries[0].iso_3166_1 +
                                 ')'}
                           </span>
-                          <span className={styles.divider}>•</span>
-                          <span className={styles.genres}>
-                            {genereNames(movieData.genres)}
-                          </span>
-                          <span className={styles.divider}>•</span>
-                          <span className={styles.runtime}>
-                            {convertRuntime(
-                              movieData.runtime ||
-                                movieData.episode_run_time[0] ||
-                                '60'
-                            )}
-                          </span>
+                          {movieData.genres?.length > 0 && (
+                            <>
+                              <span className={styles.divider}>•</span>
+                              <span className={styles.genres}>
+                                {genereNames(movieData.genres)}
+                              </span>
+                            </>
+                          )}
+                          {(movieData.runtime ||
+                            movieData.episode_run_time[0]) && (
+                            <>
+                              <span className={styles.divider}>•</span>
+                              <span className={styles.runtime}>
+                                {convertRuntime(
+                                  movieData.runtime ||
+                                    movieData.episode_run_time[0]
+                                )}
+                              </span>
+                            </>
+                          )}
                         </div>
                       </div>
                       <ul className={styles.actions}>

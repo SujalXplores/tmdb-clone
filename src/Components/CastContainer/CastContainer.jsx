@@ -2,9 +2,16 @@ import axios from 'axios';
 import { useCallback, useLayoutEffect, useState } from 'react';
 import { ReactComponent as PersonMale } from '../../assets/person-male.svg';
 import { ReactComponent as PersonFemale } from '../../assets/person-female.svg';
-import { API, API_URL, CAST_URL, NETWORK_URL } from '../../Constants';
+import {
+  API,
+  API_URL,
+  CAST_URL,
+  NETWORK_URL,
+  SEASON_POSTER_URL,
+} from '../../Constants';
 
 import styles from './CastContainer.module.scss';
+import { convertDate } from '../../Helpers/ConvertDate';
 
 export const CastContainer = ({ type, id, movieData }) => {
   const [castData, setCastData] = useState([]);
@@ -75,6 +82,46 @@ export const CastContainer = ({ type, id, movieData }) => {
                     </ol>
                   </div>
                 </section>
+                {movieData.seasons && (
+                  <section className={styles.season_section}>
+                    <h3>Current Season</h3>
+                    <div className={styles.season_card}>
+                      <div className={styles.flex}>
+                        <div className={styles.poster}>
+                          <img
+                            src={`${SEASON_POSTER_URL}${
+                              movieData.seasons.at(-1).poster_path
+                            }`}
+                            alt='poster'
+                            loading='lazy'
+                          />
+                        </div>
+                        <div className={styles.content}>
+                          <div>
+                            <h2>
+                              Season {movieData.seasons.at(-1).season_number}
+                            </h2>
+                            <h4>
+                              {movieData.seasons.at(-1).air_date.slice(0, 4)} |{' '}
+                              {movieData.seasons.at(-1).episode_count} Episodes
+                            </h4>
+                            <div className={styles.season_overview}>
+                              <p>
+                                Season {movieData.seasons.at(-1).season_number}{' '}
+                                of {movieData.name} premiered on{' '}
+                                {convertDate(
+                                  movieData.seasons.at(-1).air_date,
+                                  'long'
+                                )}
+                                .
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                )}
               </div>
             </div>
             <div className={styles.grey_column}>
@@ -87,21 +134,24 @@ export const CastContainer = ({ type, id, movieData }) => {
                           <strong>Status</strong>
                           {movieData.status}
                         </p>
-                        <p className={styles.no_bottom_spacing}>
-                          <strong>Networks</strong>
-                        </p>
                         {movieData.networks && (
-                          <ul className={styles.networks}>
-                            {movieData.networks.map((network) => (
-                              <li key={network.id}>
-                                <img
-                                  src={`${NETWORK_URL}${network.logo_path}`}
-                                  alt={network.name}
-                                  loading='lazy'
-                                />
-                              </li>
-                            ))}
-                          </ul>
+                          <>
+                            <p className={styles.no_bottom_spacing}>
+                              <strong>Networks</strong>
+                            </p>
+                            <ul className={styles.networks}>
+                              {movieData.networks.map((network) => (
+                                <li key={network.id}>
+                                  <img
+                                    src={`${NETWORK_URL}${network.logo_path}`}
+                                    alt={network.name}
+                                    loading='lazy'
+                                  />
+                                </li>
+                              ))}
+                              {movieData.networks.length === 0 && <li>-</li>}
+                            </ul>
+                          </>
                         )}
                         {movieData.type && (
                           <p>
