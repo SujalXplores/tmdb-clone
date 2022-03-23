@@ -115,6 +115,8 @@
                 min-width: 130px;
                 width: 130px;
                 height: 195px;
+                background-color: #dbdbdb;
+                background-size: 50%;
 
                 img {
                     width: 100%;
@@ -245,4 +247,8 @@
     li + li {
         margin-top: 8px;
     }
+}
+
+.fallback-poster {
+    transform: scale(0.5);
 }

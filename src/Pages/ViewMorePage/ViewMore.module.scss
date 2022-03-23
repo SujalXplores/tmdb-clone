@@ -1,11 +1,10 @@
 .header {
-    border: 1px solid #200a0a;
-    background-position: right -200px top;
+    border-bottom: 1px solid #d7d7d7;
     background-size: cover;
-    background-repeat: no-repeat;
     width: 100%;
     position: relative;
     z-index: 1;
+    background: #e4e4e4 no-repeat right -200px top;
 
     h3 {
         margin: 0 0 8px 0;
@@ -56,6 +55,9 @@
         position: relative;
         top: 0;
         left: 0;
+        border-color: #d7d7d7;
+        border-radius: 8px;
+        background: #dbdbdb;
     }
 }
 
@@ -212,6 +214,7 @@
                 color: #fff;
                 font-size: 1.4em;
                 font-family: inherit;
+                padding-left: 4px;
 
                 sup {
                     font-size: 0.4em;
@@ -307,4 +310,9 @@ ol.people {
             font-size: 0.9em;
         }
     }
+}
+
+.fallback-poster {
+    transform: scale(0.5);
+    border: 1px solid #d7d7d7;
 }

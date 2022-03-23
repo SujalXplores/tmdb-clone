@@ -9,6 +9,7 @@ import {
   NETWORK_URL,
   SEASON_POSTER_URL,
 } from '../../Constants';
+import imageErrorSrc from '../../assets/image-fallback.svg';
 
 import styles from './CastContainer.module.scss';
 import { convertDate } from '../../Helpers/ConvertDate';
@@ -40,6 +41,8 @@ export const CastContainer = ({ type, id, movieData }) => {
   useLayoutEffect(() => {
     fetchCast();
   }, [fetchCast]);
+
+  const currentSeason = movieData?.seasons.at(-1);
 
   return (
     !loading &&
@@ -89,31 +92,29 @@ export const CastContainer = ({ type, id, movieData }) => {
                       <div className={styles.flex}>
                         <div className={styles.poster}>
                           <img
-                            src={`${SEASON_POSTER_URL}${
-                              movieData.seasons.at(-1).poster_path
+                            className={`${
+                              !currentSeason.poster_path
+                                ? styles['fallback-poster']
+                                : ''
                             }`}
+                            src={`${SEASON_POSTER_URL}${currentSeason.poster_path}`}
                             alt='poster'
                             loading='lazy'
+                            onError={(e) => (e.target.src = imageErrorSrc)}
                           />
                         </div>
                         <div className={styles.content}>
                           <div>
-                            <h2>
-                              Season {movieData.seasons.at(-1).season_number}
-                            </h2>
+                            <h2>Season {currentSeason.season_number}</h2>
                             <h4>
-                              {movieData.seasons.at(-1).air_date.slice(0, 4)} |{' '}
-                              {movieData.seasons.at(-1).episode_count} Episodes
+                              {currentSeason.air_date.slice(0, 4)} |{' '}
+                              {currentSeason.episode_count} Episodes
                             </h4>
                             <div className={styles.season_overview}>
                               <p>
-                                Season {movieData.seasons.at(-1).season_number}{' '}
-                                of {movieData.name} premiered on{' '}
-                                {convertDate(
-                                  movieData.seasons.at(-1).air_date,
-                                  'long'
-                                )}
-                                .
+                                Season {currentSeason.season_number} of{' '}
+                                {movieData.name} premiered on{' '}
+                                {convertDate(currentSeason.air_date, 'long')}.
                               </p>
                             </div>
                           </div>

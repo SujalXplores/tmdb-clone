@@ -105,14 +105,22 @@ const ViewMore = () => {
           {console.log('ViewMore Details', movieData)}
           <div className={styles.header} style={bgImage}>
             <div className={styles.backdrop} style={bgBackDrop}>
-              <div className={styles['single-column']}>
+              <div
+                className={`${styles['single-column']} ${
+                  movieData.poster_path ? 'font-white' : 'font-black'
+                }`}
+              >
                 <section className={styles['inner-section']}>
                   <div className={styles['poster-wrapper']}>
                     <div className={styles.poster}>
                       <div className={styles.image_content}>
                         <ColorExtractor getColors={getColors}>
                           <img
-                            className={styles.poster}
+                            className={`${styles.poster} ${
+                              !movieData.poster_path
+                                ? styles['fallback-poster']
+                                : ''
+                            }`}
                             src={`${POSTER_URL}/${movieData.poster_path}`}
                             alt='poster'
                             loading='lazy'
@@ -122,7 +130,7 @@ const ViewMore = () => {
                       </div>
                     </div>
 
-                    <div className={styles.ott_offer}>
+                    {/* <div className={styles.ott_offer}>
                       <div className={styles['text-wrapper']}>
                         <div className={styles.button}>
                           <div className={styles.provider}>
@@ -149,7 +157,7 @@ const ViewMore = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className={styles.header_poster_wrapper}>
