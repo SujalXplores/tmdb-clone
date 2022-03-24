@@ -9,6 +9,7 @@ export const STREAMING_URL = `${BASE_URL}/original`;
 export const CAST_URL = `${BASE_URL}/w138_and_h175_face`;
 export const NETWORK_URL = `${BASE_URL}/h30`;
 export const SEASON_POSTER_URL = `${BASE_URL}/w130_and_h195_bestv2`;
+export const RECOMMENDATIONS_BACKDROP_URL = `${BASE_URL}/w250_and_h141_face`;
 
 // Movie API endpoints
 export const API_URL = 'https://api.themoviedb.org/3';

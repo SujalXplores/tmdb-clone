@@ -7,6 +7,7 @@ import {
   API_URL,
   CAST_URL,
   NETWORK_URL,
+  RECOMMENDATIONS_BACKDROP_URL,
   SEASON_POSTER_URL,
 } from '../../Constants';
 import imageErrorSrc from '../../assets/image-fallback.svg';
@@ -17,19 +18,23 @@ import { convertDate } from '../../Helpers/ConvertDate';
 export const CastContainer = ({ type, id, movieData }) => {
   const [castData, setCastData] = useState([]);
   const [keywordData, setKeywordData] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchCast = useCallback(async () => {
     const credits_url = `${API_URL}/${type}/${id}/credits?api_key=${API}`;
     const keywords_url = `${API_URL}/${type}/${id}/keywords?api_key=${API}`;
+    const recommendations_url = `${API_URL}/${type}/${id}/recommendations?api_key=${API}`;
     try {
       const res = await axios.all([
         axios.get(credits_url),
         axios.get(keywords_url),
+        axios.get(recommendations_url),
       ]);
-      const [credits, keywords] = res;
+      const [credits, keywords, recommendations] = res;
       setCastData(credits.data.cast);
       setKeywordData(keywords.data.results || keywords.data.keywords);
+      setRecommendations(recommendations.data.results);
       console.log('✅ Cast fetching done');
     } catch (error) {
       console.log('💀 Cast fetching failed', error);
@@ -61,12 +66,14 @@ export const CastContainer = ({ type, id, movieData }) => {
                       {castData.slice(0, 9).map((cast) => (
                         <li className={styles.card} key={cast.id}>
                           {cast.profile_path ? (
-                            <img
-                              loading='lazy'
-                              className={styles.profile}
-                              src={`${CAST_URL}${cast.profile_path}`}
-                              alt={cast.name}
-                            />
+                            <div className={styles['img-container']}>
+                              <img
+                                loading='lazy'
+                                className={styles.profile}
+                                src={`${CAST_URL}${cast.profile_path}`}
+                                alt={cast.name}
+                              />
+                            </div>
                           ) : cast.gender ? (
                             <PersonFemale className={styles.no_image} />
                           ) : (
@@ -123,6 +130,43 @@ export const CastContainer = ({ type, id, movieData }) => {
                     </div>
                   </section>
                 )}
+                <section className={styles.recommendations}>
+                  <div>
+                    <h3 dir='auto'>Recommendations</h3>
+                    <div className={styles.scroll_wrap}>
+                      <div className={styles.scroll}>
+                        {recommendations.map((recommendation) => (
+                          <div className={styles.item} key={recommendation.id}>
+                            <div
+                              className={styles['img-container']}
+                              title={recommendation.name || recommendation.title}
+                            >
+                              <img
+                                loading='lazy'
+                                className={`${
+                                  !recommendation.backdrop_path
+                                    ? styles['fallback-poster']
+                                    : ''
+                                }`}
+                                src={`${RECOMMENDATIONS_BACKDROP_URL}${recommendation.backdrop_path}`}
+                                alt={recommendation.name || recommendation.title}
+                                onError={(e) => (e.target.src = imageErrorSrc)}
+                              />
+                            </div>
+                            <p className={styles.bottom_flex}>
+                              <span className={styles.title} title={recommendation.name || recommendation.title}>
+                                {recommendation.name || recommendation.title}
+                              </span>
+                              <span className={styles.vote_average}>
+                                {Math.round(recommendation.vote_average * 10)}%
+                              </span>
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </section>
               </div>
             </div>
             <div className={styles.grey_column}>
