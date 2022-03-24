@@ -50,7 +50,7 @@ const ViewMore = () => {
       console.log('✅ Movie details fetched successfully');
     } catch (e) {
       if(e.response.status === 404) {
-        navigate('/not-found');
+        navigate('/not-found', { replace: true });
       } else {
         console.log('💀 failed to fetch movie details:', e);
       }
