@@ -69,7 +69,7 @@ const ViewMore = () => {
       params.type === 'movie'
         ? ` (${movieData?.release_date?.slice(0, 4)})`
         : ` (TV Series ${movieData?.first_air_date?.slice(0, 4)})`
-    } - The Movie Database (TMDB)`
+    } — The Movie Database (TMDB)`
   );
 
   const getColors = (color) => {
