@@ -2,8 +2,8 @@ import styles from './NotFound.module.scss';
 
 export const NotFound = () => {
   return (
-    <div style={styles['not-found-container']}>
-      <h1>404 Page Not Found!</h1>
+    <div className={styles['not-found-container']}>
+      <h1>Oops! We can't find the page you're looking for</h1>
     </div>
   );
 };
