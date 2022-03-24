@@ -100,7 +100,13 @@ export default function Header(props) {
             >
               <MenuIcon />
             </IconButton>
-            <div className={styles['header-container']}>
+            <div
+              className={styles['header-container']}
+              style={{
+                maxWidth:
+                  window.location.pathname === '/' ? '1300px' : '1400px',
+              }}
+            >
               <div className={styles['inner-nav']}>
                 <img
                   src={LOGO_URL}
@@ -157,7 +163,10 @@ export default function Header(props) {
               </div>
               <ul className={styles['nav-items']}>
                 {!currentUser && (
-                  <li className={styles['nav-item-right']} onClick={openLoginPopup}>
+                  <li
+                    className={styles['nav-item-right']}
+                    onClick={openLoginPopup}
+                  >
                     Login
                   </li>
                 )}
