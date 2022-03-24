@@ -6,7 +6,7 @@ export const RatingProgress = ({
   styles,
   showNR = false,
 }) => {
-  const rating = vote_average * 10;
+  const rating = vote_average * 10 || (showNR ? 'NR' : 0);
 
   const ratingColor =
     rating >= 70
@@ -21,7 +21,7 @@ export const RatingProgress = ({
         <CircularProgress
           variant='determinate'
           color={ratingColor}
-          value={rating}
+          value={!isNaN(rating) ? rating : 0}
           size={size}
         />
         <Box className={styles['rating__text-container']}>
@@ -30,8 +30,8 @@ export const RatingProgress = ({
             component='span'
             className={styles.rating__text}
           >
-            {rating || (showNR ? 'NR' : 0)}
-            {!showNR && <sup>%</sup>}
+            {rating}
+            {!isNaN(rating) && <sup>%</sup>}
           </Typography>
         </Box>
       </Box>
