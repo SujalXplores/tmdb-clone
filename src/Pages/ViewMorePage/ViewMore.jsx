@@ -225,7 +225,7 @@ const ViewMore = () => {
                           </div>
                         </li>
                         {trailerData && (
-                          <li onClick={() => openTrailer(movieData.id)}>
+                          <li onClick={() => openTrailer(movieData.id)} className={styles.play_trailer}>
                             <PlayArrowIcon sx={{ mr: '10px' }} /> Play Trailer
                           </li>
                         )}

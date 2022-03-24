@@ -240,6 +240,10 @@
         cursor: pointer;
     }
 
+    .play_trailer:hover {
+        opacity: 0.6;
+    }
+
     @media (min-width: 745px) {
         justify-content: flex-start;
     }

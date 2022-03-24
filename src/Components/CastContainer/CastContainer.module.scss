@@ -141,6 +141,11 @@
                     font-size: 1.5em;
                     margin: 0 0 4px 0;
                     font-weight: 600;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: #00000080;
+                    }
                 }
 
                 h4 {
@@ -218,7 +223,6 @@
                         width: 250px;
                         height: 141px;
                         border-radius: 8px;
-                        cursor: pointer;
                     }
                 }
 
@@ -269,6 +273,7 @@
         align-items: flex-start;
         align-content: flex-start;
         padding: 30px 40px;
+        flex-wrap: wrap;
 
         div.white_column {
             background-color: #fff;
@@ -328,6 +333,7 @@
         color: #000;
         padding: 4px 10px;
         border-radius: 4px;
+        cursor: pointer;
     }
 }
 
