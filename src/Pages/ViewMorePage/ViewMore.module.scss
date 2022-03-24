@@ -153,8 +153,9 @@
                 font-size: 2.2rem;
                 font-weight: 600;
 
-                a {
+                span {
                     font-weight: 700;
+                    cursor: pointer;
                 }
 
                 .release_date {
@@ -301,8 +302,13 @@ ol.people {
             overflow: hidden;
             text-overflow: ellipsis;
 
-            a {
+            span {
                 font-weight: bold;
+                cursor: pointer;
+
+                &:hover {
+                    color: #ffffffb3;
+                }
             }
         }
 

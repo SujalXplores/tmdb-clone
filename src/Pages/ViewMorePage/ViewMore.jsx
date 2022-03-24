@@ -9,10 +9,10 @@ import {
   API_URL,
   BACKDROP_URL,
   POSTER_URL,
-  STREAMING_URL,
+  // STREAMING_URL,
 } from '../../Constants';
 import { dateToYear, slashDate } from '../../Helpers/ConvertDate';
-import { genereNames } from '../../Helpers/Generes';
+import { genreNames } from '../../Helpers/Genres';
 import { convertRuntime } from '../../Helpers/ConvertRuntime';
 import { RatingProgress } from '../../Components/RatingProgress/RatingProgress';
 import { TrailerModal } from '../../Components/TrailerModal/TrailerModal';
@@ -164,9 +164,7 @@ const ViewMore = () => {
                     <section className={styles['inner-content']}>
                       <div className={styles.title}>
                         <h2>
-                          <a href='/tv/115036-the-book-of-boba-fett'>
-                            {movieData.title || movieData.name}
-                          </a>
+                          <span>{movieData.title || movieData.name}</span>
                           <span className={styles.release_date}>
                             {' (' +
                               dateToYear(
@@ -191,7 +189,7 @@ const ViewMore = () => {
                             <>
                               <span className={styles.divider}>•</span>
                               <span className={styles.genres}>
-                                {genereNames(movieData.genres)}
+                                {genreNames(movieData.genres)}
                               </span>
                             </>
                           )}
@@ -246,11 +244,11 @@ const ViewMore = () => {
 
                         <ol className={styles.people}>
                           {movieData.created_by?.map((creator) => (
-                            <li className='profile' key={creator.id}>
+                            <li key={creator.id}>
                               <p>
-                                <a href='/person/15277-jon-favreau'>
+                                <span>
                                   {creator.name}
-                                </a>
+                                </span>
                               </p>
                               <p className={styles.character}>Creator</p>
                             </li>
