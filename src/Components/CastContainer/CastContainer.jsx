@@ -42,7 +42,7 @@ export const CastContainer = ({ type, id, movieData }) => {
     fetchCast();
   }, [fetchCast]);
 
-  const currentSeason = movieData?.seasons.at(-1);
+  const currentSeason = movieData?.seasons?.at(-1);
 
   return (
     !loading &&
@@ -76,13 +76,13 @@ export const CastContainer = ({ type, id, movieData }) => {
                           <p className={styles.character}>{cast.character}</p>
                         </li>
                       ))}
-                      {!castData.length && (
-                        <li>
-                          We don't have any cast added to this Show. You can
-                          help by adding some!
-                        </li>
-                      )}
                     </ol>
+                    {!castData.length && (
+                      <span>
+                        We don't have any cast added to this Show. You can help
+                        by adding some!
+                      </span>
+                    )}
                   </div>
                 </section>
                 {movieData.seasons && (
