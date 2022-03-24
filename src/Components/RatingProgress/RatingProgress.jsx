@@ -23,6 +23,7 @@ export const RatingProgress = ({
           color={ratingColor}
           value={!isNaN(rating) ? rating : 0}
           size={size}
+          thickness={2.5}
         />
         <Box className={styles['rating__text-container']}>
           <Typography
