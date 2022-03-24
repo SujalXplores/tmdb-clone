@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
+import useTitle from '../../Hooks/useTitle';
 import styles from './NotFound.module.scss';
 
 export const NotFound = () => {
+  useTitle('Page Not Found — The Movie Database (TMDB)');
+
   return (
     <div className={styles['column-wrapper']}>
       <div className={styles['content-wrapper']}>
