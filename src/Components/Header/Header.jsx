@@ -157,18 +157,18 @@ export default function Header(props) {
               </div>
               <ul className={styles['nav-items']}>
                 {!currentUser && (
-                  <li className={styles['nav-item']} onClick={openLoginPopup}>
+                  <li className={styles['nav-item-right']} onClick={openLoginPopup}>
                     Login
                   </li>
                 )}
                 {currentUser && (
                   <>
-                    <li className={styles['nav-item']}>
+                    <li className={styles['nav-item-right']}>
                       <IconButton sx={{ color: '#fff' }}>
                         <NotificationsIcon />
                       </IconButton>
                     </li>
-                    <li className={styles['nav-item']}>
+                    <li className={styles['nav-item-right']}>
                       <Avatar
                         sx={{ bgcolor: 'primary.main', width: 32, height: 32 }}
                       >
@@ -177,7 +177,7 @@ export default function Header(props) {
                         </span>
                       </Avatar>
                     </li>
-                    <li className={styles['nav-item']}>
+                    <li className={styles['nav-item-right']}>
                       <IconButton
                         onClick={openLogoutDialog}
                         sx={{ color: '#fff' }}

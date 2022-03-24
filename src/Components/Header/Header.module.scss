@@ -54,12 +54,6 @@
             line-height: 24px;
         }
 
-        .avatar-text {
-            font-size: 0.7em;
-            font-weight: 500;
-            text-transform: uppercase;
-        }
-
         .nav-item-dropdown {
             width: 173.078px;
             height: 138px;
@@ -109,6 +103,20 @@
                     transform: translateY(0);
                 }
             }
+        }
+    }
+
+    .nav-item-right {
+        margin-left: 30px;
+
+        &:first-child {
+            margin-left: 0;
+        }
+
+        .avatar-text {
+            font-size: 0.7em;
+            font-weight: 500;
+            text-transform: uppercase;
         }
     }
 }
