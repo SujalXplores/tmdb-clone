@@ -61,7 +61,6 @@ const ViewMore = () => {
 
   useLayoutEffect(() => {
     fetchMovie();
-    console.log(movieData);
   }, [fetchMovie]);
 
   useTitle(
@@ -73,7 +72,7 @@ const ViewMore = () => {
   );
 
   const getColors = (color) => {
-    setColors((prevState) => [...prevState, ...color]);
+    setColors(color);
   };
 
   const bgImage = {
@@ -118,7 +117,7 @@ const ViewMore = () => {
                   <div className={styles['poster-wrapper']}>
                     <div className={styles.poster}>
                       <div className={styles.image_content}>
-                        <ColorExtractor getColors={getColors}>
+                        <ColorExtractor getColors={getColors} >
                           <img
                             className={`${styles.poster} ${
                               !movieData.poster_path
