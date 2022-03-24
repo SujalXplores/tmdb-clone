@@ -14,12 +14,14 @@ import imageErrorSrc from '../../assets/image-fallback.svg';
 
 import styles from './CastContainer.module.scss';
 import { convertDate } from '../../Helpers/ConvertDate';
+import { useNavigate } from 'react-router-dom';
 
 export const CastContainer = ({ type, id, movieData }) => {
   const [castData, setCastData] = useState([]);
   const [keywordData, setKeywordData] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const fetchCast = useCallback(async () => {
     const credits_url = `${API_URL}/${type}/${id}/credits?api_key=${API}`;
@@ -139,7 +141,9 @@ export const CastContainer = ({ type, id, movieData }) => {
                           <div className={styles.item} key={recommendation.id}>
                             <div
                               className={styles['img-container']}
-                              title={recommendation.name || recommendation.title}
+                              title={
+                                recommendation.name || recommendation.title
+                              }
                             >
                               <img
                                 loading='lazy'
@@ -149,12 +153,29 @@ export const CastContainer = ({ type, id, movieData }) => {
                                     : ''
                                 }`}
                                 src={`${RECOMMENDATIONS_BACKDROP_URL}${recommendation.backdrop_path}`}
-                                alt={recommendation.name || recommendation.title}
+                                alt={
+                                  recommendation.name || recommendation.title
+                                }
                                 onError={(e) => (e.target.src = imageErrorSrc)}
+                                onClick={() =>
+                                  navigate(
+                                    `/${recommendation.media_type}/${recommendation.id}`
+                                  )
+                                }
                               />
                             </div>
                             <p className={styles.bottom_flex}>
-                              <span className={styles.title} title={recommendation.name || recommendation.title}>
+                              <span
+                                className={styles.title}
+                                title={
+                                  recommendation.name || recommendation.title
+                                }
+                                onClick={() =>
+                                  navigate(
+                                    `/${recommendation.media_type}/${recommendation.id}`
+                                  )
+                                }
+                              >
                                 {recommendation.name || recommendation.title}
                               </span>
                               <span className={styles.vote_average}>
