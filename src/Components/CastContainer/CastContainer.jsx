@@ -136,55 +136,70 @@ export const CastContainer = ({ type, id, movieData }) => {
                   <div>
                     <h3 dir='auto'>Recommendations</h3>
                     <div className={styles.scroll_wrap}>
-                      <div className={styles.scroll}>
-                        {recommendations.map((recommendation) => (
-                          <div className={styles.item} key={recommendation.id}>
+                      {recommendations.length > 0 && (
+                        <div className={styles.scroll}>
+                          {recommendations.map((recommendation) => (
                             <div
-                              className={styles['img-container']}
-                              title={
-                                recommendation.name || recommendation.title
-                              }
+                              className={styles.item}
+                              key={recommendation.id}
                             >
-                              <img
-                                loading='lazy'
-                                className={`${
-                                  !recommendation.backdrop_path
-                                    ? styles['fallback-poster']
-                                    : ''
-                                }`}
-                                src={`${RECOMMENDATIONS_BACKDROP_URL}${recommendation.backdrop_path}`}
-                                alt={
-                                  recommendation.name || recommendation.title
-                                }
-                                onError={(e) => (e.target.src = imageErrorSrc)}
-                                onClick={() =>
-                                  navigate(
-                                    `/${recommendation.media_type}/${recommendation.id}`
-                                  )
-                                }
-                              />
-                            </div>
-                            <p className={styles.bottom_flex}>
-                              <span
-                                className={styles.title}
+                              <div
+                                className={styles['img-container']}
                                 title={
                                   recommendation.name || recommendation.title
                                 }
-                                onClick={() =>
-                                  navigate(
-                                    `/${recommendation.media_type}/${recommendation.id}`
-                                  )
-                                }
                               >
-                                {recommendation.name || recommendation.title}
-                              </span>
-                              <span className={styles.vote_average}>
-                                {Math.round(recommendation.vote_average * 10)}%
-                              </span>
-                            </p>
-                          </div>
-                        ))}
-                      </div>
+                                <img
+                                  loading='lazy'
+                                  className={`${
+                                    !recommendation.backdrop_path
+                                      ? styles['fallback-poster']
+                                      : ''
+                                  }`}
+                                  src={`${RECOMMENDATIONS_BACKDROP_URL}${recommendation.backdrop_path}`}
+                                  alt={
+                                    recommendation.name || recommendation.title
+                                  }
+                                  onError={(e) =>
+                                    (e.target.src = imageErrorSrc)
+                                  }
+                                  onClick={() =>
+                                    navigate(
+                                      `/${recommendation.media_type}/${recommendation.id}`
+                                    )
+                                  }
+                                />
+                              </div>
+                              <p className={styles.bottom_flex}>
+                                <span
+                                  className={styles.title}
+                                  title={
+                                    recommendation.name || recommendation.title
+                                  }
+                                  onClick={() =>
+                                    navigate(
+                                      `/${recommendation.media_type}/${recommendation.id}`
+                                    )
+                                  }
+                                >
+                                  {recommendation.name || recommendation.title}
+                                </span>
+                                <span className={styles.vote_average}>
+                                  {Math.round(recommendation.vote_average * 10)}
+                                  %
+                                </span>
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {recommendations.length === 0 && (
+                        <p>
+                          We don't have enough data to suggest any movies based
+                          on Deep Water. You can help by rating movies you've
+                          seen.
+                        </p>
+                      )}
                     </div>
                   </div>
                 </section>
