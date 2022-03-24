@@ -26,13 +26,11 @@ export const TrailerModal = ({ open, handleClose, data }) => {
           </IconButton>
         </div>
         <iframe
-          src={`https://www.youtube.com/embed/${data.key}?autoplay=1`}
+          src={`https://www.youtube.com/embed/${data.key}?autoplay=1&hl=en&modestbranding=1&fs=1&autohide=1&origin=http://localhost:3006`}
           allow='autoplay'
+          className={styles.player}
           allowFullScreen
-          width='100%'
-          height='100%'
-          title='Play Trailer'
-          style={{ border: '0' }}
+          frameBorder={0}
         />
       </Box>
     </Modal>
