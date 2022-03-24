@@ -14,6 +14,7 @@ const Router = () => {
         <Route index path='/' element={<HomePage />} />
         <Route path='/:type/category/:category' element={<CategoriesPage />} />
         <Route path='/:type/:id' element={<ViewMorePage />} />
+        <Route path='/not-found' element={<NotFound />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </Suspense>

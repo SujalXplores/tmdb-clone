@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useCallback, useLayoutEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ColorExtractor } from 'react-color-extractor';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
@@ -24,6 +24,7 @@ import styles from './ViewMore.module.scss';
 
 const ViewMore = () => {
   const params = useParams();
+  const navigate = useNavigate();
 
   const [colors, setColors] = useState([]);
   const [movieData, setMovieData] = useState([]);
@@ -48,7 +49,11 @@ const ViewMore = () => {
       );
       console.log('✅ Movie details fetched successfully');
     } catch (e) {
-      console.log('💀 failed to fetch movie details:', e);
+      if(e.response.status === 404) {
+        navigate('/not-found');
+      } else {
+        console.log('💀 failed to fetch movie details:', e);
+      }
     } finally {
       setLoading(false);
     }
@@ -259,12 +264,12 @@ const ViewMore = () => {
             </div>
           </div>
         </section>
+        {movieData && <TrailerModal {...modalProps} />}
         <CastContainer
           type={params.type}
           id={params.id}
           {...{ movieData }}
         />
-        {movieData && <TrailerModal {...modalProps} />}
       </>
     )
   );
