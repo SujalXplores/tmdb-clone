@@ -12,7 +12,7 @@ const MovieCard = ({ data }) => {
 
   const onViewMoreInfo = () => {
     const type = data.first_air_date ? 'tv' : 'movie';
-    navigate(`/${type}/${data.id}`, { state: data });
+    navigate(`/${type}/${data.id}`);
   };
 
   return (

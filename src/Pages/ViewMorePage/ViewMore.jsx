@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useCallback, useLayoutEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { ColorExtractor } from 'react-color-extractor';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
@@ -23,17 +23,7 @@ import imageErrorSrc from '../../assets/image-fallback.svg';
 import styles from './ViewMore.module.scss';
 
 const ViewMore = () => {
-  const location = useLocation();
-  const { id } = location.state;
   const params = useParams();
-
-  useTitle(
-    `${location.state.title || location.state.name}${
-      params.type === 'movie'
-        ? ` (${location.state.release_date.slice(0, 4)})`
-        : ` (TV Series ${location.state.first_air_date.slice(0, 4)})`
-    } - The Movie Database (TMDB)`
-  );
 
   const [colors, setColors] = useState([]);
   const [movieData, setMovieData] = useState([]);
@@ -46,11 +36,12 @@ const ViewMore = () => {
   });
 
   const fetchMovie = useCallback(async () => {
-    const url = `${API_URL}/${params.type}/${id}?api_key=${API}`;
-    const trailerUrl = `${API_URL}/${params.type}/${id}/videos?api_key=${API}`;
+    const url = `${API_URL}/${params.type}/${params.id}?api_key=${API}`;
+    const trailerUrl = `${API_URL}/${params.type}/${params.id}/videos?api_key=${API}`;
     try {
       const res = await axios.all([axios.get(url), axios.get(trailerUrl)]);
       const [movie, trailer] = res;
+      console.log(movie.data);
       setMovieData(movie.data);
       setTrailerData(
         trailer.data.results.find((trailer) => trailer.type === 'Trailer')
@@ -61,11 +52,20 @@ const ViewMore = () => {
     } finally {
       setLoading(false);
     }
-  }, [id, params.type]);
+  }, [params.id, params.type]);
 
   useLayoutEffect(() => {
     fetchMovie();
+    console.log(movieData);
   }, [fetchMovie]);
+
+  useTitle(
+    `${movieData.title || movieData.name}${
+      params.type === 'movie'
+        ? ` (${movieData?.release_date?.slice(0, 4)})`
+        : ` (TV Series ${movieData?.first_air_date?.slice(0, 4)})`
+    } - The Movie Database (TMDB)`
+  );
 
   const getColors = (color) => {
     setColors((prevState) => [...prevState, ...color]);
@@ -102,7 +102,6 @@ const ViewMore = () => {
     movieData && (
       <>
         <section className={styles.viewMore}>
-          {console.log('ViewMore Details', movieData)}
           <div className={styles.header} style={bgImage}>
             <div className={styles.backdrop} style={bgBackDrop}>
               <div
@@ -246,9 +245,7 @@ const ViewMore = () => {
                           {movieData.created_by?.map((creator) => (
                             <li key={creator.id}>
                               <p>
-                                <span>
-                                  {creator.name}
-                                </span>
+                                <span>{creator.name}</span>
                               </p>
                               <p className={styles.character}>Creator</p>
                             </li>
@@ -264,7 +261,7 @@ const ViewMore = () => {
         </section>
         <CastContainer
           type={params.type}
-          id={location.state.id}
+          id={params.id}
           {...{ movieData }}
         />
         {movieData && <TrailerModal {...modalProps} />}
