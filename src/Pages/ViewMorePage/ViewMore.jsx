@@ -9,7 +9,7 @@ import {
   API_URL,
   BACKDROP_URL,
   POSTER_URL,
-  // STREAMING_URL,
+  STREAMING_URL,
 } from '../../Constants';
 import { dateToYear, slashDate } from '../../Helpers/ConvertDate';
 import { genreNames } from '../../Helpers/Genres';
@@ -29,6 +29,7 @@ const ViewMore = () => {
   const [colors, setColors] = useState([]);
   const [movieData, setMovieData] = useState([]);
   const [trailerData, setTrailerData] = useState([]);
+  const [providers, setProviders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalProps, setModalProps] = useState({
     open: false,
@@ -39,17 +40,28 @@ const ViewMore = () => {
   const fetchMovie = useCallback(async () => {
     const url = `${API_URL}/${params.type}/${params.id}?api_key=${API}`;
     const trailerUrl = `${API_URL}/${params.type}/${params.id}/videos?api_key=${API}`;
+    const providerUrl = `${API_URL}/${params.type}/${params.id}/watch/providers?api_key=${API}`;
+
     try {
-      const res = await axios.all([axios.get(url), axios.get(trailerUrl)]);
-      const [movie, trailer] = res;
-      console.log(movie.data);
+      const res = await axios.all([
+        axios.get(url),
+        axios.get(trailerUrl),
+        axios.get(providerUrl),
+      ]);
+
+      const [movie, trailer, providers] = res;
+
       setMovieData(movie.data);
       setTrailerData(
         trailer.data.results.find((trailer) => trailer.type === 'Trailer')
       );
+      setProviders(providers.data.results);
+
+      console.log(movie.data);
+      console.log(providers.data.results, 'providers');
       console.log('✅ Movie details fetched successfully');
     } catch (e) {
-      if(e.response.status === 404) {
+      if (e.response.status === 404) {
         navigate('/not-found', { replace: true });
       } else {
         console.log('💀 failed to fetch movie details:', e);
@@ -57,7 +69,7 @@ const ViewMore = () => {
     } finally {
       setLoading(false);
     }
-  }, [params.id, params.type]);
+  }, [params, navigate]);
 
   useLayoutEffect(() => {
     fetchMovie();
@@ -115,9 +127,21 @@ const ViewMore = () => {
               >
                 <section className={styles['inner-section']}>
                   <div className={styles['poster-wrapper']}>
-                    <div className={styles.poster}>
+                    <div
+                      className={styles.poster}
+                      style={{
+                        borderRadius:
+                          providers && (providers.IN || providers.US)
+                            ? '0'
+                            : '8px',
+                        background:
+                          providers && (providers.IN || providers.US)
+                            ? 'transparent'
+                            : '#dbdbdb',
+                      }}
+                    >
                       <div className={styles.image_content}>
-                        <ColorExtractor getColors={getColors} >
+                        <ColorExtractor getColors={getColors}>
                           <img
                             className={`${styles.poster} ${
                               !movieData.poster_path
@@ -133,34 +157,42 @@ const ViewMore = () => {
                       </div>
                     </div>
 
-                    {/* <div className={styles.ott_offer}>
-                      <div className={styles['text-wrapper']}>
-                        <div className={styles.button}>
-                          <div className={styles.provider}>
-                            <img
-                              src={`${STREAMING_URL}/dH4BZucVyb5lW97TEbZ7RTAugjg.jpg`}
-                              width='36'
-                              height='36'
-                              alt='Now Streaming on Hotstar'
-                              loading='lazy'
-                            />
-                          </div>
-                          <div className={styles.text}>
-                            <span>
-                              <h4>Now Streaming</h4>
-                              <h3>
-                                <a
-                                  href='/watchnow'
-                                  title='Now Streaming on Hotstar'
-                                >
-                                  Watch Now
-                                </a>
-                              </h3>
-                            </span>
+                    {providers && (providers.IN || providers.US) && (
+                      <div className={styles.ott_offer}>
+                        <div className={styles['text-wrapper']}>
+                          <div className={styles.button}>
+                            <div className={styles.provider}>
+                              <img
+                                src={
+                                  providers.IN
+                                    ? providers.IN.flatrate
+                                      ? `${STREAMING_URL}/${providers.IN.flatrate[0].logo_path}`
+                                      : `${STREAMING_URL}/${providers.IN.buy[0].logo_path}`
+                                    : `${STREAMING_URL}/${providers.US.flatrate[0].logo_path}`
+                                }
+                                width='36'
+                                height='36'
+                                alt='Now Streaming on Hotstar'
+                                loading='lazy'
+                              />
+                            </div>
+                            <div className={styles.text}>
+                              <span>
+                                <h4>Now Streaming</h4>
+                                <h3>
+                                  <span
+                                    href='/watchnow'
+                                    title="Available to Rent or Buy on Apple iTunes"
+                                  >
+                                    Watch Now
+                                  </span>
+                                </h3>
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div> */}
+                    )}
                   </div>
 
                   <div className={styles.header_poster_wrapper}>
@@ -224,7 +256,10 @@ const ViewMore = () => {
                           </div>
                         </li>
                         {trailerData && (
-                          <li onClick={() => openTrailer(movieData.id)} className={styles.play_trailer}>
+                          <li
+                            onClick={() => openTrailer(movieData.id)}
+                            className={styles.play_trailer}
+                          >
                             <PlayArrowIcon sx={{ mr: '10px' }} /> Play Trailer
                           </li>
                         )}
@@ -264,11 +299,7 @@ const ViewMore = () => {
           </div>
         </section>
         {movieData && <TrailerModal {...modalProps} />}
-        <CastContainer
-          type={params.type}
-          id={params.id}
-          {...{ movieData }}
-        />
+        <CastContainer type={params.type} id={params.id} {...{ movieData }} />
       </>
     )
   );
