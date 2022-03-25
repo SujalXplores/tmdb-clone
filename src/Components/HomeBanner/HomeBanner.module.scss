@@ -33,8 +33,12 @@
                 display: flex;
                 align-items: flex-start;
                 align-content: flex-start;
-                padding: 30px 40px;
                 flex-wrap: wrap;
+                padding: 30px 40px;
+
+                @media (max-width: 768px) {
+                    padding: 0 20px;
+                }
 
                 .title {
                     width: 100%;
@@ -44,11 +48,28 @@
                         font-size: 3em;
                         font-weight: 700;
                         line-height: 1;
+
+                        @media (max-width: 768px) {
+                            font-size: 2em;
+                            padding-bottom: 20px;
+                        }
+
+                        @media (max-width: 480px) {
+                            font-size: 1.5em;
+                        }
                     }
                     h3 {
                         font-size: 2em;
                         font-weight: 600;
                         margin: 0;
+
+                        @media (max-width: 768px) {
+                            font-size: 1.5em;
+                        }
+
+                        @media (max-width: 480px) {
+                            font-size: 1.2em;
+                        }
                     }
                 }
 
@@ -75,6 +96,11 @@
                         &:focus {
                             outline: none;
                         }
+
+                        @media (max-width: 768px) {
+                            font-size: 1em;
+                            height: 40px;
+                        }
                     }
                     button[type="submit"] {
                         display: inline-flex;
@@ -97,6 +123,18 @@
 
                         &:hover {
                             color: #032541;
+                        }
+
+                        @media (max-width: 768px) {
+                            font-size: 14px;
+                            height: 40px;
+                            padding: 10px 20px;
+                        }
+
+                        @media (max-width: 480px) {
+                            font-size: 12px;
+                            height: 40px;
+                            padding: 10px 15px;
                         }
                     }
                 }

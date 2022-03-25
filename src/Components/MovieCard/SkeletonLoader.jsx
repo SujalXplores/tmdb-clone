@@ -23,7 +23,7 @@ export const SkeletonLoader = () => {
             height={40}
           />
         </div>
-        <Skeleton animation='wave' height={10} sx={{ mb: 6 }} width='100%' />
+        <Skeleton animation='wave' height={10} sx={{ mb: 1 }} width='100%' />
         <Skeleton animation='wave' height={10} width='60%' />
       </div>
     </div>

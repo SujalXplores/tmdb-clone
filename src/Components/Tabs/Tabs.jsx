@@ -51,6 +51,10 @@ const TabsList = styled(TabsListUnstyled)`
   justify-content: center;
   align-content: space-between;
   border: 1px solid #032541;
+
+  @media (max-width: 369px) {
+    margin: 16px 0;
+  }
 `;
 function CustomTab({ tabs, value, handleChange }) {
   return (
