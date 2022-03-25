@@ -35,6 +35,16 @@
             background-color: #fff;
             box-shadow: 0 2px 8px #0000001a;
 
+            .img_link {
+                min-width: 138px;
+                width: 138px;
+                height: 175px;
+                background-color: #dbdbdb;
+                display: flex;
+                align-content: center;
+                align-items: center;
+            }
+
             .img-container {
                 min-width: 138px;
                 width: 138px;

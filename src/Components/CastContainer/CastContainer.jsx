@@ -14,7 +14,7 @@ import imageErrorSrc from '../../assets/image-fallback.svg';
 
 import styles from './CastContainer.module.scss';
 import { convertDate } from '../../Helpers/ConvertDate';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const CastContainer = ({ type, id, movieData }) => {
   const [castData, setCastData] = useState([]);
@@ -67,20 +67,22 @@ export const CastContainer = ({ type, id, movieData }) => {
                     <ol className={styles.people}>
                       {castData.slice(0, 9).map((cast) => (
                         <li className={styles.card} key={cast.id}>
-                          {cast.profile_path ? (
-                            <div className={styles['img-container']}>
-                              <img
-                                loading='lazy'
-                                className={styles.profile}
-                                src={`${CAST_URL}${cast.profile_path}`}
-                                alt={cast.name}
-                              />
-                            </div>
-                          ) : cast.gender ? (
-                            <PersonFemale className={styles.no_image} />
-                          ) : (
-                            <PersonMale className={styles.no_image} />
-                          )}
+                          <Link to='/' className={styles.img_link}>
+                            {cast.profile_path ? (
+                              <div className={styles['img-container']}>
+                                <img
+                                  loading='lazy'
+                                  className={styles.profile}
+                                  src={`${CAST_URL}${cast.profile_path}`}
+                                  alt={cast.name}
+                                />
+                              </div>
+                            ) : cast.gender ? (
+                              <PersonFemale className={styles.no_image} />
+                            ) : (
+                              <PersonMale className={styles.no_image} />
+                            )}
+                          </Link>
                           <p className={styles.name}>{cast.name}</p>
                           <p className={styles.character}>{cast.character}</p>
                         </li>
