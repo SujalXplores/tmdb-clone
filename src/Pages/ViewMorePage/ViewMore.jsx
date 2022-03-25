@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useCallback, useLayoutEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ColorExtractor } from 'react-color-extractor';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
@@ -181,9 +181,9 @@ const ViewMore = () => {
                               <span>
                                 <h4>Now Streaming</h4>
                                 <h3>
-                                  <span title='Available to Rent or Buy on Apple iTunes'>
+                                  <Link to='/' title='Available to Rent or Buy on Apple iTunes'>
                                     Watch Now
-                                  </span>
+                                  </Link>
                                 </h3>
                               </span>
                             </div>

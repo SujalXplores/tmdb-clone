@@ -14,14 +14,13 @@ import imageErrorSrc from '../../assets/image-fallback.svg';
 
 import styles from './CastContainer.module.scss';
 import { convertDate } from '../../Helpers/ConvertDate';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export const CastContainer = ({ type, id, movieData }) => {
   const [castData, setCastData] = useState([]);
   const [keywordData, setKeywordData] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   const fetchCast = useCallback(async () => {
     const credits_url = `${API_URL}/${type}/${id}/credits?api_key=${API}`;
@@ -118,8 +117,9 @@ export const CastContainer = ({ type, id, movieData }) => {
                           <div>
                             <h2>Season {currentSeason.season_number}</h2>
                             <h4>
-                              {currentSeason.air_date?.slice(0, 4) || new Date().getFullYear()} |{' '}
-                              {currentSeason.episode_count} Episodes
+                              {currentSeason.air_date?.slice(0, 4) ||
+                                new Date().getFullYear()}{' '}
+                              | {currentSeason.episode_count} Episodes
                             </h4>
                             <div className={styles.season_overview}>
                               <p>
@@ -153,7 +153,7 @@ export const CastContainer = ({ type, id, movieData }) => {
                                 }`}
                               >
                                 <Link
-                                  to='/'
+                                  to={`/${recommendation.media_type}/${recommendation.id}`}
                                   title={
                                     recommendation.name || recommendation.title
                                   }
@@ -173,11 +173,6 @@ export const CastContainer = ({ type, id, movieData }) => {
                                     onError={(e) =>
                                       (e.target.src = imageErrorSrc)
                                     }
-                                    onClick={() =>
-                                      navigate(
-                                        `/${recommendation.media_type}/${recommendation.id}`
-                                      )
-                                    }
                                   />
                                   <div className={styles.meta}>
                                     <span className={styles.release_date}>
@@ -189,19 +184,15 @@ export const CastContainer = ({ type, id, movieData }) => {
                                 </Link>
                               </div>
                               <p className={styles.bottom_flex}>
-                                <span
+                                <Link
                                   className={styles.title}
                                   title={
                                     recommendation.name || recommendation.title
                                   }
-                                  onClick={() =>
-                                    navigate(
-                                      `/${recommendation.media_type}/${recommendation.id}`
-                                    )
-                                  }
+                                  to={`/${recommendation.media_type}/${recommendation.id}`}
                                 >
                                   {recommendation.name || recommendation.title}
-                                </span>
+                                </Link>
                                 <span className={styles.vote_average}>
                                   {Math.round(recommendation.vote_average * 10)}
                                   %
