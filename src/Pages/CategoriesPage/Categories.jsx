@@ -35,7 +35,9 @@ const Categories = () => {
                     <section className={styles.panel_results}>
                       <div className={styles.media_item_results}>
                         <div className={styles.page_wrapper}>
-                          <CategoryCard />
+                          {Array(10).fill(0).map((_, index) => (
+                            <CategoryCard key={index} />
+                          ))}
                         </div>
                       </div>
                     </section>
