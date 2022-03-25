@@ -1,3 +1,7 @@
+:root {
+    --opacity: 1;
+}
+
 .cast_section {
     width: 100%;
     padding-bottom: 30px;
@@ -90,16 +94,15 @@
         left: 0;
         &:after {
             content: "";
-            opacity: 1;
-            transition: linear 0.3s;
             width: 60px;
             height: 100%;
             position: absolute;
             top: 0;
             right: 0;
-            background-image: linear-gradient(to right, #ffffff00 0%, #fff 100%);
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #fff 100%);
             will-change: opacity;
             pointer-events: none;
+            opacity: var(--opacity);
         }
     }
 }
@@ -126,6 +129,11 @@
         .flex {
             display: flex;
 
+            @media (max-width: 386px) {
+                flex-direction: column;
+                width: 100%;
+            }
+
             .poster {
                 display: block;
                 min-width: 130px;
@@ -134,9 +142,14 @@
                 background-color: #dbdbdb;
                 background-size: 50%;
 
+                @media (max-width: 386px) {
+                    width: 100%;
+                }
+
                 img {
                     width: 100%;
                     height: 100%;
+                    object-fit: cover;
                 }
             }
 
@@ -209,6 +222,7 @@
                 background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #fff 100%);
                 will-change: opacity;
                 pointer-events: none;
+                opacity: var(--opacity);
             }
 
             .item {
@@ -286,6 +300,10 @@
         padding: 30px 40px;
         flex-wrap: wrap;
 
+        @media (max-width: 768px) {
+            flex-direction: column;
+        }
+
         div.white_column {
             background-color: #fff;
             width: calc(100vw - 80px - 268px);
@@ -294,6 +312,12 @@
             flex-wrap: wrap;
             flex: 0 1 auto;
             padding-right: 30px;
+
+            @media (max-width: 768px) {
+                width: 100%;
+                max-width: calc(100vw - 40px);
+                padding-right: 0;
+            }
         }
     }
 }
@@ -303,6 +327,11 @@
     width: 260px;
     display: flex;
     flex-wrap: wrap;
+
+    @media (max-width: 768px) {
+        width: 100%;
+        min-width: 0;
+    }
 
     .split_column {
         section {
