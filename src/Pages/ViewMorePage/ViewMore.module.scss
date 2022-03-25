@@ -4,7 +4,10 @@
     width: 100%;
     position: relative;
     z-index: 1;
-    background: #e4e4e4 no-repeat right -200px top;
+    background-color: #e4e4e4;
+    background-position: right -200px top;
+    background-size: cover;
+    background-repeat: no-repeat;
 
     h3 {
         margin: 0 0 8px 0;
