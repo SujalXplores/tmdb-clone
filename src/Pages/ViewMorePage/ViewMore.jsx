@@ -157,18 +157,20 @@ const ViewMore = () => {
                       </div>
                     </div>
 
-                    {providers && (providers.IN || providers.US) && (
+                    {providers && (providers.IN || providers.US.flatrate) && (
                       <div className={styles.ott_offer}>
                         <div className={styles['text-wrapper']}>
                           <div className={styles.button}>
                             <div className={styles.provider}>
                               <img
                                 src={
-                                  providers.IN
+                                  providers && providers.IN
                                     ? providers.IN.flatrate
                                       ? `${STREAMING_URL}/${providers.IN.flatrate[0].logo_path}`
                                       : `${STREAMING_URL}/${providers.IN.buy[0].logo_path}`
-                                    : `${STREAMING_URL}/${providers.US.flatrate[0].logo_path}`
+                                    : providers.US.flatrate
+                                    ? `${STREAMING_URL}/${providers.US.flatrate[0].logo_path}`
+                                    : `${STREAMING_URL}/${providers.US.ads[0].logo_path}`
                                 }
                                 width='36'
                                 height='36'
@@ -182,7 +184,7 @@ const ViewMore = () => {
                                 <h3>
                                   <span
                                     href='/watchnow'
-                                    title="Available to Rent or Buy on Apple iTunes"
+                                    title='Available to Rent or Buy on Apple iTunes'
                                   >
                                     Watch Now
                                   </span>
