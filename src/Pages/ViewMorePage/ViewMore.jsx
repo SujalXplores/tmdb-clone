@@ -61,7 +61,7 @@ const ViewMore = () => {
       console.log(providers.data.results, 'providers');
       console.log('✅ Movie details fetched successfully');
     } catch (e) {
-      if (e.response.status === 404) {
+      if (e?.response?.status === 404) {
         navigate('/not-found', { replace: true });
       } else {
         console.log('💀 failed to fetch movie details:', e);
@@ -156,21 +156,20 @@ const ViewMore = () => {
                         </ColorExtractor>
                       </div>
                     </div>
-
-                    {providers && (providers.IN || providers.US.flatrate) && (
+                    {providers && providers.IN && (
                       <div className={styles.ott_offer}>
                         <div className={styles['text-wrapper']}>
                           <div className={styles.button}>
                             <div className={styles.provider}>
                               <img
                                 src={
-                                  providers && providers.IN
-                                    ? providers.IN.flatrate
-                                      ? `${STREAMING_URL}/${providers.IN.flatrate[0].logo_path}`
-                                      : `${STREAMING_URL}/${providers.IN.buy[0].logo_path}`
-                                    : providers.US.flatrate
-                                    ? `${STREAMING_URL}/${providers.US.flatrate[0].logo_path}`
-                                    : `${STREAMING_URL}/${providers.US.ads[0].logo_path}`
+                                  providers.IN.flatrate
+                                    ? `${STREAMING_URL}/${providers.IN.flatrate[0].logo_path}`
+                                    : providers.IN.buy
+                                    ? `${STREAMING_URL}/${providers.IN.buy[0].logo_path}`
+                                    : providers.IN.ads
+                                    ? `${STREAMING_URL}/${providers.IN.ads[0].logo_path}`
+                                    : `${STREAMING_URL}/${providers.IN.free[0].logo_path}`
                                 }
                                 width='36'
                                 height='36'
@@ -182,10 +181,7 @@ const ViewMore = () => {
                               <span>
                                 <h4>Now Streaming</h4>
                                 <h3>
-                                  <span
-                                    href='/watchnow'
-                                    title='Available to Rent or Buy on Apple iTunes'
-                                  >
+                                  <span title='Available to Rent or Buy on Apple iTunes'>
                                     Watch Now
                                   </span>
                                 </h3>
