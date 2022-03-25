@@ -16,10 +16,17 @@ body {
   font-size: 1em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
 }
 
 .main__container {
   min-height: calc(100vh - 344.5px);
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: center;
+  background-color: #fff;
 }
 
 * ::-webkit-scrollbar {

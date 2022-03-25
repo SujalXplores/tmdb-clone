@@ -20,7 +20,7 @@ const Tab = styled(TabUnstyled)`
   width: 100%;
   padding: 4px 16px;
   border: none;
-  border-radius: 40px;
+  border-radius: 30px;
   display: flex;
   justify-content: center;
 
@@ -28,9 +28,12 @@ const Tab = styled(TabUnstyled)`
     background-color: #032541;
 
     span {
+      font-weight: 600;
       background: linear-gradient(to right, #c0fecf 0%, #1ed5a9 100%);
+      background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      transition: -webkit-text-fill-color 0.5s;
     }
   }
 
@@ -44,7 +47,6 @@ const TabsList = styled(TabsListUnstyled)`
   width: 120%;
   background-color: transparent;
   border-radius: 40px;
-  margin-bottom: 16px;
   display: flex;
   height: 30px;
   align-items: center;
