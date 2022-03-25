@@ -146,31 +146,47 @@ export const CastContainer = ({ type, id, movieData }) => {
                               key={recommendation.id}
                             >
                               <div
-                                className={styles['img-container']}
-                                title={
-                                  recommendation.name || recommendation.title
-                                }
+                                className={`${styles['img-container']} ${
+                                  !recommendation.backdrop_path
+                                    ? styles['no-image']
+                                    : ''
+                                }`}
                               >
-                                <img
-                                  loading='lazy'
-                                  className={`${
-                                    !recommendation.backdrop_path
-                                      ? styles['fallback-poster']
-                                      : ''
-                                  }`}
-                                  src={`${RECOMMENDATIONS_BACKDROP_URL}${recommendation.backdrop_path}`}
-                                  alt={
+                                <Link
+                                  to='/'
+                                  title={
                                     recommendation.name || recommendation.title
                                   }
-                                  onError={(e) =>
-                                    (e.target.src = imageErrorSrc)
-                                  }
-                                  onClick={() =>
-                                    navigate(
-                                      `/${recommendation.media_type}/${recommendation.id}`
-                                    )
-                                  }
-                                />
+                                >
+                                  <img
+                                    loading='lazy'
+                                    className={`${
+                                      !recommendation.backdrop_path
+                                        ? styles['fallback-poster']
+                                        : ''
+                                    }`}
+                                    src={`${RECOMMENDATIONS_BACKDROP_URL}${recommendation.backdrop_path}`}
+                                    alt={
+                                      recommendation.name ||
+                                      recommendation.title
+                                    }
+                                    onError={(e) =>
+                                      (e.target.src = imageErrorSrc)
+                                    }
+                                    onClick={() =>
+                                      navigate(
+                                        `/${recommendation.media_type}/${recommendation.id}`
+                                      )
+                                    }
+                                  />
+                                  <div className={styles.meta}>
+                                    <span className={styles.release_date}>
+                                      <span className={styles.calendar}></span>
+                                      {recommendation.release_date ||
+                                        recommendation.first_air_date}
+                                    </span>
+                                  </div>
+                                </Link>
                               </div>
                               <p className={styles.bottom_flex}>
                                 <span

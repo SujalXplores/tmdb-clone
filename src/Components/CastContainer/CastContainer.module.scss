@@ -222,9 +222,10 @@
                     height: 141px;
                     line-height: 0;
                     overflow: hidden;
-                    background: #dbdbdb;
-                    border-radius: 8px;
-                    border: 1px solid #d7d7d7;
+
+                    &:hover .meta {
+                        opacity: 1;
+                    }
 
                     img {
                         position: relative;
@@ -366,6 +367,52 @@
     }
 }
 
+.meta {
+    background-color: rgba(255, 255, 255, 0.9);
+    position: relative;
+    top: -40px;
+    left: 0;
+    height: 40px;
+    width: 100%;
+    z-index: 1;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 0;
+
+    .release_date {
+        font-size: 1em;
+        display: inline-flex;
+        align-items: center;
+
+        .calendar {
+            background-image: url("../../assets/icon-calender.svg");
+            margin-right: 4px;
+            position: relative;
+            top: 0;
+            left: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 1em;
+            min-height: 1em;
+            width: 1em;
+            height: 1em;
+            line-height: inherit;
+            background-position: center center;
+            background-repeat: no-repeat;
+            color: inherit;
+        }
+    }
+}
+
 .fallback-poster {
     transform: scale(0.5);
+}
+
+.no-image {
+    background: #dbdbdb;
+    border-radius: 8px;
+    border: 1px solid #d7d7d7;
 }
