@@ -118,7 +118,7 @@ export const CastContainer = ({ type, id, movieData }) => {
                           <div>
                             <h2>Season {currentSeason.season_number}</h2>
                             <h4>
-                              {currentSeason.air_date.slice(0, 4)} |{' '}
+                              {currentSeason.air_date?.slice(0, 4) || new Date().getFullYear()} |{' '}
                               {currentSeason.episode_count} Episodes
                             </h4>
                             <div className={styles.season_overview}>
