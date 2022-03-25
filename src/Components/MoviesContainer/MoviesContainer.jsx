@@ -72,30 +72,51 @@ const MoviesContainer = ({
     fetchMovies();
   }, [fetchMovies]);
 
+  const handleScroll = (e) => {
+    const element = e.target;
+    if (element.scrollLeft > 25) {
+      element.style.setProperty('--opacity', 0);
+    } else {
+      element.style.setProperty('--opacity', 1);
+    }
+  };
+
   return (
     <section className={styles.scroll__wrap}>
-      <div className={styles['movie-header-container']}>
-        <Title>{title}</Title>
-        {tabs && (
-          <CustomTab tabs={tabs} handleChange={handleChange} value={tabValue} />
-        )}
-      </div>
-      <Fade in={true}>
-        <div
-          className={`${styles.inner__column} ${
-            isBackground ? styles['bg-image'] : ''
-          }`}
-        >
-          {loading && [...Array(10)].map((_, i) => <SkeletonLoader key={i} />)}
-          {!loading && movies ? (
-            movies.map((movie) => (
-              <MovieCard data={movie} key={movie.id} loading={loading} />
-            ))
-          ) : (
-            <h1>Failed to fetch movies!</h1>
-          )}
+      <div className={styles.column_wrapper}>
+        <div className={styles.content_wrapper}>
+          <div className={styles.column}>
+            <div className={styles['movie-header-container']}>
+              <Title>{title}</Title>
+              {tabs && (
+                <CustomTab
+                  tabs={tabs}
+                  handleChange={handleChange}
+                  value={tabValue}
+                />
+              )}
+            </div>
+            <div className={styles.media}>
+              <div
+                onScroll={handleScroll}
+                className={`${styles.inner__column} ${
+                  isBackground ? styles['bg-image'] : ''
+                }`}
+              >
+                {loading &&
+                  [...Array(10)].map((_, i) => <SkeletonLoader key={i} />)}
+                {!loading && movies ? (
+                  movies.map((movie) => (
+                    <MovieCard data={movie} key={movie.id} loading={loading} />
+                  ))
+                ) : (
+                  <h1>Failed to fetch movies!</h1>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
-      </Fade>
+      </div>
     </section>
   );
 };
