@@ -246,6 +246,7 @@ const ViewMore = () => {
                             size={60}
                             vote_average={movieData.vote_average}
                             styles={styles}
+                            thickness={2.8}
                           />
                           <div className={styles.text}>
                             User

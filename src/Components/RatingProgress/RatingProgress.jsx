@@ -6,6 +6,7 @@ export const RatingProgress = ({
   vote_average,
   styles,
   showNR = false,
+  thickness = 2.5,
 }) => {
   const rating = vote_average * 10 || (showNR ? 'NR' : 0);
 
@@ -28,7 +29,7 @@ export const RatingProgress = ({
       left: 0,
     },
     bottom: {
-      opacity: 0.5,
+      opacity: 0.3,
     },
     circle: {
       strokeLinecap: 'round',
@@ -44,7 +45,7 @@ export const RatingProgress = ({
           variant='determinate'
           className={classes.bottom}
           size={size}
-          thickness={2.5}
+          thickness={thickness}
           value={100}
           color={ratingColor}
         />
@@ -57,7 +58,7 @@ export const RatingProgress = ({
           color={ratingColor}
           value={!isNaN(rating) ? rating : 0}
           size={size}
-          thickness={2.5}
+          thickness={thickness}
         />
         <Box className={styles['rating__text-container']}>
           <Typography
