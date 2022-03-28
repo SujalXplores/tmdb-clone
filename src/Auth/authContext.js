@@ -26,7 +26,6 @@ const AuthProvider = ({ children }) => {
         email,
         password
       );
-      console.log(user);
       setCurrentUser(user);
     } catch (error) {
       setSignUpError(error.message);
@@ -42,7 +41,6 @@ const AuthProvider = ({ children }) => {
       );
       const user = userCredential.user;
       setCurrentUser(user);
-      console.log(user);
     } catch (error) {
       const errorMessage = error.message;
       setLoginError(errorMessage);
@@ -73,7 +71,6 @@ const AuthProvider = ({ children }) => {
         }
       },
       (error) => {
-        // setError(error.message);
         console.log('state error:', error);
       },
       () => {

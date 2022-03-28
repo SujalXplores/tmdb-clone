@@ -56,9 +56,6 @@ const ViewMore = () => {
         trailer.data.results.find((trailer) => trailer.type === 'Trailer')
       );
       setProviders(providers.data.results);
-
-      console.log(movie.data);
-      console.log(providers.data.results, 'providers');
       console.log('✅ Movie details fetched successfully');
     } catch (e) {
       if (e?.response?.status === 404) {
