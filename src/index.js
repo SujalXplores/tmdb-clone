@@ -24,6 +24,9 @@ const theme = createTheme({
     error: {
       main: '#db2360',
     },
+    info: {
+      main: '#5f6161',
+    },
   },
 });
 
