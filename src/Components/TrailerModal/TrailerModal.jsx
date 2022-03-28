@@ -31,6 +31,7 @@ export const TrailerModal = ({ open, handleClose, data }) => {
           className={styles.player}
           allowFullScreen
           frameBorder={0}
+          title='trailer'
         />
       </Box>
     </Modal>
