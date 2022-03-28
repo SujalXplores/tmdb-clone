@@ -10,6 +10,10 @@
         font-weight: 600;
         font-size: 1.4em;
         margin-bottom: 20px;
+
+        @media (max-width: 745px) {
+            font-size: 1.2em;
+        }
     }
 
     ol.people {
@@ -115,6 +119,10 @@
         font-weight: 600;
         font-size: 1.4em;
         margin-bottom: 20px;
+
+        @media (max-width: 745px) {
+            font-size: 1.2em;
+        }
     }
 
     .season_card {
@@ -190,6 +198,10 @@
         font-weight: 600;
         font-size: 1.4em;
         margin: 0 0 20px 0;
+
+        @media (max-width: 745px) {
+            font-size: 1.2em;
+        }
     }
 
     .scroll_wrap {
@@ -294,7 +306,7 @@
 
         @media (max-width: 768px) {
             flex-direction: column;
-            padding: 30px;
+            padding: 20px;
         }
 
         div.white_column {
