@@ -128,11 +128,6 @@
         .flex {
             display: flex;
 
-            @media (max-width: 386px) {
-                flex-direction: column;
-                width: 100%;
-            }
-
             .poster {
                 display: block;
                 min-width: 130px;
