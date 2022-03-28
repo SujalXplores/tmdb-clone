@@ -19,11 +19,22 @@
         list-style-type: none;
         list-style-position: inside;
         display: flex;
-        position: relative;
-        top: 0;
-        left: 0;
         margin-left: -10px;
         margin-top: -10px;
+
+        &::after {
+            content: "";
+            width: 60px;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #fff 100%);
+            will-change: opacity;
+            pointer-events: none;
+            transition: linear 0.3s;
+            opacity: var(--opacity);
+        }
 
         li.card {
             margin-top: 10px;
@@ -92,18 +103,6 @@
         position: relative;
         top: 0;
         left: 0;
-        &:after {
-            content: "";
-            width: 60px;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #fff 100%);
-            will-change: opacity;
-            pointer-events: none;
-            opacity: var(--opacity);
-        }
     }
 }
 
@@ -143,7 +142,7 @@
                 background-size: 50%;
 
                 @media (max-width: 386px) {
-                    width: 100%;
+                    display: none;
                 }
 
                 img {
@@ -213,7 +212,6 @@
             &::after {
                 content: "";
                 transition: linear 0.3s;
-                opacity: 0;
                 width: 60px;
                 height: 100%;
                 position: absolute;
@@ -302,6 +300,7 @@
 
         @media (max-width: 768px) {
             flex-direction: column;
+            padding: 30px;
         }
 
         div.white_column {

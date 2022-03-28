@@ -147,7 +147,7 @@ export const CastContainer = ({ type, id, movieData }) => {
                   <h3 dir='auto'>Recommendations</h3>
                   <div className={styles.scroll_wrap}>
                     {recommendations.length > 0 && (
-                      <div className={styles.scroll}>
+                      <div className={styles.scroll} onScroll={handleScroll}>
                         {recommendations.map((recommendation) => (
                           <div className={styles.item} key={recommendation.id}>
                             <div
@@ -207,8 +207,9 @@ export const CastContainer = ({ type, id, movieData }) => {
                     )}
                     {recommendations.length === 0 && (
                       <p>
-                        We don't have enough data to suggest any movies based on
-                        Deep Water. You can help by rating movies you've seen.
+                        We don't have enough data to suggest any movies based on{' '}
+                        {movieData.name}. You can help by rating movies you've
+                        seen.
                       </p>
                     )}
                   </div>
