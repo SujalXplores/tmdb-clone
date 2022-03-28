@@ -18,7 +18,7 @@ import { useAuth } from '../../Auth/authContext';
 import { LogoutDialog } from '../LogoutDialog/LogoutDialog';
 import useActivity from '../../Hooks/useActivity';
 import styles from './Header.module.scss';
-import { LOGO_URL } from '../../Constants';
+import { LOGO_URL_LARGE, LOGO_URL_SMALL } from '../../Constants';
 import { Link, useNavigate } from 'react-router-dom';
 
 function HideOnScroll(props) {
@@ -92,14 +92,6 @@ export default function Header(props) {
       <HideOnScroll {...props}>
         <AppBar position='sticky' className={styles['app-bar']}>
           <Toolbar className={styles.toolbar}>
-            <IconButton
-              size='large'
-              edge='start'
-              color='inherit'
-              className={styles.hamburger}
-            >
-              <MenuIcon />
-            </IconButton>
             <div
               className={styles['header-container']}
               style={{
@@ -107,16 +99,31 @@ export default function Header(props) {
                   window.location.pathname === '/' ? '1300px' : '1400px',
               }}
             >
+              <IconButton
+                size='large'
+                edge='start'
+                color='inherit'
+                className={styles.hamburger}
+              >
+                <MenuIcon />
+              </IconButton>
               <div className={styles['inner-nav']}>
-                <img
-                  src={LOGO_URL}
-                  alt='The Movie Database (TMDB)'
-                  width='154'
-                  height='20'
-                  loading='lazy'
-                  onClick={() => navigate('/')}
-                />
-                <ul className={styles['nav-items']}>
+                <picture onClick={() => navigate('/')}>
+                  <source
+                    media='(min-width:745px)'
+                    srcSet={LOGO_URL_LARGE}
+                    type='image/svg+xml'
+                  />
+                  <img
+                    src={LOGO_URL_SMALL}
+                    className={styles.logo}
+                    alt='The Movie Database (TMDB)'
+                    width='154'
+                    height='20'
+                    loading='lazy'
+                  />
+                </picture>
+                <ul className={`${styles['nav-items']} ${styles.left}`}>
                   <li className={styles['nav-item']}>
                     <span className={styles['nav-heading']}>Movies</span>
                     <div className={styles['nav-item-dropdown']}>
@@ -161,7 +168,7 @@ export default function Header(props) {
                   </li>
                 </ul>
               </div>
-              <ul className={styles['nav-items']}>
+              <ul className={`${styles['nav-items']} ${styles.right}`}>
                 {!currentUser && (
                   <li
                     className={styles['nav-item-right']}

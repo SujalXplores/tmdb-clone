@@ -6,10 +6,6 @@
     padding: 0 !important;
     justify-content: flex-start;
 
-    .hamburger {
-        margin: 0 20px;
-    }
-
     .header-container {
         width: 100%;
         display: flex;
@@ -19,16 +15,45 @@
         justify-content: space-between;
         padding: 0 40px;
 
+        @media (max-width: 745px) {
+            justify-content: center;
+            padding: 0;
+            margin: 0 20px;
+        }
+
         .inner-nav {
             display: flex;
             flex-direction: row;
             align-items: center;
+            margin: 0 auto;
+
+            @media (min-width: 745px) {
+                margin: 0;
+            }
+
+            .logo {
+                width: 55px;
+                height: 40px;
+                transition: all 0.5s ease-out;
+
+                @media (min-width: 745px) {
+                    width: 154px;
+                    height: 20px;
+                }
+            }
         }
     }
 }
 
-.nav-items {
+.left {
     display: none;
+}
+
+.right {
+    display: flex;
+}
+
+.nav-items {
     margin-left: 16px;
     align-items: center;
     cursor: pointer;
@@ -104,6 +129,10 @@
 
     .nav-item-right {
         margin-left: 30px;
+
+        @media (max-width: 745px) {
+            margin-left: 10px;
+        }
 
         &:first-child {
             margin-left: 0;
