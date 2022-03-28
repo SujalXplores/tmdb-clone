@@ -1,6 +1,23 @@
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
+const useStyles = makeStyles(() => ({
+  root: {
+    position: 'relative',
+  },
+  top: {
+    animationDuration: '550ms',
+    position: 'absolute',
+    left: 0,
+  },
+  bottom: {
+    opacity: 0.3,
+  },
+  circle: {
+    strokeLinecap: 'round',
+  },
+}));
+
 export const RatingProgress = ({
   size,
   vote_average,
@@ -18,23 +35,6 @@ export const RatingProgress = ({
       : rating === 0 || showNR
       ? 'info'
       : 'error';
-
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      position: 'relative',
-    },
-    top: {
-      animationDuration: '550ms',
-      position: 'absolute',
-      left: 0,
-    },
-    bottom: {
-      opacity: 0.3,
-    },
-    circle: {
-      strokeLinecap: 'round',
-    },
-  }));
 
   const classes = useStyles();
 
