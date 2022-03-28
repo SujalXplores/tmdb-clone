@@ -1,20 +1,40 @@
 import { Link } from 'react-router-dom';
+import { IMAGE_URL } from '../../Constants';
+import { convertDate } from '../../Helpers/ConvertDate';
+import { RatingProgress } from '../../Components/RatingProgress/RatingProgress';
 import styles from './Category-Card.module.scss';
 
-const CategoryCard = (props) => {
-  console.log(props);
+const CategoryCard = ({ data, type }) => {
   return (
     <div className={styles.card}>
       <div className={styles.image}>
         <div className={styles.wrapper}>
-          <Link to='/' className={styles.image}>
-            <img loading='lazy' src='' alt='poster' className={styles.poster} />
+          <Link to={`/${type}/${data.id}`} className={styles.image}>
+            <img
+              loading='lazy'
+              src={`${IMAGE_URL}${data.poster_path}`}
+              alt='poster'
+              className={styles.poster}
+            />
           </Link>
         </div>
       </div>
       <div className={styles.content}>
-          <h2></h2>
-          <p></p>
+        <RatingProgress
+          size={35}
+          vote_average={data.vote_average}
+          styles={styles}
+        />
+        <h2>
+          <Link to={`/${type}/${data.id}`} title={data.title}>
+            {data.name || data.title}
+          </Link>
+        </h2>
+        <p>
+          {(data.release_date || data.first_air_date) &&
+            convertDate(data.release_date || data.first_air_date)}
+            {!(data.release_date || data.first_air_date) && '-'}
+        </p>
       </div>
     </div>
   );
