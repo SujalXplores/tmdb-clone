@@ -21,6 +21,11 @@
             margin: 0 20px;
         }
 
+        .hamburger {
+            width: 33%;
+            justify-content: flex-start;
+        }
+
         .inner-nav {
             display: flex;
             flex-direction: row;
@@ -57,6 +62,12 @@
     margin-left: 16px;
     align-items: center;
     cursor: pointer;
+
+    @media (max-width: 745px) {
+        width: 33%;
+        justify-content: flex-end;
+        margin: 0;
+    }
 
     .nav-item {
         margin-right: 14px;

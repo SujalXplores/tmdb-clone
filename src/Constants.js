@@ -1,9 +1,5 @@
 export const API = process.env.REACT_APP_TMDB_API_KEY;
 const BASE_URL = 'https://www.themoviedb.org/t/p';
-export const LOGO_URL_LARGE =
-  'https://www.themoviedb.org/assets/2/v4/logos/v2/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg';
-export const LOGO_URL_SMALL =
-  'https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg';
 export const IMAGE_URL = `${BASE_URL}/w220_and_h330_face`;
 export const POSTER_URL = `${BASE_URL}/w300_and_h450_bestv2`;
 export const BACKDROP_URL = `${BASE_URL}/w1920_and_h800_multi_faces`;

@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import {
   AppBar,
   Toolbar,
@@ -11,15 +13,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
-import PropTypes from 'prop-types';
-
 import { AuthDialog } from '../AuthDialog/AuthDialog';
 import { useAuth } from '../../Auth/authContext';
 import { LogoutDialog } from '../LogoutDialog/LogoutDialog';
 import useActivity from '../../Hooks/useActivity';
+import { default as logoBig } from '../../assets/logo_big.svg';
+import { default as logoSmall } from '../../assets/logo_small.svg';
 import styles from './Header.module.scss';
-import { LOGO_URL_LARGE, LOGO_URL_SMALL } from '../../Constants';
-import { Link, useNavigate } from 'react-router-dom';
 
 function HideOnScroll(props) {
   const { children, window } = props;
@@ -111,11 +111,11 @@ export default function Header(props) {
                 <picture onClick={() => navigate('/')}>
                   <source
                     media='(min-width:745px)'
-                    srcSet={LOGO_URL_LARGE}
+                    srcSet={logoBig}
                     type='image/svg+xml'
                   />
                   <img
-                    src={LOGO_URL_SMALL}
+                    src={logoSmall}
                     className={styles.logo}
                     alt='The Movie Database (TMDB)'
                     width='154'
