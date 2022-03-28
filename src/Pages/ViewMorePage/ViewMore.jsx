@@ -43,28 +43,35 @@ const ViewMore = () => {
     const providerUrl = `${API_URL}/${params.type}/${params.id}/watch/providers?api_key=${API}`;
 
     try {
-      const res = await axios.all([
-        axios.get(url),
-        axios.get(trailerUrl),
-        axios.get(providerUrl),
-      ]);
-
-      const [movie, trailer, providers] = res;
-
+      const movie = await axios.get(url);
       setMovieData(movie.data);
-      setTrailerData(
-        trailer.data.results.find((trailer) => trailer.type === 'Trailer')
-      );
-      setProviders(providers.data.results);
       console.log('✅ Movie details fetched successfully');
     } catch (e) {
       if (e?.response?.status === 404) {
         navigate('/not-found', { replace: true });
       } else {
-        console.log('💀 failed to fetch movie details:', e);
+        console.log('💀 Failed to fetch movie details:', e);
       }
     } finally {
       setLoading(false);
+    }
+
+    try {
+      const trailer = await axios.get(trailerUrl);
+      setTrailerData(
+        trailer.data.results.find((trailer) => trailer.type === 'Trailer')
+      );
+      console.log('✅ Trailer fetched successfully');
+    } catch (e) {
+      console.log('💀 Failed to fetch movie trailer:', e);
+    }
+
+    try {
+      const providers = await axios.get(providerUrl);
+      setProviders(providers.data.results);
+      console.log('✅ Providers fetched successfully');
+    } catch (e) {
+      console.log('💀 Failed to fetch movie providers:', e);
     }
   }, [params, navigate]);
 
@@ -178,7 +185,10 @@ const ViewMore = () => {
                               <span>
                                 <h4>Now Streaming</h4>
                                 <h3>
-                                  <Link to='/' title='Available to Rent or Buy on Apple iTunes'>
+                                  <Link
+                                    to='/'
+                                    title='Available to Rent or Buy on Apple iTunes'
+                                  >
                                     Watch Now
                                   </Link>
                                 </h3>

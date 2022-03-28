@@ -26,21 +26,31 @@ export const CastContainer = ({ type, id, movieData }) => {
     const credits_url = `${API_URL}/${type}/${id}/credits?api_key=${API}`;
     const keywords_url = `${API_URL}/${type}/${id}/keywords?api_key=${API}`;
     const recommendations_url = `${API_URL}/${type}/${id}/recommendations?api_key=${API}`;
+
     try {
-      const res = await axios.all([
-        axios.get(credits_url),
-        axios.get(keywords_url),
-        axios.get(recommendations_url),
-      ]);
-      const [credits, keywords, recommendations] = res;
+      const credits = await axios.get(credits_url);
       setCastData(credits.data.cast);
-      setKeywordData(keywords.data.results || keywords.data.keywords);
-      setRecommendations(recommendations.data.results);
       console.log('✅ Cast fetching done');
     } catch (error) {
       console.log('💀 Cast fetching failed', error);
     } finally {
       setLoading(false);
+    }
+
+    try {
+      const keywords = await axios.get(keywords_url);
+      setKeywordData(keywords.data.results || keywords.data.keywords);
+      console.log('✅ Keywords fetching done');
+    } catch (error) {
+      console.log('💀 Keywords fetching failed', error);
+    }
+
+    try {
+      const recommendations = await axios.get(recommendations_url);
+      setRecommendations(recommendations.data.results);
+      console.log('✅ Recommendations fetching done');
+    } catch (error) {
+      console.log('💀 Recommendations fetching failed', error);
     }
   }, [type, id]);
 
@@ -105,7 +115,12 @@ export const CastContainer = ({ type, id, movieData }) => {
               </section>
               {movieData.seasons && (
                 <section className={styles.season_section}>
-                  <h3>Current Season</h3>
+                  {console.log(movieData)}
+                  <h3>
+                    {movieData.next_episode_to_air
+                      ? 'Current Season'
+                      : 'Last Season'}
+                  </h3>
                   <div className={styles.season_card}>
                     <div className={styles.flex}>
                       <div className={styles.poster}>
@@ -131,9 +146,13 @@ export const CastContainer = ({ type, id, movieData }) => {
                           </h4>
                           <div className={styles.season_overview}>
                             <p>
-                              Season {currentSeason.season_number} of{' '}
-                              {movieData.name} premiered on{' '}
-                              {convertDate(currentSeason.air_date, 'long')}.
+                              {currentSeason.overview ||
+                                `Season ${currentSeason.season_number} of ${
+                                  movieData.name
+                                } premiered on ${convertDate(
+                                  currentSeason.air_date,
+                                  'long'
+                                )}.`}
                             </p>
                           </div>
                         </div>
