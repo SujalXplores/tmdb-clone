@@ -118,9 +118,6 @@ const Categories = () => {
                     </FormControl>
                   </CustomAccordion>
                   <CustomAccordion title='Filters'>Filters</CustomAccordion>
-                  <CustomAccordion title='Where To Watch'>
-                    Where to watch
-                  </CustomAccordion>
                   <Button
                     variant='contained'
                     fullWidth
