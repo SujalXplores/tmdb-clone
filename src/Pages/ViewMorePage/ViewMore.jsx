@@ -91,16 +91,6 @@ const ViewMore = () => {
     setColors(color);
   };
 
-  const bgImage = {
-    backgroundImage: `url(${BACKDROP_URL}${movieData.backdrop_path})`,
-  };
-
-  const bgBackDrop = {
-    backgroundImage: `linear-gradient(to right, ${colors[2]} 150px, ${
-      colors[5] + 'd6'
-    } 100%)`,
-  };
-
   const handleClose = () => {
     setModalProps((prevState) => ({
       ...prevState,
@@ -116,6 +106,18 @@ const ViewMore = () => {
       handleClose,
     });
   };
+
+  const bgImage = {
+    backgroundImage: `url(${BACKDROP_URL}${movieData.backdrop_path})`,
+  };
+
+  const bgBackDrop = {
+    backgroundImage: `linear-gradient(to right, ${colors[2]} 150px, ${
+      colors[5] + 'd6'
+    } 100%)`,
+  };
+
+  const date = movieData.release_date || movieData.first_air_date;
 
   return (
     !loading &&
@@ -206,19 +208,12 @@ const ViewMore = () => {
                         <h2>
                           <span>{movieData.title || movieData.name}</span>
                           <span className={styles.release_date}>
-                            {' (' +
-                              dateToYear(
-                                movieData.release_date ||
-                                  movieData.first_air_date
-                              ) +
-                              ')'}
+                            {date && ' (' + dateToYear(date) + ')'}
                           </span>
                         </h2>
                         <div className={styles.facts}>
                           <span className={styles.release}>
-                            {slashDate(
-                              movieData.release_date || movieData.first_air_date
-                            )}{' '}
+                            {date && slashDate(date)}{' '}
                             {movieData &&
                               movieData.production_countries[0] &&
                               ' (' +
