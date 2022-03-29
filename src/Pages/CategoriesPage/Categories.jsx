@@ -9,11 +9,22 @@ import { categoryUrl } from '../../Helpers/CategoryUrl';
 import useTitle from '../../Hooks/useTitle';
 
 import styles from './Categories.module.scss';
-import { Button } from '@mui/material';
+import { Button, FormControl, MenuItem, Select } from '@mui/material';
+import { sortByCategory } from '../../Helpers/CategoryFilters';
 
 const Categories = () => {
   const [hasMore, setHasMore] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState({
+    results: [],
+    page: 1,
+    total_pages: 1,
+  });
+  const [sort, setSort] = useState('popularity.desc');
+
+  const handleChangeSort = (event) => {
+    setSort(event.target.value);
+  };
+
   const params = useParams();
   const { type, category } = params;
   const { url, title } = categoryUrl(type, category);
@@ -25,18 +36,48 @@ const Categories = () => {
       const response = await axios.get(`${url}&page=${page}`);
       console.log('page->', response.data);
       if (response.data.page === 1) {
-        setCategories(response.data.results);
+        setCategories({
+          results: response.data.results,
+          page: response.data.page,
+          total_pages: response.data.total_pages,
+        });
       } else {
-        setCategories((prevState) => [...prevState, ...response.data.results]);
+        setCategories((prevState) => {
+          return {
+            ...prevState,
+            results: [...prevState.results, ...response.data.results],
+            page: response.data.page,
+            total_pages: response.data.total_pages,
+          };
+        });
       }
+      console.log('state:::', categories, 'HAS MORE:::', hasMore);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
+    if (categories.page === categories.total_pages) {
+      setHasMore(false);
+    }
+  }, [categories.page, categories.total_pages]);
+
+  useEffect(() => {
     handleLoadMore(1);
   }, [url]);
+
+  const handleSearch = () => {
+    console.log('search');
+    const filteredData = sortByCategory(sort, categories.results);
+    console.log(filteredData);
+    setCategories((prevState) => {
+      return {
+        ...prevState,
+        results: filteredData,
+      };
+    });
+  };
 
   return (
     <>
@@ -49,43 +90,78 @@ const Categories = () => {
               </div>
               <div className={styles.content}>
                 <div className={styles.filter_container}>
-                  <CustomAccordion title='Sort'>
-                    Sorting dropdown
+                  <CustomAccordion title='Sort' border>
+                    <h3>Sort Results By</h3>
+                    <FormControl fullWidth>
+                      <Select value={sort} onChange={handleChangeSort} margin='none'>
+                        <MenuItem value='popularity.desc'>
+                          Popularity Descending
+                        </MenuItem>
+                        <MenuItem value='popularity.asc'>
+                          Popularity Ascending
+                        </MenuItem>
+                        <MenuItem value='vote_average.asc'>
+                          Rating Ascending
+                        </MenuItem>
+                        <MenuItem value='vote_average.desc'>
+                          Rating Descending
+                        </MenuItem>
+                        <MenuItem value='primary_release_date.desc'>
+                          Release Date Descending
+                        </MenuItem>
+                        <MenuItem value='primary_release_date.asc'>
+                          Release Date Ascending
+                        </MenuItem>
+                        <MenuItem value='title.asc'>Title (A-Z)</MenuItem>
+                        <MenuItem value='title.desc'>Title (Z-A)</MenuItem>
+                      </Select>
+                    </FormControl>
                   </CustomAccordion>
                   <CustomAccordion title='Filters'>Filters</CustomAccordion>
                   <CustomAccordion title='Where To Watch'>
                     Where to watch
                   </CustomAccordion>
+                  <Button
+                    variant='contained'
+                    fullWidth
+                    className={styles.search_btn}
+                    onClick={handleSearch}
+                  >
+                    Search
+                  </Button>
                 </div>
                 <div>
                   <div className={styles.right_media_container}>
                     <section className={styles.panel_results}>
-                      <div className={styles.media_item_results}>
-                        <InfiniteScroll
-                          className={styles.page_wrapper}
-                          pageStart={1}
-                          loadMore={handleLoadMore}
-                          hasMore={hasMore}
-                          loader={
-                            <div className='loader' key={0}>
-                              Loading...
-                            </div>
-                          }
-                          initialLoad
-                        >
-                          {categories.map((data) => (
-                            <CategoryCard key={data.id} {...{ data, type }} />
-                          ))}
-                        </InfiniteScroll>
-                        <Button
-                          className={styles.load_more}
-                          variant='contained'
-                          fullWidth
-                          onClick={() => setHasMore(true)}
-                        >
-                          Load More
-                        </Button>
-                      </div>
+                      {categories.results.length > 0 && (
+                        <div className={styles.media_item_results}>
+                          <InfiniteScroll
+                            className={styles.page_wrapper}
+                            pageStart={1}
+                            loadMore={handleLoadMore}
+                            hasMore={hasMore}
+                            loader={
+                              <div className='loader' key={0}>
+                                Loading...
+                              </div>
+                            }
+                          >
+                            {categories.results.map((data) => (
+                              <CategoryCard key={data.id} {...{ data, type }} />
+                            ))}
+                          </InfiniteScroll>
+                          {categories.page <= categories.total_pages && (
+                            <Button
+                              className={styles.load_more}
+                              variant='contained'
+                              fullWidth
+                              onClick={() => setHasMore(true)}
+                            >
+                              Load More
+                            </Button>
+                          )}
+                        </div>
+                      )}
                     </section>
                   </div>
                 </div>

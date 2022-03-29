@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { IMAGE_URL } from '../../Constants';
 import { convertDate } from '../../Helpers/ConvertDate';
 import { RatingProgress } from '../../Components/RatingProgress/RatingProgress';
+import imageErrorSrc from '../../assets/image-fallback.svg';
 import styles from './Category-Card.module.scss';
 
 const CategoryCard = ({ data, type }) => {
@@ -14,7 +15,10 @@ const CategoryCard = ({ data, type }) => {
               loading='lazy'
               src={`${IMAGE_URL}${data.poster_path}`}
               alt='poster'
-              className={styles.poster}
+              className={`${styles.poster} ${
+                !data.poster_path ? styles['fallback-poster'] : ''
+              }`}
+              onError={(e) => (e.target.src = imageErrorSrc)}
             />
           </Link>
         </div>
@@ -24,6 +28,7 @@ const CategoryCard = ({ data, type }) => {
           size={35}
           vote_average={data.vote_average}
           styles={styles}
+          showNR
         />
         <h2>
           <Link to={`/${type}/${data.id}`} title={data.title}>
@@ -33,7 +38,6 @@ const CategoryCard = ({ data, type }) => {
         <p>
           {(data.release_date || data.first_air_date) &&
             convertDate(data.release_date || data.first_air_date)}
-            {!(data.release_date || data.first_air_date) && '-'}
         </p>
       </div>
     </div>

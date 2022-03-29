@@ -48,6 +48,11 @@
                     display: flex;
                     align-items: flex-start;
                     align-content: flex-start;
+                    flex-wrap: wrap;
+
+                    @media (max-width: 600px) {
+                        flex-direction: column;
+                    }
 
                     .filter_container {
                         .accordion {
@@ -68,6 +73,16 @@
                             h2 {
                                 font-size: 1.1em;
                             }
+
+                            h3 {
+                                display: inline-flex;
+                                align-items: center;
+                                width: 100%;
+                                font-size: 1em;
+                                font-weight: 300;
+                                margin-bottom: 10px;
+                                padding-top: 6px;
+                            }
                         }
                     }
 
@@ -75,9 +90,12 @@
                         display: flex;
                         flex-wrap: wrap;
                         flex: 0 1 auto;
-                        padding-left: 30px;
                         width: calc(100vw - 80px - 268px);
                         max-width: calc(1400px - 80px - 268px);
+
+                        @media (min-width: 600px) {
+                            padding-left: 30px;
+                        }
 
                         .panel_results {
                             border-top: none;
@@ -96,7 +114,11 @@
                             }
 
                             .media_item_results {
-                                margin-top: -30px;
+                                margin-top: 0;
+
+                                @media (min-width: 600px) {
+                                    margin-top: -30px;
+                                }
 
                                 .page_wrapper {
                                     display: flex;

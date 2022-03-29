@@ -4,7 +4,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import styles from './Categories.module.scss';
 
-const CustomAccordion = ({ title, children }) => {
+const CustomAccordion = ({ title, children, border = false }) => {
   const [expanded, setExpanded] = useState('Sort');
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -17,7 +17,12 @@ const CustomAccordion = ({ title, children }) => {
       onChange={handleChange(title)}
       className={styles.accordion}
     >
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        sx={{
+          borderBottom: `${border && expanded ? '1px solid #e0e0e0' : 'none'}`,
+        }}
+      >
         <h2>{title}</h2>
       </AccordionSummary>
       <AccordionDetails>{children}</AccordionDetails>
