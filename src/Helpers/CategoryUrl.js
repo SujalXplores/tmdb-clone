@@ -12,8 +12,6 @@ import {
 export const categoryUrl = (type, category) => {
   if(type === 'movie') {
     switch (category) {
-      case 'popular':
-        return { url: POPULAR_MOVIES, title: 'Popular Movies' };
       case 'top-rated':
         return { url: TOP_RATED_MOVIES, title: 'Top Rated Movies' };
       case 'upcoming':
@@ -26,8 +24,6 @@ export const categoryUrl = (type, category) => {
   }
   if(type === 'tv') {
     switch (category) {
-      case 'popular':
-        return { url: POPULAR_ON_TV, title: 'Popular TV Shows' };
       case 'top-rated':
         return { url: TOP_RATED_ON_TV, title: 'Top Rated TV Shows' };
       case 'airing-today':
