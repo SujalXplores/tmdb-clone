@@ -9,17 +9,21 @@ import {
   NETWORK_URL,
   RECOMMENDATIONS_BACKDROP_URL,
   SEASON_POSTER_URL,
+  SOCIAL_URL,
 } from '../../Constants';
 import imageErrorSrc from '../../assets/image-fallback.svg';
+import avatarErrorSrc from '../../assets/person-male.svg';
 
 import styles from './CastContainer.module.scss';
 import { convertDate } from '../../Helpers/ConvertDate';
 import { Link } from 'react-router-dom';
+import { Avatar } from '@mui/material';
 
 export const CastContainer = ({ type, id, movieData }) => {
   const [castData, setCastData] = useState([]);
   const [keywordData, setKeywordData] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
+  const [social, setSocial] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const fetchCast = useCallback(async () => {
@@ -51,6 +55,20 @@ export const CastContainer = ({ type, id, movieData }) => {
       console.log('✅ Recommendations fetching done');
     } catch (error) {
       console.log('💀 Recommendations fetching failed', error);
+    }
+
+    try {
+      const social = await axios.get(
+        `${API_URL}/${type}/${id}/reviews?api_key=${API}`
+      );
+      setSocial(
+        social.data.results[
+          Math.floor(Math.random() * social.data.results.length)
+        ]
+      );
+      console.log('✅ Social fetching done');
+    } catch (error) {
+      console.log('💀 Social fetching failed', error);
     }
   }, [type, id]);
 
@@ -161,6 +179,93 @@ export const CastContainer = ({ type, id, movieData }) => {
                   </div>
                 </section>
               )}
+              <section className={styles.social}>
+                <section>
+                  <div className={styles.menu}>
+                    <h3 dir='auto'>Social</h3>
+                    {social && (
+                      <ul>
+                        <li dir='auto'>
+                          <span>Reviews</span>
+                        </li>
+                      </ul>
+                    )}
+                  </div>
+                  {(social && (
+                    <div className={styles.content}>
+                      <div className={styles.original_content}>
+                        <div className={styles.review_container}>
+                          <div className={styles.content}>
+                            <div className={styles.inner_content}>
+                              <div className={styles.content}>
+                                <div className={styles.inner_content}>
+                                  <div className={styles.card}>
+                                    <div className={styles.grouped}>
+                                      <Avatar
+                                        sx={{
+                                          mr: '20px',
+                                          width: '64px',
+                                          height: '64px',
+                                        }}
+                                        alt={social.author}
+                                        src={
+                                          social.author_details.avatar_path.startsWith(
+                                            '/https'
+                                          )
+                                            ? social.author_details.avatar_path.substring(
+                                                1
+                                              )
+                                            : `${SOCIAL_URL}/${social.author_details.avatar_path}`
+                                        }
+                                        onError={(e) =>
+                                          (e.target.src = avatarErrorSrc)
+                                        }
+                                      />
+                                      <div className={styles.info}>
+                                        <div className={styles.rating_wrapper}>
+                                          <h3>A review by {social.author}</h3>
+                                          <div
+                                            className={styles.rounded_rating}
+                                          >
+                                            {social.author_details.rating}.0
+                                          </div>
+                                        </div>
+                                        <h5>
+                                          Written by {social.author} a on{' '}
+                                          {new Date(
+                                            social.created_at
+                                          ).toLocaleString('en-US', {
+                                            day: 'numeric',
+                                            year: 'numeric',
+                                            month: 'short',
+                                          })}
+                                        </h5>
+                                      </div>
+                                    </div>
+                                    <div className={styles.teaser}>
+                                      <p>
+                                        {social.content.length > 600
+                                          ? `${social.content.substring(
+                                              0,
+                                              600
+                                            )}...`
+                                          : social.content}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )) ||
+                    `We dont have any reviews for ${
+                      movieData.name || movieData.title
+                    }. Would you like to write one?`}
+                </section>
+              </section>
               <section className={styles.recommendations}>
                 <div>
                   <h3 dir='auto'>Recommendations</h3>
@@ -228,8 +333,8 @@ export const CastContainer = ({ type, id, movieData }) => {
                     {recommendations.length === 0 && (
                       <p>
                         We don't have enough data to suggest any movies based on{' '}
-                        {movieData.name}. You can help by rating movies you've
-                        seen.
+                        {movieData.name || movieData.title}. You can help by
+                        rating movies you've seen.
                       </p>
                     )}
                   </div>

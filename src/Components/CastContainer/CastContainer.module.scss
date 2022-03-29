@@ -441,6 +441,146 @@
     }
 }
 
+.social {
+    width: 100%;
+    display: block;
+    padding: 30px 0;
+    border-top: 1px solid #d7d7d7;
+
+    .menu {
+        display: flex;
+        width: 100%;
+        align-items: baseline;
+
+        h3 {
+            display: inline-block;
+            margin-right: 50px;
+            font-weight: 600;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+        }
+
+        li {
+            display: inline-block;
+            margin-right: 24px;
+            padding-bottom: 5px;
+            font-size: 1.1em;
+            border-bottom: 4px solid #000;
+
+            span {
+                font-weight: 600;
+
+                span {
+                    display: inline-flex;
+                    align-items: center;
+                    opacity: 0.6;
+                }
+            }
+        }
+    }
+
+    .content {
+        display: flex;
+        width: 100%;
+        border-radius: 8px;
+
+        .original_content {
+            width: 100%;
+        }
+
+        .review_container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            width: 100%;
+
+            .inner_content {
+                width: 100%;
+            }
+
+            .card {
+                padding: 20px;
+                border: 1px solid #e3e3e3;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px #0000001a;
+                border: 1px solid #e3e3e3;
+
+                .grouped {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    align-content: center;
+
+                    .info {
+                        width: 100%;
+
+                        .rating_wrapper {
+                            width: 100%;
+                            display: flex;
+                            flex-wrap: wrap;
+                            align-items: baseline;
+                            justify-content: flex-start;
+
+                            h3 {
+                                display: inline-block;
+                                margin-bottom: 0;
+                                padding-bottom: 0;
+                                font-size: 1.3em;
+                                font-weight: 700;
+                                margin: 0 0 4px 0;
+                                cursor: pointer;
+
+                                &:hover {
+                                    color: #00000080;
+                                }
+                            }
+
+                            .rounded_rating {
+                                padding: 1px 8px;
+                                margin-left: 14px;
+                                font-size: 0.9em;
+                                display: inline-flex;
+                                align-items: center;
+                                align-content: center;
+                                justify-content: center;
+                                background-color: #000;
+                                border-color: #000;
+                                border-radius: 8px;
+                                color: #fff;
+                                border: 2px solid #fff;
+                                transition: linear 0.1s;
+                            }
+                        }
+
+                        h5 {
+                            font-weight: 300;
+                            font-size: 0.9em;
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+
+                .teaser {
+                    padding-left: 84px;
+                    padding-top: 20px;
+
+                    &::before {
+                        clear: both;
+                        content: "";
+                        display: block;
+                    }
+
+                    p {
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 .fallback-poster {
     transform: scale(0.5);
 }
