@@ -201,7 +201,8 @@ export const CastContainer = ({ type, id, movieData }) => {
                                   <span className={styles.release_date}>
                                     <span className={styles.calendar}></span>
                                     {recommendation.release_date ||
-                                      recommendation.first_air_date}
+                                      recommendation.first_air_date ||
+                                      ''}
                                   </span>
                                 </div>
                               </Link>
