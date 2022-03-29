@@ -32,9 +32,9 @@ export const RatingProgress = ({
       ? 'success'
       : rating < 70 && rating >= 40
       ? 'warning'
-      : rating === 0 || showNR
-      ? 'info'
-      : 'error';
+      : rating < 40 && rating > 0
+      ? 'error'
+      : 'info';
 
   const classes = useStyles();
 
