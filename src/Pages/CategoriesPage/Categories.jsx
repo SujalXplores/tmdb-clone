@@ -93,7 +93,7 @@ const Categories = () => {
                   <CustomAccordion title='Sort' border>
                     <h3>Sort Results By</h3>
                     <FormControl fullWidth>
-                      <Select value={sort} onChange={handleChangeSort} margin='none'>
+                      <Select value={sort} onChange={handleChangeSort}>
                         <MenuItem value='popularity.desc'>
                           Popularity Descending
                         </MenuItem>
@@ -121,7 +121,19 @@ const Categories = () => {
                   <Button
                     variant='contained'
                     fullWidth
-                    className={styles.search_btn}
+                    sx={{
+                      backgroundColor: '#01b4e4',
+                      height: '44px',
+                      borderRadius: '20px',
+                      fontSize: '1.2em',
+                      fontWeight: '600',
+                      fontFamily: 'inherit',
+                      mt: '7px',
+                      lineHeight: '1',
+                      '&:hover': {
+                        backgroundColor: '#032541',
+                      },
+                    }}
                     onClick={handleSearch}
                   >
                     Search
