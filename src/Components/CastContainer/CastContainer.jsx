@@ -67,6 +67,7 @@ export const CastContainer = ({ type, id, movieData }) => {
         ]
       );
       console.log('✅ Social fetching done');
+      console.log(social.data.results);
     } catch (error) {
       console.log('💀 Social fetching failed', error);
     }
@@ -209,6 +210,7 @@ export const CastContainer = ({ type, id, movieData }) => {
                                         }}
                                         alt={social.author}
                                         src={
+                                          social.author_details.avatar_path &&
                                           social.author_details.avatar_path.startsWith(
                                             '/https'
                                           )
@@ -224,14 +226,18 @@ export const CastContainer = ({ type, id, movieData }) => {
                                       <div className={styles.info}>
                                         <div className={styles.rating_wrapper}>
                                           <h3>A review by {social.author}</h3>
-                                          <div
-                                            className={styles.rounded_rating}
-                                          >
-                                            {social.author_details.rating}.0
-                                          </div>
+                                          {social.author_details.rating && (
+                                            <div
+                                              className={styles.rounded_rating}
+                                            >
+                                              <span className={styles.star}></span>
+                                              {social.author_details.rating}.0
+                                            </div>
+                                          )}
                                         </div>
                                         <h5>
-                                          Written by {social.author} a on{' '}
+                                          Written by{' '}
+                                          <span>{social.author}</span> on{' '}
                                           {new Date(
                                             social.created_at
                                           ).toLocaleString('en-US', {
