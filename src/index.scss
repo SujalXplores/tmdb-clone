@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body,
 #root {
@@ -50,6 +54,10 @@ a {
 
 [class*="font-white"] *:not(.rating-progress *) {
   color: #fff;
+}
+
+picture {
+  line-height: 0;
 }
 
 ul {

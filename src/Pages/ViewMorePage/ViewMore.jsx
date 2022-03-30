@@ -77,6 +77,7 @@ const ViewMore = () => {
 
   useLayoutEffect(() => {
     fetchMovie();
+    window.scrollTo(0, 0);
   }, [fetchMovie]);
 
   useTitle(
