@@ -77,6 +77,7 @@ const ViewMore = () => {
 
   useLayoutEffect(() => {
     fetchMovie();
+    window.scrollTo(0, 0);
   }, [fetchMovie]);
 
   useTitle(
@@ -243,7 +244,7 @@ const ViewMore = () => {
                         </div>
                       </div>
                       <ul className={styles.actions}>
-                        <li className={styles.chart}>
+                        <li className={`${styles.chart} rating-progress`}>
                           <RatingProgress
                             size={60}
                             vote_average={movieData.vote_average}

@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body,
 #root {
@@ -48,8 +52,12 @@ a {
   text-decoration: none;
 }
 
-.font-white *:not([class^="ViewMore_chart"] *) {
+[class*="font-white"] *:not(.rating-progress *) {
   color: #fff;
+}
+
+picture {
+  line-height: 0;
 }
 
 ul {
