@@ -9,7 +9,14 @@ import { categoryUrl } from '../../Helpers/CategoryUrl';
 import useTitle from '../../Hooks/useTitle';
 
 import styles from './Categories.module.scss';
-import { Button, FormControl, MenuItem, Select } from '@mui/material';
+import {
+  Button,
+  Chip,
+  FormControl,
+  MenuItem,
+  Select,
+  Stack,
+} from '@mui/material';
 import { sortByCategory } from '../../Helpers/CategoryFilters';
 
 const Categories = () => {
@@ -117,7 +124,30 @@ const Categories = () => {
                       </Select>
                     </FormControl>
                   </CustomAccordion>
-                  <CustomAccordion title='Filters'>Filters</CustomAccordion>
+                  <CustomAccordion title='Filters' border>
+                    <h3>Genres</h3>
+                    <ul class='multi_select text'>
+                      <li data-value='28'>Action</li>
+                      <li data-value='12'>Adventure</li>
+                      <li data-value='16'>Animation</li>
+                      <li data-value='35'>Comedy</li>
+                      <li data-value='80'>Crime</li>
+                      <li data-value='99'>Documentary</li>
+                      <li data-value='18'>Drama</li>
+                      <li data-value='10751'>Family</li>
+                      <li data-value='14'>Fantasy</li>
+                      <li data-value='36'>History</li>
+                      <li data-value='27'>Horror</li>
+                      <li data-value='10402'>Music</li>
+                      <li data-value='9648'>Mystery</li>
+                      <li data-value='10749'>Romance</li>
+                      <li data-value='878'>Science Fiction</li>
+                      <li data-value='10770'>TV Movie</li>
+                      <li data-value='53'>Thriller</li>
+                      <li data-value='10752'>War</li>
+                      <li data-value='37'>Western</li>
+                    </ul>
+                  </CustomAccordion>
                   <Button
                     variant='contained'
                     fullWidth
