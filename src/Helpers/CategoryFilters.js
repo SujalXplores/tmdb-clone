@@ -14,7 +14,6 @@ export const sortByCategory = (sortType, data) => {
         const dateB = new Date(b.release_date || b.first_air_date);
         return dateB - dateA;
       });
-
     case 'primary_release_date.asc':
       return data.sort((a, b) => {
         const dateA = new Date(a.release_date || a.first_air_date);
