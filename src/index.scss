@@ -48,7 +48,7 @@ a {
   text-decoration: none;
 }
 
-.font-white *:not([class^="ViewMore_chart"] *) {
+[class*="font-white"] *:not(.rating-progress *) {
   color: #fff;
 }
 

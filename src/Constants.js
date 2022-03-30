@@ -1,4 +1,4 @@
-export const API = process.env.REACT_APP_TMDB_API_KEY;
+export const API = '982ce394b5d4c2a27b5dc0e30774b674';
 const BASE_URL = 'https://www.themoviedb.org/t/p';
 export const IMAGE_URL = `${BASE_URL}/w220_and_h330_face`;
 export const POSTER_URL = `${BASE_URL}/w300_and_h450_bestv2`;
