@@ -21,8 +21,13 @@ export const TrailerModal = ({ open, handleClose, data }) => {
       <Box sx={modalStyle}>
         <div className={styles['title-bar']}>
           <span className={styles.title}>Play Trailer</span>
-          <IconButton size='small' color='inherit' onClick={handleClose}>
-            <CloseIcon />
+          <IconButton
+            size='small'
+            color='inherit'
+            onClick={handleClose}
+            className={styles['close-button']}
+          >
+            <CloseIcon fontSize='16px'/>
           </IconButton>
         </div>
         <iframe
