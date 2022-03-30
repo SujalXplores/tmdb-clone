@@ -14,6 +14,10 @@
     background-repeat: no-repeat;
     background-position: 50% 50%;
 
+    &:last-child {
+        margin-bottom: 10px;
+    }
+
     .column_wrapper {
         width: 100%;
         display: flex;
