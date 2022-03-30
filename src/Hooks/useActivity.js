@@ -38,7 +38,7 @@ const useActivity = () => {
       detachListeners();
       return;
     }
-    if(currentUser && activityCount >= MAX_ACTIVITY_COUNT) {
+    if (currentUser && activityCount >= MAX_ACTIVITY_COUNT) {
       setActivityCount(0);
       detachListeners();
       return;
@@ -46,7 +46,7 @@ const useActivity = () => {
     return detachListeners;
   }, [activityCount, currentUser]);
 
-  return activityCount;
+  return { activityCount, setActivityCount };
 };
 
 export default useActivity;

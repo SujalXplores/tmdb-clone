@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
@@ -13,10 +13,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
-import { AuthDialog } from '../AuthDialog/AuthDialog';
 import { useAuth } from '../../Auth/authContext';
 import { LogoutDialog } from '../LogoutDialog/LogoutDialog';
-import useActivity from '../../Hooks/useActivity';
 import { default as logoBig } from '../../assets/logo_big.svg';
 import { default as logoSmall } from '../../assets/logo_small.svg';
 import styles from './Header.module.scss';
@@ -42,30 +40,12 @@ Header.propTypes = {
 export default function Header(props) {
   const navigate = useNavigate();
 
-  const INITIAL_PROPS = {
-    open: false,
-    handleClose: () => {},
-  };
-
-  const activityCount = useActivity();
   const { currentUser, logout } = useAuth();
-  const [dialogProps, setDialogProps] = useState(INITIAL_PROPS);
   const [logoutProps, setLogoutProps] = useState({
     open: false,
     handleClose: () => {},
     logout,
   });
-
-  const handleClose = () => {
-    setDialogProps(INITIAL_PROPS);
-  };
-
-  const openLoginPopup = () => {
-    setDialogProps({
-      open: true,
-      handleClose,
-    });
-  };
 
   const openLogoutDialog = () => {
     setLogoutProps({
@@ -80,12 +60,6 @@ export default function Header(props) {
       logout,
     });
   };
-
-  useEffect(() => {
-    if (activityCount === 3) {
-      openLoginPopup();
-    }
-  }, [activityCount]);
 
   return (
     <>
@@ -172,7 +146,7 @@ export default function Header(props) {
                 {!currentUser && (
                   <li
                     className={styles['nav-item-right']}
-                    onClick={openLoginPopup}
+                    onClick={props.openLoginPopup}
                   >
                     Login
                   </li>
@@ -208,7 +182,6 @@ export default function Header(props) {
           </Toolbar>
         </AppBar>
       </HideOnScroll>
-      <AuthDialog {...dialogProps} />
       <LogoutDialog {...logoutProps} />
     </>
   );

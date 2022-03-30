@@ -29,11 +29,11 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-export const AuthDialog = ({ open, handleClose }) => {
+export const AuthDialog = ({ open, handleClose, defaultTab = 0 }) => {
   let loginFormIsValid = false;
   let signUpFormIsValid = false;
 
-  const [tabIndex, setTabIndex] = useState(0);
+  const [tabIndex, setTabIndex] = useState(defaultTab);
   const { login, currentUser, signUp, loginError, signUpError } = useAuth();
 
   const isNotEmpty = (val) => val.trim() !== '';
