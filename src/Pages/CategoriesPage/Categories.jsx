@@ -71,6 +71,10 @@ const Categories = () => {
   }, [categories.page, categories.total_pages]);
 
   useEffect(() => {
+    setHasMore(false);
+  }, [category]);
+
+  useEffect(() => {
     handleLoadMore(1);
   }, [url]);
 
@@ -126,7 +130,7 @@ const Categories = () => {
                   </CustomAccordion>
                   <CustomAccordion title='Filters' border>
                     <h3>Genres</h3>
-                    <ul class='multi_select text'>
+                    <ul className='multi_select text'>
                       <li data-value='28'>Action</li>
                       <li data-value='12'>Adventure</li>
                       <li data-value='16'>Animation</li>

@@ -597,6 +597,7 @@
                     p {
                         &:last-child {
                             margin-bottom: 0;
+                            word-wrap: break-word;
                         }
                     }
                 }

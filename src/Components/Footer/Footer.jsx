@@ -2,8 +2,9 @@ import { Button } from '@mui/material';
 import { useAuth } from '../../Auth/authContext';
 import styles from './Footer.module.scss';
 
-const Footer = () => {
+const Footer = ({ openLoginPopup }) => {
   const { currentUser } = useAuth();
+
   return (
     <section className={styles['footer-section']}>
       <div className={styles['content-wrapper']}>
@@ -25,6 +26,7 @@ const Footer = () => {
                   variant='contained'
                   color='secondary'
                   className={styles['sign-up-btn']}
+                  onClick={openLoginPopup}
                 >
                   Sign Up
                 </Button>
