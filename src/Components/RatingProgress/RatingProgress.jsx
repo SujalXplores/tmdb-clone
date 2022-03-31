@@ -81,7 +81,7 @@ export const RatingProgress = ({
             sx={{
               fontSize: fontSize,
               '&:before': {
-                content: `"\\e9${rating.toString(16)}"`,
+                content: `"\\e9${rating.toString(16).padStart(2, '0')}"`,
               },
             }}
           />
