@@ -112,10 +112,14 @@ const ViewMore = () => {
     backgroundImage: `url(${BACKDROP_URL}${movieData.backdrop_path})`,
   };
 
+  const gradient = `to right, ${colors[2]} 150px, ${colors[5] + 'd6'} 100%`;
+
   const bgBackDrop = {
-    backgroundImage: `linear-gradient(to right, ${colors[2]} 150px, ${
-      colors[5] + 'd6'
-    } 100%)`,
+    backgroundImage: `-moz-linear-gradient(${gradient})`,
+    backgroundImage: `-webkit-linear-gradient(${gradient})`,
+    backgroundImage: `-o-linear-gradient(${gradient})`,
+    backgroundImage: `-ms-linear-gradient(${gradient})`,
+    backgroundImage: `linear-gradient(${gradient})`,
   };
 
   const date = movieData.release_date || movieData.first_air_date;
