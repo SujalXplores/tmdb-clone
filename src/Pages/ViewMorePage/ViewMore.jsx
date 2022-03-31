@@ -247,8 +247,11 @@ const ViewMore = () => {
                         <li className={`${styles.chart} rating-progress`}>
                           <RatingProgress
                             size={60}
+                            isViewMore
+                            hover
+                            borderThickness={3}
+                            fontSize='16px'
                             vote_average={movieData.vote_average}
-                            styles={styles}
                             thickness={2.8}
                           />
                           <div className={styles.text}>

@@ -27,7 +27,6 @@ const CategoryCard = ({ data, type }) => {
         <RatingProgress
           size={35}
           vote_average={data.vote_average}
-          styles={styles}
           showNR
         />
         <h2>

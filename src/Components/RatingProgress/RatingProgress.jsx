@@ -1,5 +1,6 @@
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import styles from './RatingProgress.module.scss';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -21,11 +22,14 @@ const useStyles = makeStyles(() => ({
 export const RatingProgress = ({
   size,
   vote_average,
-  styles,
   showNR = false,
   thickness = 2.5,
+  borderThickness = 2,
+  fontSize = '0.6em',
+  hover = false,
+  isViewMore = false,
 }) => {
-  const rating = vote_average * 10 || (showNR ? 'NR' : 0);
+  const rating = vote_average * 10 || (showNR ? '65' : 0);
 
   const ratingColor =
     rating >= 70
@@ -39,8 +43,17 @@ export const RatingProgress = ({
   const classes = useStyles();
 
   return (
-    <div className={styles.rating}>
-      <Box className={styles.rating__circle}>
+    <div
+      className={`${styles.rating} ${hover ? styles.scale : ''} ${
+        !isViewMore ? styles.position : ''
+      }`}
+    >
+      <Box
+        className={styles.rating__circle}
+        style={{
+          border: `${borderThickness}px solid #081c22`,
+        }}
+      >
         <CircularProgress
           variant='determinate'
           className={classes.bottom}
@@ -56,7 +69,7 @@ export const RatingProgress = ({
             circle: classes.circle,
           }}
           color={ratingColor}
-          value={!isNaN(rating) ? rating : 0}
+          value={typeof rating === 'number' ? rating : 0}
           size={size}
           thickness={thickness}
         />
@@ -65,10 +78,13 @@ export const RatingProgress = ({
             variant='caption'
             component='span'
             className={styles.rating__text}
-          >
-            {rating}
-            {!isNaN(rating) && <sup>%</sup>}
-          </Typography>
+            sx={{
+              fontSize: fontSize,
+              '&:before': {
+                content: `"\\e9${rating.toString(16)}"`,
+              },
+            }}
+          />
         </Box>
       </Box>
     </div>

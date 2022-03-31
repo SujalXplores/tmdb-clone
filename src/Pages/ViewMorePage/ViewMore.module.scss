@@ -188,44 +188,6 @@
     background-position: 50% 50%;
 }
 
-.rating {
-    &:hover {
-        cursor: pointer;
-        transform: scale(1.1);
-    }
-
-    .rating__circle {
-        position: relative;
-        display: inline-flex;
-        background: #081c22;
-        border-radius: 50%;
-        border: 3px solid #081c22;
-
-        .rating__text-container {
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            .rating__text {
-                font-weight: 600;
-                color: #fff;
-                font-size: 1.4em;
-                font-family: inherit;
-                padding-left: 4px;
-
-                sup {
-                    font-size: 0.4em;
-                }
-            }
-        }
-    }
-}
-
 .actions {
     margin-bottom: 20px;
     width: 100%;

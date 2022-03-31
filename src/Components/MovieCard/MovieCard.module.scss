@@ -71,41 +71,6 @@
     transform: scale(0.5);
 }
 
-.rating {
-    position: absolute;
-    top: -20px;
-
-    .rating__circle {
-        position: relative;
-        display: inline-flex;
-        background: #081c22;
-        border-radius: 50%;
-        border: 2px solid #081c22;
-
-        .rating__text-container {
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            .rating__text {
-                font-weight: 600;
-                color: #fff;
-                font-size: 1em;
-                font-family: inherit;
-
-                sup {
-                    font-size: 0.4em;
-                }
-            }
-        }
-    }
-}
-
 .release_date {
     font-size: 1em;
     color: #00000099;
