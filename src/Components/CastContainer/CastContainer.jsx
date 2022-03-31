@@ -23,7 +23,10 @@ export const CastContainer = ({ type, id, movieData }) => {
   const [castData, setCastData] = useState([]);
   const [keywordData, setKeywordData] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
-  const [social, setSocial] = useState(null);
+  const [social, setSocial] = useState({
+    data: null,
+    total_reviews: 0,
+  });
   const [loading, setLoading] = useState(true);
 
   const fetchCast = useCallback(async () => {
@@ -61,11 +64,12 @@ export const CastContainer = ({ type, id, movieData }) => {
       const social = await axios.get(
         `${API_URL}/${type}/${id}/reviews?api_key=${API}`
       );
-      setSocial(
-        social.data.results[
+      setSocial({
+        data: social.data.results[
           Math.floor(Math.random() * social.data.results.length)
-        ]
-      );
+        ],
+        total_reviews: social.data.results.length,
+      });
       console.log('✅ Social fetching done');
       console.log(social.data.results);
     } catch (error) {
@@ -184,15 +188,20 @@ export const CastContainer = ({ type, id, movieData }) => {
                 <section>
                   <div className={styles.menu}>
                     <h3 dir='auto'>Social</h3>
-                    {social && (
+                    {social.data && (
                       <ul>
                         <li dir='auto'>
-                          <span>Reviews</span>
+                          <span>
+                            Reviews{' '}
+                            <span className={styles.review_count}>
+                              {social.total_reviews}
+                            </span>
+                          </span>
                         </li>
                       </ul>
                     )}
                   </div>
-                  {(social && (
+                  {(social.data && (
                     <div className={styles.content}>
                       <div className={styles.original_content}>
                         <div className={styles.review_container}>
@@ -208,16 +217,17 @@ export const CastContainer = ({ type, id, movieData }) => {
                                           width: '64px',
                                           height: '64px',
                                         }}
-                                        alt={social.author}
+                                        alt={social.data.author}
                                         src={
-                                          social.author_details.avatar_path &&
-                                          social.author_details.avatar_path.startsWith(
+                                          social.data.author_details
+                                            .avatar_path &&
+                                          social.data.author_details.avatar_path.startsWith(
                                             '/https'
                                           )
-                                            ? social.author_details.avatar_path.substring(
+                                            ? social.data.author_details.avatar_path.substring(
                                                 1
                                               )
-                                            : `${SOCIAL_URL}/${social.author_details.avatar_path}`
+                                            : `${SOCIAL_URL}/${social.data.author_details.avatar_path}`
                                         }
                                         onError={(e) =>
                                           (e.target.src = avatarErrorSrc)
@@ -225,21 +235,30 @@ export const CastContainer = ({ type, id, movieData }) => {
                                       />
                                       <div className={styles.info}>
                                         <div className={styles.rating_wrapper}>
-                                          <h3>A review by {social.author}</h3>
-                                          {social.author_details.rating && (
+                                          <h3>
+                                            A review by {social.data.author}
+                                          </h3>
+                                          {social.data.author_details
+                                            .rating && (
                                             <div
                                               className={styles.rounded_rating}
                                             >
-                                              <span className={styles.star}></span>
-                                              {social.author_details.rating}.0
+                                              <span
+                                                className={styles.star}
+                                              ></span>
+                                              {
+                                                social.data.author_details
+                                                  .rating
+                                              }
+                                              .0
                                             </div>
                                           )}
                                         </div>
                                         <h5>
                                           Written by{' '}
-                                          <span>{social.author}</span> on{' '}
+                                          <span>{social.data.author}</span> on{' '}
                                           {new Date(
-                                            social.created_at
+                                            social.data.created_at
                                           ).toLocaleString('en-US', {
                                             day: 'numeric',
                                             year: 'numeric',
@@ -250,12 +269,12 @@ export const CastContainer = ({ type, id, movieData }) => {
                                     </div>
                                     <div className={styles.teaser}>
                                       <p>
-                                        {social.content.length > 600
-                                          ? `${social.content.substring(
+                                        {social.data.content.length > 600
+                                          ? `${social.data.content.substring(
                                               0,
                                               600
                                             )}...`
-                                          : social.content}
+                                          : social.data.content}
                                       </p>
                                     </div>
                                   </div>
@@ -353,14 +372,23 @@ export const CastContainer = ({ type, id, movieData }) => {
                   <div>
                     <div className={styles.column}>
                       <section className={styles.left_column}>
+                        {type === 'tv' && (
+                          <h4>
+                            <bdi>Facts</bdi>
+                          </h4>
+                        )}
                         <p>
-                          <strong>Status</strong>
+                          <strong>
+                            <bdi>Status</bdi>
+                          </strong>
                           {movieData.status}
                         </p>
                         {movieData.networks && (
                           <>
                             <p className={styles.no_bottom_spacing}>
-                              <strong>Networks</strong>
+                              <strong>
+                                <bdi>Networks</bdi>
+                              </strong>
                             </p>
                             <ul className={styles.networks}>
                               {movieData.networks.map((network) => (
@@ -378,12 +406,16 @@ export const CastContainer = ({ type, id, movieData }) => {
                         )}
                         {movieData.type && (
                           <p>
-                            <strong>Type</strong>
+                            <strong>
+                              <bdi>Type</bdi>
+                            </strong>
                             {movieData.type}
                           </p>
                         )}
                         <p>
-                          <strong>Original Language</strong>
+                          <strong>
+                            <bdi>Original Language</bdi>
+                          </strong>
                           {new Intl.DisplayNames(['en'], {
                             type: 'language',
                           }).of(movieData.original_language)}
@@ -391,7 +423,9 @@ export const CastContainer = ({ type, id, movieData }) => {
                         {type === 'movie' && (
                           <>
                             <p>
-                              <strong>Budget</strong>
+                              <strong>
+                                <bdi>Budget</bdi>
+                              </strong>
                               {(movieData.budget &&
                                 new Intl.NumberFormat('en-US', {
                                   style: 'currency',
@@ -400,7 +434,9 @@ export const CastContainer = ({ type, id, movieData }) => {
                                 '-'}
                             </p>
                             <p>
-                              <strong>Revenue</strong>
+                              <strong>
+                                <bdi>Revenue</bdi>
+                              </strong>
                               {(movieData.revenue &&
                                 new Intl.NumberFormat('en-US', {
                                   style: 'currency',
@@ -412,7 +448,9 @@ export const CastContainer = ({ type, id, movieData }) => {
                         )}
                       </section>
                       <section className={styles.keywords_section}>
-                        <h4>Keywords</h4>
+                        <h4>
+                          <bdi>Keywords</bdi>
+                        </h4>
                         <ul className={styles.keywords}>
                           {keywordData &&
                             keywordData.map((keyword_data) => (
