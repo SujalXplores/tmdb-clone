@@ -7,6 +7,7 @@ import AuthProvider from './Auth/authContext';
 import App from './App';
 
 import './index.scss';
+import GlobalSpinnerProvider from './axios/spinner-context';
 
 const theme = createTheme({
   typography: {
@@ -27,6 +28,9 @@ const theme = createTheme({
     info: {
       main: '#5f6161',
     },
+    secondary: {
+      main: '#01b4e4',
+    },
   },
 });
 
@@ -37,7 +41,9 @@ createRoot(rootElement).render(
     <ThemeProvider theme={theme}>
       <Router>
         <AuthProvider>
-          <App />
+          <GlobalSpinnerProvider>
+            <App />
+          </GlobalSpinnerProvider>
         </AuthProvider>
       </Router>
     </ThemeProvider>

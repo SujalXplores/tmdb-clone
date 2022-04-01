@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { http } from '../../axios/spinner-context';
 import { useCallback, useLayoutEffect, useState } from 'react';
 import { ReactComponent as PersonMale } from '../../assets/person-male.svg';
 import { ReactComponent as PersonFemale } from '../../assets/person-female.svg';
@@ -35,7 +36,7 @@ export const CastContainer = ({ type, id, movieData }) => {
     const recommendations_url = `${API_URL}/${type}/${id}/recommendations?api_key=${API}`;
 
     try {
-      const credits = await axios.get(credits_url);
+      const credits = await http.get(credits_url);
       setCastData(credits.data.cast);
       console.log('✅ Cast fetching done');
     } catch (error) {
