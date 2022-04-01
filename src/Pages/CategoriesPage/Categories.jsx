@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -9,38 +9,45 @@ import { categoryUrl } from '../../Helpers/CategoryUrl';
 import useTitle from '../../Hooks/useTitle';
 
 import styles from './Categories.module.scss';
-import {
-  Button,
-  Chip,
-  FormControl,
-  MenuItem,
-  Select,
-  Stack,
-} from '@mui/material';
-import { sortByCategory } from '../../Helpers/CategoryFilters';
+import { Button, FormControl, MenuItem, Select } from '@mui/material';
+import { API, DISCOVER_URL, GENRES } from '../../Constants';
+import { sortOptions } from '../../Helpers/SortOptions';
+import { serializeObject } from '../../Helpers/ObjectToUrl';
 
 const Categories = () => {
+  const params = useParams();
+  const { type, category } = params;
   const [hasMore, setHasMore] = useState(false);
+  const [sort, setSort] = useState('popularity.desc');
+  const [allGenreList, setAllGenreList] = useState([]);
+  const [genreFilterArr, setGenreFilterArr] = useState([]);
+
   const [categories, setCategories] = useState({
     results: [],
     page: 1,
     total_pages: 1,
   });
-  const [sort, setSort] = useState('popularity.desc');
 
-  const handleChangeSort = (event) => {
-    setSort(event.target.value);
-  };
+  const { data, title } = categoryUrl(type, category);
+  console.log('data from category', data);
+  const [options, setOptions] = useState(data);
 
-  const params = useParams();
-  const { type, category } = params;
-  const { url, title } = categoryUrl(type, category);
+  useEffect(() => {
+    setOptions(data);
+  }, [category]);
 
   useTitle(`${title} — The Movie Database (TMDB)`);
 
+  const url = useCallback(serializeObject(options), [options]);
+
+  const [fetchUrl, setFetchUrl] = useState(
+    `${DISCOVER_URL}/${type}?api_key=${API}&${url}`
+  );
+
   const handleLoadMore = async (page) => {
     try {
-      const response = await axios.get(`${url}&page=${page}`);
+      console.log('URL::::::', fetchUrl);
+      const response = await axios.get(`${fetchUrl}&page=${page}`);
       console.log('page->', response.data);
       if (response.data.page === 1) {
         setCategories({
@@ -65,6 +72,19 @@ const Categories = () => {
   };
 
   useEffect(() => {
+    const fetchGenre = async () => {
+      try {
+        const res = await axios.get(`${GENRES}/${type}/list?api_key=${API}`);
+        setAllGenreList(res.data.genres);
+        console.log('Filter Fetch Success');
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchGenre();
+  }, [type]);
+
+  useEffect(() => {
     if (categories.page === categories.total_pages) {
       setHasMore(false);
     }
@@ -72,22 +92,41 @@ const Categories = () => {
 
   useEffect(() => {
     setHasMore(false);
+    setFetchUrl(`${DISCOVER_URL}/${type}?api_key=${API}&${url}`);
+    handleLoadMore(1);
   }, [category]);
 
-  useEffect(() => {
-    handleLoadMore(1);
-  }, [url]);
+  const handleSearch = async () => {
+    try {
+      const res = await axios.get(fetchUrl);
+      setCategories({
+        results: res.data.results,
+        page: res.data.page,
+        total_pages: res.data.total_pages,
+      });
+      console.log('Filter Fetch Success');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  const handleSearch = () => {
-    console.log('search');
-    const filteredData = sortByCategory(sort, categories.results);
-    console.log(filteredData);
-    setCategories((prevState) => {
-      return {
-        ...prevState,
-        results: filteredData,
-      };
-    });
+  const handleChangeSort = (event) => {
+    setSort(event.target.value);
+    setOptions((prevState) => ({
+      ...prevState,
+      sort_by: event.target.value,
+    }));
+  };
+
+  const toggleGenre = (genre) => {
+    const newGenreFilterArr = genreFilterArr.includes(genre)
+      ? genreFilterArr.filter((item) => item !== genre)
+      : [...genreFilterArr, genre];
+    setGenreFilterArr(newGenreFilterArr);
+    setOptions((prevState) => ({
+      ...prevState,
+      with_genres: newGenreFilterArr.join(','),
+    }));
   };
 
   return (
@@ -104,52 +143,39 @@ const Categories = () => {
                   <CustomAccordion title='Sort' border>
                     <h3>Sort Results By</h3>
                     <FormControl fullWidth>
-                      <Select value={sort} onChange={handleChangeSort}>
-                        <MenuItem value='popularity.desc'>
-                          Popularity Descending
-                        </MenuItem>
-                        <MenuItem value='popularity.asc'>
-                          Popularity Ascending
-                        </MenuItem>
-                        <MenuItem value='vote_average.asc'>
-                          Rating Ascending
-                        </MenuItem>
-                        <MenuItem value='vote_average.desc'>
-                          Rating Descending
-                        </MenuItem>
-                        <MenuItem value='primary_release_date.desc'>
-                          Release Date Descending
-                        </MenuItem>
-                        <MenuItem value='primary_release_date.asc'>
-                          Release Date Ascending
-                        </MenuItem>
-                        <MenuItem value='title.asc'>Title (A-Z)</MenuItem>
-                        <MenuItem value='title.desc'>Title (Z-A)</MenuItem>
+                      <Select
+                        value={sort}
+                        onChange={handleChangeSort}
+                        className={styles['custom-select']}
+                      >
+                        {sortOptions.map((item) => (
+                          <MenuItem
+                            key={item.value}
+                            value={item.value}
+                            className={styles['menu-item']}
+                          >
+                            {item.label}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   </CustomAccordion>
                   <CustomAccordion title='Filters' border>
                     <h3>Genres</h3>
-                    <ul className='multi_select text'>
-                      <li data-value='28'>Action</li>
-                      <li data-value='12'>Adventure</li>
-                      <li data-value='16'>Animation</li>
-                      <li data-value='35'>Comedy</li>
-                      <li data-value='80'>Crime</li>
-                      <li data-value='99'>Documentary</li>
-                      <li data-value='18'>Drama</li>
-                      <li data-value='10751'>Family</li>
-                      <li data-value='14'>Fantasy</li>
-                      <li data-value='36'>History</li>
-                      <li data-value='27'>Horror</li>
-                      <li data-value='10402'>Music</li>
-                      <li data-value='9648'>Mystery</li>
-                      <li data-value='10749'>Romance</li>
-                      <li data-value='878'>Science Fiction</li>
-                      <li data-value='10770'>TV Movie</li>
-                      <li data-value='53'>Thriller</li>
-                      <li data-value='10752'>War</li>
-                      <li data-value='37'>Western</li>
+                    <ul className={styles.multi_select}>
+                      {allGenreList.map((genre) => (
+                        <li
+                          key={genre.id}
+                          className={
+                            genreFilterArr.includes(genre.id)
+                              ? styles.active
+                              : ''
+                          }
+                          onClick={() => toggleGenre(genre.id)}
+                        >
+                          {genre.name}
+                        </li>
+                      ))}
                     </ul>
                   </CustomAccordion>
                   <Button
@@ -178,6 +204,7 @@ const Categories = () => {
                     <section className={styles.panel_results}>
                       {categories.results.length > 0 && (
                         <div className={styles.media_item_results}>
+                          {console.log(options)}
                           <InfiniteScroll
                             className={styles.page_wrapper}
                             pageStart={1}

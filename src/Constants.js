@@ -26,3 +26,8 @@ export const AIRING_TODAY_ON_TV = `${API_URL}/tv/airing_today?api_key=${API}`;
 export const TV_ON_THE_AIR = `${API_URL}/tv/on_the_air?api_key=${API}`;
 
 export const SEARCH_URL = `${API_URL}/search/multi?api_key=${API}&query=`;
+
+export const DISCOVER_URL = `${API_URL}/discover`;
+
+// List of genre
+export const GENRES = `${API_URL}/genre`

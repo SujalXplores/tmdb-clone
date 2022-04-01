@@ -84,6 +84,28 @@
                                 padding-top: 6px;
                             }
                         }
+
+                        .multi_select {
+                            margin-top: -8px;
+
+                            li {
+                                display: inline-flex;
+                                border: 1px solid #9e9e9e;
+                                border-radius: 14px;
+                                padding: 4px 12px;
+                                font-size: 0.9em;
+                                margin-right: 6px;
+                                margin-top: 8px;
+                                cursor: pointer;
+
+                                &:hover,
+                                &.active {
+                                    background-color: #01b4e4;
+                                    color: #fff;
+                                    border-color: #01b4e4;
+                                }
+                            }
+                        }
                     }
 
                     .right_media_container {
@@ -145,5 +167,14 @@
                 }
             }
         }
+    }
+}
+
+.custom-select {
+    .menu-item {
+        padding: 5px 14px;
+        font-size: 14px;
+        font-family: "Source Sans Pro";
+        background: #e4e7eb;
     }
 }

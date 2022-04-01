@@ -15,6 +15,7 @@ import { SkeletonLoader } from '../MovieCard/SkeletonLoader';
 import CustomTab from '../Tabs/Tabs';
 import Title from '../Title/Title';
 import styles from './MoviesContainer.module.scss';
+import { Fade } from '@mui/material';
 
 const MoviesContainer = ({
   category,
@@ -96,22 +97,28 @@ const MoviesContainer = ({
               )}
             </div>
             <div className={styles.media}>
-              <div
-                onScroll={handleScroll}
-                className={`${styles.inner__column} ${
-                  isBackground ? styles['bg-image'] : ''
-                }`}
-              >
-                {loading &&
-                  [...Array(10)].map((_, i) => <SkeletonLoader key={i} />)}
-                {!loading && movies ? (
-                  movies.map((movie) => (
-                    <MovieCard data={movie} key={movie.id} loading={loading} />
-                  ))
-                ) : (
-                  <h1>Failed to fetch movies!</h1>
-                )}
-              </div>
+              <Fade in={true} timeout={1000}>
+                <div
+                  onScroll={handleScroll}
+                  className={`${styles.inner__column} ${
+                    isBackground ? styles['bg-image'] : ''
+                  }`}
+                >
+                  {loading &&
+                    [...Array(10)].map((_, i) => <SkeletonLoader key={i} />)}
+                  {!loading && movies ? (
+                    movies.map((movie) => (
+                      <MovieCard
+                        data={movie}
+                        key={movie.id}
+                        loading={loading}
+                      />
+                    ))
+                  ) : (
+                    <h1>Failed to fetch movies!</h1>
+                  )}
+                </div>
+              </Fade>
             </div>
           </div>
         </div>
