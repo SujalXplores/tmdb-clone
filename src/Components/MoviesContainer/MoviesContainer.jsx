@@ -1,4 +1,4 @@
-import { http } from '../../axios/spinner-context';
+import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -56,7 +56,7 @@ const MoviesContainer = ({
 
   const fetchMovies = useCallback(async () => {
     try {
-      const res = await http.get(url);
+      const res = await axios.get(url);
       const data = await res.data;
       setMovies(data.results);
       console.log('✅ Movies fetching done');

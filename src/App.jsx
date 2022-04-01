@@ -1,16 +1,12 @@
 import { useEffect, useState } from 'react';
-import { LinearProgress } from '@mui/material';
 
 import { AuthDialog } from './Components/AuthDialog/AuthDialog';
 import Footer from './Components/Footer/Footer';
 import Header from './Components/Header/Header';
 import Router from './Router';
 import useActivity from './Hooks/useActivity';
-import { useSpinner } from './axios/spinner-context';
 
 const App = () => {
-  const { value, isLoading } = useSpinner();
-
   const INITIAL_PROPS = {
     open: false,
     handleClose: () => {},
@@ -40,9 +36,6 @@ const App = () => {
 
   return (
     <>
-      {isLoading && (
-        <LinearProgress color='secondary' variant='determinate' value={value} />
-      )}
       <Header openLoginPopup={openLoginPopup} />
       <main className='main__container'>
         <Router />
