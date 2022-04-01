@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import {
-    Accordion,
-    AccordionSummary,
-    AccordionDetails,
-    Typography,
-  } from '@mui/material';
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+} from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import PropTypes from 'prop-types';
 
@@ -32,13 +32,13 @@ const FilterAccordian = ({ title, children }) => {
 };
 
 FilterAccordian.propTypes = {
-    title: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired,
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 FilterAccordian.defaultProps = {
-    title: 'Filter',
-    children: null,
+  title: 'Filter',
+  children: null,
 };
 
 export default FilterAccordian;

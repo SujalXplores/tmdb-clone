@@ -7,23 +7,23 @@ import {
 } from '../Constants';
 
 export const categoryUrl = (type, category) => {
-  const getAfter6Months = () => {
-    const today = new Date();
-    const sixMonths = new Date(
-      today.getFullYear(),
-      today.getMonth() + 6,
-      today.getDate()
-    );
-    return sixMonths.toISOString().split('T')[0];
+  const dateAfter6Month = () => {
+    const date = new Date();
+    const firstDate = new Date(date.setMonth(date.getMonth() + 6));
+    return firstDate.toISOString().split('T')[0];
   };
 
   // function to get the date before 37 days in the past from today in format yyyy-mm-dd
   const getDateBefore37Days = () => {
-    const today = new Date();
-    const dd = String(today.getDate() - 37).padStart(2, '0');
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const yyyy = today.getFullYear();
-    return `${yyyy}-${mm}-${dd}`;
+    const date = new Date();
+    const firstDate = new Date(date.setDate(date.getDate() - 37));
+    return firstDate.toISOString().split('T')[0];
+  };
+
+  const getDateAfter5Days = () => {
+    const date = new Date();
+    const firstDate = new Date(date.setDate(date.getDate() + 5));
+    return firstDate.toISOString().split('T')[0];
   };
 
   const getFutureDates = () => {
@@ -49,27 +49,24 @@ export const categoryUrl = (type, category) => {
         return {
           data: {
             air_date: {
-              lte: '2022-10-1',
+              lte: dateAfter6Month(),
             },
             release_date: {
-              gte: firstDate,
-              lte: secondDate,
+              gte: getDateBefore37Days(),
+              lte: getDateAfter5Days(),
             },
-            sort_by: 'vote_average.desc',
+            sort_by: 'popularity.desc',
             vote_average: {
-              lte: '10',
               gte: '0',
+              lte: '10',
             },
             with_release_type: '3',
-            vote_count: {
-              gte: '300',
-            },
             with_runtime: {
               gte: '0',
               lte: '400',
             },
-            certification_country: 'IN',
             ott_region: 'IN',
+            show_me: 0,
           },
           title: 'Now Playing Movies',
         };
@@ -77,27 +74,24 @@ export const categoryUrl = (type, category) => {
         return {
           data: {
             air_date: {
-              lte: '2022-10-1',
+              lte: dateAfter6Month(),
             },
             release_date: {
-              gte: getDateBefore37Days(),
-              lte: firstDate,
+              gte: firstDate,
+              lte: secondDate,
             },
-            sort_by: 'vote_average.desc',
+            sort_by: 'popularity.desc',
             vote_average: {
-              lte: '10',
               gte: '0',
+              lte: '10',
             },
             with_release_type: '3',
-            vote_count: {
-              gte: '300',
-            },
             with_runtime: {
               gte: '0',
               lte: '400',
             },
-            certification_country: 'IN',
             ott_region: 'IN',
+            show_me: 0,
           },
           title: 'Upcoming Movies',
         };
@@ -105,23 +99,25 @@ export const categoryUrl = (type, category) => {
         return {
           data: {
             air_date: {
-              lte: '2022-10-1',
+              lte: dateAfter6Month(),
             },
             release_date: {
-              gte: getDateBefore37Days(),
-              lte: firstDate,
+              lte: dateAfter6Month(),
             },
             sort_by: 'vote_average.desc',
             vote_average: {
-              lte: '10',
               gte: '0',
+              lte: '10',
             },
             with_runtime: {
               gte: '0',
               lte: '400',
             },
-            certification_country: 'IN',
+            vote_count: {
+              gte: '300',
+            },
             ott_region: 'IN',
+            show_me: 0,
           },
           title: 'Top Rated Movies',
         };
@@ -129,25 +125,22 @@ export const categoryUrl = (type, category) => {
         return {
           data: {
             air_date: {
-              lte: '2022-10-1',
+              lte: dateAfter6Month(),
             },
             release_date: {
-              lte: '2022-10-1',
+              lte: dateAfter6Month(),
             },
-            sort_by: 'vote_average.desc',
+            sort_by: 'popularity.desc',
             vote_average: {
-              lte: '10',
               gte: '0',
-            },
-            vote_count: {
-              gte: '300',
+              lte: '10',
             },
             with_runtime: {
               gte: '0',
               lte: '400',
             },
-            certification_country: 'IN',
             ott_region: 'IN',
+            show_me: 0,
           },
           title: 'Popular Movies',
         };

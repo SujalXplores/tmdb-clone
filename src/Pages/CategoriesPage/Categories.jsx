@@ -17,11 +17,11 @@ import { serializeObject } from '../../Helpers/ObjectToUrl';
 const Categories = () => {
   const params = useParams();
   const { type, category } = params;
+
   const [hasMore, setHasMore] = useState(false);
   const [sort, setSort] = useState('popularity.desc');
   const [allGenreList, setAllGenreList] = useState([]);
   const [genreFilterArr, setGenreFilterArr] = useState([]);
-
   const [categories, setCategories] = useState({
     results: [],
     page: 1,
@@ -71,31 +71,6 @@ const Categories = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchGenre = async () => {
-      try {
-        const res = await axios.get(`${GENRES}/${type}/list?api_key=${API}`);
-        setAllGenreList(res.data.genres);
-        console.log('Filter Fetch Success');
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchGenre();
-  }, [type]);
-
-  useEffect(() => {
-    if (categories.page === categories.total_pages) {
-      setHasMore(false);
-    }
-  }, [categories.page, categories.total_pages]);
-
-  useEffect(() => {
-    setHasMore(false);
-    setFetchUrl(`${DISCOVER_URL}/${type}?api_key=${API}&${url}`);
-    handleLoadMore(1);
-  }, [category]);
-
   const handleSearch = async () => {
     try {
       const res = await axios.get(fetchUrl);
@@ -128,6 +103,37 @@ const Categories = () => {
       with_genres: newGenreFilterArr.join(','),
     }));
   };
+
+  useEffect(() => {
+    const fetchGenre = async () => {
+      try {
+        const res = await axios.get(`${GENRES}/${type}/list?api_key=${API}`);
+        setAllGenreList(res.data.genres);
+        console.log('Filter Fetch Success');
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchGenre();
+  }, [type]);
+
+  useEffect(() => {
+    if (categories.page === categories.total_pages) {
+      setHasMore(false);
+    }
+  }, [categories.page, categories.total_pages]);
+
+  useEffect(() => {
+    setHasMore(false);
+  }, [type, category]);
+
+  useEffect(() => {
+    setFetchUrl(`${DISCOVER_URL}/${type}?api_key=${API}&${url}`);
+  }, [options]);
+
+  useEffect(() => {
+    handleLoadMore(1);
+  }, [fetchUrl]);
 
   return (
     <>
@@ -204,14 +210,13 @@ const Categories = () => {
                     <section className={styles.panel_results}>
                       {categories.results.length > 0 && (
                         <div className={styles.media_item_results}>
-                          {console.log(options)}
                           <InfiniteScroll
                             className={styles.page_wrapper}
                             pageStart={1}
                             loadMore={handleLoadMore}
                             hasMore={hasMore}
                             loader={
-                              <div className='loader' key={0}>
+                              <div className='loader' key={Math.random()}>
                                 Loading...
                               </div>
                             }
