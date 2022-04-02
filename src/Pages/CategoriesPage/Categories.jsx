@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -17,9 +17,12 @@ import { serializeObject } from '../../Helpers/ObjectToUrl';
 const Categories = () => {
   const params = useParams();
   const { type, category } = params;
+  const { data, title } = categoryUrl(type, category);
 
+  useTitle(`${title} — The Movie Database (TMDB)`);
+  const [options, setOptions] = useState(data);
   const [hasMore, setHasMore] = useState(false);
-  const [sort, setSort] = useState('popularity.desc');
+  const [sort, setSort] = useState(data.sort_by);
   const [allGenreList, setAllGenreList] = useState([]);
   const [genreFilterArr, setGenreFilterArr] = useState([]);
   const [categories, setCategories] = useState({
@@ -27,29 +30,20 @@ const Categories = () => {
     page: 1,
     total_pages: 1,
   });
-
-  const { data, title } = categoryUrl(type, category);
-  console.log('data from category', data);
-  const [options, setOptions] = useState(data);
+  const url = serializeObject(options);
 
   useEffect(() => {
     setOptions(data);
-  }, [category]);
-
-  useTitle(`${title} — The Movie Database (TMDB)`);
-
-  const url = useCallback(serializeObject(options), [options]);
-
-  const [fetchUrl, setFetchUrl] = useState(
-    `${DISCOVER_URL}/${type}?api_key=${API}&${url}`
-  );
+  }, [type, category]);
 
   const handleLoadMore = async (page) => {
     try {
-      console.log('URL::::::', fetchUrl);
-      const response = await axios.get(`${fetchUrl}&page=${page}`);
-      console.log('page->', response.data);
+      const response = await axios.get(
+        `${DISCOVER_URL}/${type}?api_key=${API}&${url}&page=${page}`
+      );
+      console.info('PAGE ->', response.data.page, response.data.results);
       if (response.data.page === 1) {
+        console.log('first time set new record');
         setCategories({
           results: response.data.results,
           page: response.data.page,
@@ -58,14 +52,12 @@ const Categories = () => {
       } else {
         setCategories((prevState) => {
           return {
-            ...prevState,
             results: [...prevState.results, ...response.data.results],
             page: response.data.page,
             total_pages: response.data.total_pages,
           };
         });
       }
-      console.log('state:::', categories, 'HAS MORE:::', hasMore);
     } catch (error) {
       console.log(error);
     }
@@ -73,13 +65,14 @@ const Categories = () => {
 
   const handleSearch = async () => {
     try {
-      const res = await axios.get(fetchUrl);
+      const res = await axios.get(
+        `${DISCOVER_URL}/${type}?api_key=${API}&${url}`
+      );
       setCategories({
         results: res.data.results,
         page: res.data.page,
         total_pages: res.data.total_pages,
       });
-      console.log('Filter Fetch Success');
     } catch (error) {
       console.log(error);
     }
@@ -109,7 +102,6 @@ const Categories = () => {
       try {
         const res = await axios.get(`${GENRES}/${type}/list?api_key=${API}`);
         setAllGenreList(res.data.genres);
-        console.log('Filter Fetch Success');
       } catch (error) {
         console.log(error);
       }
@@ -125,15 +117,8 @@ const Categories = () => {
 
   useEffect(() => {
     setHasMore(false);
-  }, [type, category]);
-
-  useEffect(() => {
-    setFetchUrl(`${DISCOVER_URL}/${type}?api_key=${API}&${url}`);
-  }, [options]);
-
-  useEffect(() => {
     handleLoadMore(1);
-  }, [fetchUrl]);
+  }, [type, category]);
 
   return (
     <>
@@ -208,18 +193,13 @@ const Categories = () => {
                 <div>
                   <div className={styles.right_media_container}>
                     <section className={styles.panel_results}>
-                      {categories.results.length > 0 && (
+                      {categories && categories.results.length > 0 && (
                         <div className={styles.media_item_results}>
                           <InfiniteScroll
                             className={styles.page_wrapper}
                             pageStart={1}
                             loadMore={handleLoadMore}
                             hasMore={hasMore}
-                            loader={
-                              <div className='loader' key={Math.random()}>
-                                Loading...
-                              </div>
-                            }
                           >
                             {categories.results.map((data) => (
                               <CategoryCard key={data.id} {...{ data, type }} />
@@ -236,6 +216,9 @@ const Categories = () => {
                             </Button>
                           )}
                         </div>
+                      )}
+                      {categories && categories.results.length === 0 && (
+                        <span>No items were found that match your query.</span>
                       )}
                     </section>
                   </div>
