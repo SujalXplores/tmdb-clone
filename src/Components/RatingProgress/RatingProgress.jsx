@@ -29,7 +29,7 @@ export const RatingProgress = ({
   hover = false,
   isViewMore = false,
 }) => {
-  const rating = vote_average * 10 || (showNR ? '65' : 0);
+  const rating = vote_average * 10 || (showNR ? 'NR' : 0);
 
   const ratingColor =
     rating >= 70
@@ -39,6 +39,11 @@ export const RatingProgress = ({
       : rating < 40 && rating > 0
       ? 'error'
       : 'info';
+
+  const percentage =
+    rating === 'NR'
+      ? '65'.toString(16).padStart(2, '0')
+      : rating.toString(16).padStart(2, '0');
 
   const classes = useStyles();
 
@@ -81,7 +86,7 @@ export const RatingProgress = ({
             sx={{
               fontSize: fontSize,
               '&:before': {
-                content: `"\\e9${rating.toString(16).padStart(2, '0')}"`,
+                content: `"\\e9${percentage}"`,
               },
             }}
           />
