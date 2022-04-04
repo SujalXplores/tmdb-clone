@@ -10,7 +10,6 @@ import {
 } from './DefaultCategories';
 
 export const categoryUrl = (type, category) => {
-  console.warn('INSIDE', type, category);
   if (type === 'movie') {
     switch (category) {
       case 'now-playing':

@@ -53,16 +53,16 @@ export const getDateAfterWeek = () => {
 };
 
 export const getFutureDates = () => {
-  const today = new Date();
-  const dd = String(today.getDate() + 5).padStart(2, '0');
-  const mm = String(today.getMonth() + 1).padStart(2, '0');
-  const yyyy = today.getFullYear();
-  const firstDate = `${yyyy}-${mm}-${dd}`;
+  const date = new Date();
+  const startOfTheMonth = new Date(date.getFullYear(), date.getMonth(), 1);
 
-  const dd2 = String(today.getDate() + 26).padStart(2, '0');
-  const mm2 = String(today.getMonth() + 1).padStart(2, '0');
-  const yyyy2 = today.getFullYear();
-  const secondDate = `${yyyy2}-${mm2}-${dd2}`;
+  const date1 = new Date(
+    startOfTheMonth.setDate(startOfTheMonth.getDate() + 6)
+  );
+  const fifthDay = date1.toISOString().split('T')[0];
 
-  return [firstDate, secondDate];
+  const date2 = new Date(date1.setDate(date1.getDate() + 21));
+  const lastDay = date2.toISOString().split('T')[0];
+
+  return [fifthDay, lastDay];
 };
