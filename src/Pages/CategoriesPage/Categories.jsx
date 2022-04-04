@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useMemo, useReducer } from 'react';
 import { useParams } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -9,10 +9,11 @@ import { categoryUrl } from '../../Helpers/CategoryUrl';
 import useTitle from '../../Hooks/useTitle';
 
 import styles from './Categories.module.scss';
-import { Button, FormControl, MenuItem, Select } from '@mui/material';
+import { Button, Divider, FormControl, MenuItem, Select } from '@mui/material';
 import { API, DISCOVER_URL, GENRES } from '../../Constants';
 import { sortOptions } from '../../Helpers/SortOptions';
 import { serializeObject } from '../../Helpers/ObjectToUrl';
+import { Checkbox } from '../../Components/Checkbox/Checkbox';
 
 const Categories = () => {
   const params = useParams();
@@ -20,88 +21,129 @@ const Categories = () => {
   const { data, title } = categoryUrl(type, category);
 
   useTitle(`${title} — The Movie Database (TMDB)`);
-  const [options, setOptions] = useState(data);
-  const [hasMore, setHasMore] = useState(false);
-  const [sort, setSort] = useState(data.sort_by);
-  const [allGenreList, setAllGenreList] = useState([]);
-  const [genreFilterArr, setGenreFilterArr] = useState([]);
-  const [categories, setCategories] = useState({
-    results: [],
-    page: 1,
-    total_pages: 1,
-  });
-  const url = serializeObject(options);
 
-  useEffect(() => {
-    setOptions(data);
-  }, [type, category]);
+  const initialState = {
+    categories: {
+      results: [],
+      page: 1,
+      total_pages: 1,
+    },
+    hasMore: false,
+    genreFilterArr: [],
+    allGenreList: [],
+    options: data,
+  };
+
+  const [state, dispatch] = useReducer((state, action) => {
+    switch (action.type) {
+      case 'set_categories':
+        if (action.payload.page === 1) {
+          return {
+            ...state,
+            categories: action.payload,
+          };
+        } else {
+          return {
+            ...state,
+            categories: {
+              results: [...state.categories.results, ...action.payload.results],
+              page: action.payload.page,
+              total_pages: action.payload.total_pages,
+            },
+          };
+        }
+      case 'set_hasMore':
+        return {
+          ...state,
+          hasMore: action.payload,
+        };
+      case 'set_genreFilterArr':
+        return {
+          ...state,
+          genreFilterArr: action.payload,
+        };
+      case 'set_allGenreList':
+        return {
+          ...state,
+          allGenreList: action.payload,
+        };
+      case 'set_options':
+        return {
+          ...state,
+          options: action.payload,
+        };
+      case 'set_sort':
+        return {
+          ...state,
+          options: {
+            ...state.options,
+            sort_by: action.payload,
+          },
+        };
+      default:
+        return state;
+    }
+  }, initialState);
+
+  const defaultUrl = useMemo(() => serializeObject(data), [data]);
+  const url = useMemo(() => serializeObject(state.options), [state.options]);
 
   const handleLoadMore = async (page) => {
     try {
+      const options = page === 1 ? defaultUrl : url;
+      console.log('LOAD MORE URL:::', url);
       const response = await axios.get(
-        `${DISCOVER_URL}/${type}?api_key=${API}&${url}&page=${page}`
+        `${DISCOVER_URL}/${type}?api_key=${API}&${options}&page=${page}`
       );
-      console.info('PAGE ->', response.data.page, response.data.results);
-      if (response.data.page === 1) {
-        console.log('first time set new record');
-        setCategories({
-          results: response.data.results,
-          page: response.data.page,
-          total_pages: response.data.total_pages,
-        });
-      } else {
-        setCategories((prevState) => {
-          return {
-            results: [...prevState.results, ...response.data.results],
-            page: response.data.page,
-            total_pages: response.data.total_pages,
-          };
-        });
-      }
+      dispatch({ type: 'set_categories', payload: response.data });
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    dispatch({ type: 'set_hasMore', payload: false });
+    dispatch({
+      type: 'set_options',
+      payload: data,
+    });
+    handleLoadMore(1);
+  }, [type, category, data]);
 
   const handleSearch = async () => {
     try {
       const res = await axios.get(
         `${DISCOVER_URL}/${type}?api_key=${API}&${url}`
       );
-      setCategories({
-        results: res.data.results,
-        page: res.data.page,
-        total_pages: res.data.total_pages,
-      });
+      dispatch({ type: 'set_categories', payload: res.data });
     } catch (error) {
       console.log(error);
     }
   };
 
   const handleChangeSort = (event) => {
-    setSort(event.target.value);
-    setOptions((prevState) => ({
-      ...prevState,
-      sort_by: event.target.value,
-    }));
+    dispatch({
+      type: 'set_options',
+      payload: { ...state.options, sort_by: event.target.value },
+    });
   };
 
   const toggleGenre = (genre) => {
-    const newGenreFilterArr = genreFilterArr.includes(genre)
-      ? genreFilterArr.filter((item) => item !== genre)
-      : [...genreFilterArr, genre];
-    setGenreFilterArr(newGenreFilterArr);
-    setOptions((prevState) => ({
-      ...prevState,
-      with_genres: newGenreFilterArr.join(','),
-    }));
+    const newGenreFilterArr = state.genreFilterArr.includes(genre)
+      ? state.genreFilterArr.filter((item) => item !== genre)
+      : [...state.genreFilterArr, genre];
+    dispatch({ type: 'set_genreFilterArr', payload: newGenreFilterArr });
+    dispatch({
+      type: 'set_options',
+      payload: { ...state.options, with_genres: newGenreFilterArr.join(',') },
+    });
   };
 
   useEffect(() => {
     const fetchGenre = async () => {
       try {
         const res = await axios.get(`${GENRES}/${type}/list?api_key=${API}`);
-        setAllGenreList(res.data.genres);
+        dispatch({ type: 'set_allGenreList', payload: res.data.genres });
       } catch (error) {
         console.log(error);
       }
@@ -110,15 +152,10 @@ const Categories = () => {
   }, [type]);
 
   useEffect(() => {
-    if (categories.page === categories.total_pages) {
-      setHasMore(false);
+    if (state.categories.page === state.categories.total_pages) {
+      dispatch({ type: 'set_hasMore', payload: false });
     }
-  }, [categories.page, categories.total_pages]);
-
-  useEffect(() => {
-    setHasMore(false);
-    handleLoadMore(1);
-  }, [type, category]);
+  }, [state.categories.page, state.categories.total_pages]);
 
   return (
     <>
@@ -135,7 +172,7 @@ const Categories = () => {
                     <h3>Sort Results By</h3>
                     <FormControl fullWidth>
                       <Select
-                        value={sort}
+                        value={state.options.sort_by}
                         onChange={handleChangeSort}
                         className={styles['custom-select']}
                       >
@@ -152,13 +189,16 @@ const Categories = () => {
                     </FormControl>
                   </CustomAccordion>
                   <CustomAccordion title='Filters' border>
+                    <h3>Availabilities</h3>
+                    <Checkbox value='all' isChecked={true}>Search all availabilities?</Checkbox>
+                    <Divider />
                     <h3>Genres</h3>
                     <ul className={styles.multi_select}>
-                      {allGenreList.map((genre) => (
+                      {state.allGenreList.map((genre) => (
                         <li
                           key={genre.id}
                           className={
-                            genreFilterArr.includes(genre.id)
+                            state.genreFilterArr.includes(genre.id)
                               ? styles.active
                               : ''
                           }
@@ -193,33 +233,39 @@ const Categories = () => {
                 <div>
                   <div className={styles.right_media_container}>
                     <section className={styles.panel_results}>
-                      {categories && categories.results.length > 0 && (
+                      {state.categories && state.categories.results.length > 0 && (
                         <div className={styles.media_item_results}>
                           <InfiniteScroll
                             className={styles.page_wrapper}
                             pageStart={1}
                             loadMore={handleLoadMore}
-                            hasMore={hasMore}
+                            hasMore={state.hasMore}
                           >
-                            {categories.results.map((data) => (
+                            {state.categories.results.map((data) => (
                               <CategoryCard key={data.id} {...{ data, type }} />
                             ))}
                           </InfiniteScroll>
-                          {categories.page <= categories.total_pages && (
+                          {state.categories.page <=
+                            state.categories.total_pages && (
                             <Button
                               className={styles.load_more}
                               variant='contained'
                               fullWidth
-                              onClick={() => setHasMore(true)}
+                              onClick={() =>
+                                dispatch({ type: 'set_hasMore', payload: true })
+                              }
                             >
                               Load More
                             </Button>
                           )}
                         </div>
                       )}
-                      {categories && categories.results.length === 0 && (
-                        <span>No items were found that match your query.</span>
-                      )}
+                      {state.categories &&
+                        state.categories.results.length === 0 && (
+                          <span>
+                            No items were found that match your query.
+                          </span>
+                        )}
                     </section>
                   </div>
                 </div>
