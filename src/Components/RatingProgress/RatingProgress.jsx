@@ -29,7 +29,7 @@ export const RatingProgress = ({
   hover = false,
   isViewMore = false,
 }) => {
-  const rating = vote_average * 10 || (showNR ? 'NR' : 0);
+  const rating = vote_average * 10 ?? (showNR ? 'NR' : 0);
 
   const ratingColor =
     rating >= 70

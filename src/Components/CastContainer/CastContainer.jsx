@@ -117,7 +117,7 @@ export const CastContainer = ({ type, id, movieData }) => {
                                 alt={cast.name}
                               />
                             </div>
-                          ) : cast.gender ? (
+                          ) : cast.gender === 1 ? (
                             <PersonFemale className={styles.no_image} />
                           ) : (
                             <PersonMale className={styles.no_image} />
@@ -188,18 +188,16 @@ export const CastContainer = ({ type, id, movieData }) => {
                 <section>
                   <div className={styles.menu}>
                     <h3 dir='auto'>Social</h3>
-                    {social.data && (
-                      <ul>
-                        <li dir='auto'>
-                          <span>
-                            Reviews{' '}
-                            <span className={styles.review_count}>
-                              {social.total_reviews}
-                            </span>
+                    <ul>
+                      <li dir='auto'>
+                        <span>
+                          Reviews{' '}
+                          <span className={styles.review_count}>
+                            {social.total_reviews}
                           </span>
-                        </li>
-                      </ul>
-                    )}
+                        </span>
+                      </li>
+                    </ul>
                   </div>
                   {(social.data && (
                     <div className={styles.content}>

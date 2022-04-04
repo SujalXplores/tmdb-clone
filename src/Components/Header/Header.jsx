@@ -132,7 +132,7 @@ export default function Header(props) {
                           </li>
                         </Link>
                         <Link to='tv/category/on-the-air'>
-                          <li className={styles['sub-nav-item']}>On The Air</li>
+                          <li className={styles['sub-nav-item']}>On TV</li>
                         </Link>
                         <Link to='tv/category/top-rated'>
                           <li className={styles['sub-nav-item']}>Top Rated</li>

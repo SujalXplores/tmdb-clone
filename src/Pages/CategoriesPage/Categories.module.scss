@@ -82,7 +82,7 @@
                                 font-size: 1em;
                                 font-weight: 300;
                                 margin-bottom: 10px;
-                                padding-top: 6px;
+                                color: #000;
                             }
                         }
 
@@ -168,14 +168,5 @@
                 }
             }
         }
-    }
-}
-
-.custom-select {
-    .menu-item {
-        padding: 5px 14px;
-        font-size: 14px;
-        font-family: "Source Sans Pro";
-        background: #e4e7eb;
     }
 }

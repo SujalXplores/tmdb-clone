@@ -119,7 +119,10 @@ const ViewMore = () => {
       <>
         <section className={styles.viewMore}>
           <div className={styles.header} style={bgImage}>
-            <div className={styles.backdrop} style={movieData.poster_path ? bgBackDrop : {}}>
+            <div
+              className={styles.backdrop}
+              style={movieData.poster_path ? bgBackDrop : {}}
+            >
               <div
                 className={`${styles['single-column']} ${
                   movieData.poster_path ? 'font-white' : 'font-black'
@@ -218,18 +221,19 @@ const ViewMore = () => {
                               <span className={styles.divider}>•</span>
                             </>
                           )}
-                          {movieData.genres?.length > 0 && (
+                          {movieData.genres && (
                             <span className={styles.genres}>
+                              {console.log(movieData.genres)}
                               {genreNames(movieData.genres)}
                             </span>
                           )}
-                          {(movieData.runtime ||
+                          {(movieData.runtime ??
                             movieData.episode_run_time[0]) && (
                             <>
                               <span className={styles.divider}>•</span>
                               <span className={styles.runtime}>
                                 {convertRuntime(
-                                  movieData.runtime ||
+                                  movieData.runtime ??
                                     movieData.episode_run_time[0]
                                 )}
                               </span>
