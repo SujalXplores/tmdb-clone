@@ -69,6 +69,10 @@ fieldset {
   border: 0 !important;
 }
 
+hr {
+  border: 1px solid #eee;
+}
+
 .MuiAccordionSummary-root {
   min-height: 50px !important;
 }
@@ -82,7 +86,7 @@ fieldset {
 }
 
 .MuiAccordionDetails-root {
-  padding: 14px 16px 16px !important;
+  padding: 0 !important;
 }
 
 .MuiSelect-select.MuiSelect-outlined {
