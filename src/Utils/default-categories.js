@@ -28,6 +28,7 @@ export const MOVIE_NOW_PLAYING = {
     lte: '400',
   },
   ott_region: 'IN',
+  certification_country: 'IN',
   show_me: 0,
 };
 
@@ -50,6 +51,7 @@ export const MOVIE_UPCOMING = {
     lte: '400',
   },
   ott_region: 'IN',
+  certification_country: 'IN',
   show_me: 0,
 };
 
@@ -73,6 +75,7 @@ export const MOVIE_TOP_RATED = {
     gte: '300',
   },
   ott_region: 'IN',
+  certification_country: 'IN',
   show_me: 0,
 };
 
@@ -93,6 +96,7 @@ export const MOVIE_POPULAR = {
     lte: '400',
   },
   ott_region: 'IN',
+  certification_country: 'IN',
   show_me: 0,
 };
 
@@ -114,6 +118,7 @@ export const TV_AIRING_TODAY = {
     lte: '400',
   },
   ott_region: 'IN',
+  certification_country: 'IN',
   show_me: 0,
 };
 
@@ -135,6 +140,7 @@ export const TV_ON_THE_AIR = {
     lte: '400',
   },
   ott_region: 'IN',
+  certification_country: 'IN',
   show_me: 0,
 };
 
@@ -158,6 +164,7 @@ export const TV_TOP_RATED = {
     lte: '400',
   },
   ott_region: 'IN',
+  certification_country: 'IN',
   show_me: 0,
 };
 
@@ -178,5 +185,6 @@ export const TV_POPULAR = {
     lte: '400',
   },
   ott_region: 'IN',
+  certification_country: 'IN',
   show_me: 0,
 };

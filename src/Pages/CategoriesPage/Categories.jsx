@@ -15,6 +15,8 @@ import { categoryUrl } from '../../Helpers/CategoryUrl';
 import { availabilities } from '../../Utils/availabilities';
 
 import styles from './Categories.module.scss';
+import { certifications } from '../../Utils/certifications';
+import { CountryAutoComplete } from '../../Components/CountryAutoComplete/CountryAutoComplete';
 
 const Categories = () => {
   const params = useParams();
@@ -35,6 +37,7 @@ const Categories = () => {
     options: data,
     searchAllAvailabilities: true,
     availabilities: new Array(availabilities.length).fill(true),
+    certifications: [],
   };
 
   const [state, dispatch] = useReducer((state, action) => {
@@ -94,8 +97,15 @@ const Categories = () => {
           searchAllAvailabilities: action.payload,
           options: {
             ...state.options,
-            with_ott_monetization_types: action.payload ? '' : 'flatrate|free|ads|rent|buy',
+            with_ott_monetization_types: action.payload
+              ? ''
+              : 'flatrate|free|ads|rent|buy',
           },
+        };
+      case 'set_certifications':
+        return {
+          ...state,
+          certifications: action.payload,
         };
       default:
         return state;
@@ -154,6 +164,20 @@ const Categories = () => {
     dispatch({
       type: 'set_options',
       payload: { ...state.options, with_genres: newGenreFilterArr.join(',') },
+    });
+  };
+
+  const toggleCertification = (certification) => {
+    const newCertifications = state.certifications.includes(certification)
+      ? state.certifications.filter((item) => item !== certification)
+      : [...state.certifications, certification];
+    dispatch({
+      type: 'set_certifications',
+      payload: newCertifications,
+    });
+    dispatch({
+      type: 'set_options',
+      payload: { ...state.options, certification: newCertifications.join('|') },
     });
   };
 
@@ -275,7 +299,35 @@ const Categories = () => {
                         ))}
                       </ul>
                     </div>
+                    <hr />
+                    <div className={styles.inner_padding}>
+                      <h3>Certification</h3>
+                      <ul className={styles.multi_select}>
+                        {certifications.map((item) => (
+                          <li
+                            key={item.order}
+                            className={
+                              state.certifications.includes(item.certification)
+                                ? styles.active
+                                : ''
+                            }
+                            onClick={() =>
+                              toggleCertification(item.certification)
+                            }
+                          >
+                            {item.certification}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className={styles.inner_padding}>
+                      <CountryAutoComplete />
+                    </div>
                   </CustomAccordion>
+                  <CustomAccordion
+                    title='Where To Watch'
+                    border
+                  ></CustomAccordion>
                   <Button
                     variant='contained'
                     fullWidth
