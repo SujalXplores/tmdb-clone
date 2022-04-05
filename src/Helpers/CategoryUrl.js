@@ -7,7 +7,7 @@ import {
   TV_ON_THE_AIR,
   TV_TOP_RATED,
   TV_POPULAR,
-} from './DefaultCategories';
+} from '../Utils/default-categories';
 
 export const categoryUrl = (type, category) => {
   if (type === 'movie') {

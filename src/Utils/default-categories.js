@@ -5,7 +5,7 @@ import {
   getDateBefore37Days,
   getFutureDates,
   todaysDate,
-} from './ConvertDate';
+} from '../Helpers/ConvertDate';
 
 const [firstDate, secondDate] = getFutureDates();
 
