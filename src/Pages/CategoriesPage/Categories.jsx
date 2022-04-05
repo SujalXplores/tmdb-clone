@@ -1,19 +1,20 @@
 import axios from 'axios';
+import InfiniteScroll from 'react-infinite-scroller';
 import { useEffect, useMemo, useReducer } from 'react';
 import { useParams } from 'react-router-dom';
-import InfiniteScroll from 'react-infinite-scroller';
+import { Button, FormControl, MenuItem, Select } from '@mui/material';
 
 import CustomAccordion from './CustomAccordion';
 import CategoryCard from './Category-Card';
-import { categoryUrl } from '../../Helpers/CategoryUrl';
 import useTitle from '../../Hooks/useTitle';
-
-import styles from './Categories.module.scss';
-import { Button, Divider, FormControl, MenuItem, Select } from '@mui/material';
 import { API, DISCOVER_URL, GENRES } from '../../Constants';
-import { sortOptions } from '../../Helpers/SortOptions';
+import { sortOptions } from '../../Utils/sort-options';
 import { serializeObject } from '../../Helpers/ObjectToUrl';
 import { Checkbox } from '../../Components/Checkbox/Checkbox';
+import { categoryUrl } from '../../Helpers/CategoryUrl';
+import { availabilities } from '../../Utils/availabilities';
+
+import styles from './Categories.module.scss';
 
 const Categories = () => {
   const params = useParams();
@@ -32,6 +33,8 @@ const Categories = () => {
     genreFilterArr: [],
     allGenreList: [],
     options: data,
+    searchAllAvailabilities: true,
+    availabilities: new Array(availabilities.length).fill(true),
   };
 
   const [state, dispatch] = useReducer((state, action) => {
@@ -80,12 +83,27 @@ const Categories = () => {
             sort_by: action.payload,
           },
         };
+      case 'set_availabilities':
+        return {
+          ...state,
+          availabilities: action.payload,
+        };
+      case 'set_searchAllAvailabilities':
+        return {
+          ...state,
+          searchAllAvailabilities: action.payload,
+          options: {
+            ...state.options,
+            with_ott_monetization_types: action.payload ? '' : 'flatrate|free|ads|rent|buy',
+          },
+        };
       default:
         return state;
     }
   }, initialState);
 
   const defaultUrl = useMemo(() => serializeObject(data), [data]);
+
   const url = useMemo(() => serializeObject(state.options), [state.options]);
 
   const handleLoadMore = async (page) => {
@@ -139,6 +157,34 @@ const Categories = () => {
     });
   };
 
+  const toggleAvailability = (id) => {
+    const newAvailabilities = [...state.availabilities];
+    newAvailabilities[id] = !newAvailabilities[id];
+    dispatch({
+      type: 'set_availabilities',
+      payload: newAvailabilities,
+    });
+
+    const newArray = newAvailabilities
+      .map((item, index) => (item ? availabilities[index].value : null))
+      .filter((item) => item !== null);
+
+    dispatch({
+      type: 'set_options',
+      payload: {
+        ...state.options,
+        with_ott_monetization_types: newArray.join('|'),
+      },
+    });
+  };
+
+  const toggleAllAvailabilities = () => {
+    dispatch({
+      type: 'set_searchAllAvailabilities',
+      payload: !state.searchAllAvailabilities,
+    });
+  };
+
   useEffect(() => {
     const fetchGenre = async () => {
       try {
@@ -169,45 +215,66 @@ const Categories = () => {
               <div className={styles.content}>
                 <div className={styles.filter_container}>
                   <CustomAccordion title='Sort' border>
-                    <h3>Sort Results By</h3>
-                    <FormControl fullWidth>
-                      <Select
-                        value={state.options.sort_by}
-                        onChange={handleChangeSort}
-                        className={styles['custom-select']}
-                      >
-                        {sortOptions.map((item) => (
-                          <MenuItem
-                            key={item.value}
-                            value={item.value}
-                            className={styles['menu-item']}
-                          >
-                            {item.label}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
+                    <div className={styles.inner_padding}>
+                      <h3>Sort Results By</h3>
+                      <FormControl fullWidth>
+                        <Select
+                          value={state.options.sort_by}
+                          onChange={handleChangeSort}
+                          className={styles['custom-select']}
+                        >
+                          {sortOptions.map((item) => (
+                            <MenuItem
+                              key={item.value}
+                              value={item.value}
+                              className={styles['menu-item']}
+                            >
+                              {item.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </div>
                   </CustomAccordion>
                   <CustomAccordion title='Filters' border>
-                    <h3>Availabilities</h3>
-                    <Checkbox value='all' isChecked={true}>Search all availabilities?</Checkbox>
-                    <Divider />
-                    <h3>Genres</h3>
-                    <ul className={styles.multi_select}>
-                      {state.allGenreList.map((genre) => (
-                        <li
-                          key={genre.id}
-                          className={
-                            state.genreFilterArr.includes(genre.id)
-                              ? styles.active
-                              : ''
-                          }
-                          onClick={() => toggleGenre(genre.id)}
-                        >
-                          {genre.name}
-                        </li>
-                      ))}
-                    </ul>
+                    <div className={styles.inner_padding}>
+                      <h3>Availabilities</h3>
+                      <Checkbox
+                        value='all'
+                        label='Search all availabilities?'
+                        checked={state.searchAllAvailabilities}
+                        onChange={toggleAllAvailabilities}
+                      />
+                      {!state.searchAllAvailabilities &&
+                        availabilities.map((item) => (
+                          <Checkbox
+                            key={item.id}
+                            value={item.value}
+                            checked={state.availabilities[item.id]}
+                            onChange={() => toggleAvailability(item.id)}
+                            label={item.label}
+                          />
+                        ))}
+                    </div>
+                    <hr />
+                    <div className={styles.inner_padding}>
+                      <h3>Genres</h3>
+                      <ul className={styles.multi_select}>
+                        {state.allGenreList.map((genre) => (
+                          <li
+                            key={genre.id}
+                            className={
+                              state.genreFilterArr.includes(genre.id)
+                                ? styles.active
+                                : ''
+                            }
+                            onClick={() => toggleGenre(genre.id)}
+                          >
+                            {genre.name}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </CustomAccordion>
                   <Button
                     variant='contained'

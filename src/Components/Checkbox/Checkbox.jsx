@@ -1,17 +1,18 @@
 import styles from './Checkbox.module.scss';
 
-export const Checkbox = ({ value, children, isChecked }) => {
+export const Checkbox = ({ value, checked, onChange, label }) => {
   return (
     <label className={styles['form-field']}>
       <input
         id='checkbox'
-        className={`${styles['checkbox']} ${isChecked ? styles['checked'] : ''}`}
+        className={`${styles['checkbox']} ${checked ? styles['checked'] : ''}`}
         type='checkbox'
         value={value}
-        checked={isChecked}
+        checked={checked}
+        onChange={onChange}
       />
-      <label for='checkbox' className={styles['label']}>
-        {children}
+      <label htmlFor='checkbox' className={styles['label']}>
+        {label}
       </label>
     </label>
   );
