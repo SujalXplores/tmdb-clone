@@ -2,22 +2,27 @@ import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroller';
 import { useEffect, useMemo, useReducer } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, FormControl, MenuItem, Select } from '@mui/material';
+import { Button, FormControl, MenuItem, Select, Slider } from '@mui/material';
 
 import CustomAccordion from './CustomAccordion';
 import CategoryCard from './Category-Card';
 import useTitle from '../../Hooks/useTitle';
-import { API, DISCOVER_URL, GENRES } from '../../Constants';
+import { API, DISCOVER_URL, GENRES, WATCH_PROVIDERS } from '../../Constants';
 import { SORT_OPTIONS } from '../../Utils/sort-options';
 import { serializeObject } from '../../Helpers/ObjectToUrl';
 import { Checkbox } from '../../Components/Checkbox/Checkbox';
 import { categoryUrl } from '../../Helpers/CategoryUrl';
 import { AVAILABILITIES } from '../../Utils/availabilities';
 import { CERTIFICATIONS } from '../../Utils/certifications';
-import { CountryAutoComplete } from '../../Components/CountryAutoComplete/CountryAutoComplete';
 import { LANGUAGES } from '../../Utils/languages';
 
 import styles from './Categories.module.scss';
+import {
+  MINIMUM_USER_VOTES_MARKS,
+  RUNTIME_MARKS,
+  USER_SCORE_MARKS,
+} from '../../Utils/slider-defaults';
+import { COUNTRIES } from '../../Utils/countries';
 
 const Categories = () => {
   const params = useParams();
@@ -39,6 +44,8 @@ const Categories = () => {
     searchAllAvailabilities: true,
     availabilities: new Array(AVAILABILITIES.length).fill(true),
     certifications: [],
+    ott_country: 'IN',
+    ott_providers: [],
   };
 
   const [state, dispatch] = useReducer((state, action) => {
@@ -107,6 +114,16 @@ const Categories = () => {
         return {
           ...state,
           certifications: action.payload,
+        };
+      case 'set_ott_country':
+        return {
+          ...state,
+          ott_country: action.payload,
+        };
+      case 'set_ott_providers':
+        return {
+          ...state,
+          ott_providers: action.payload,
         };
       default:
         return state;
@@ -220,6 +237,58 @@ const Categories = () => {
     });
   };
 
+  const valueLabelFormat = () => {
+    const { gte, lte } = state.options.vote_average;
+    return `Rated ${gte}-${lte}`;
+  };
+
+  const handleChangeVoteAverage = (e, newValue) => {
+    const [gte, lte] = newValue;
+    dispatch({
+      type: 'set_options',
+      payload: {
+        ...state.options,
+        vote_average: {
+          gte: gte,
+          lte: lte,
+        },
+      },
+    });
+  };
+
+  const handleChangeVoteCount = (e, newValue) => {
+    dispatch({
+      type: 'set_options',
+      payload: {
+        ...state.options,
+        vote_count: {
+          gte: newValue,
+        },
+      },
+    });
+  };
+
+  const handleChangeRuntime = (e, newValue) => {
+    const [gte, lte] = newValue;
+    dispatch({
+      type: 'set_options',
+      payload: {
+        ...state.options,
+        with_runtime: {
+          gte: gte,
+          lte: lte,
+        },
+      },
+    });
+  };
+
+  const handleOnChangeOttCountry = (e) => {
+    dispatch({
+      type: 'set_ott_country',
+      payload: e.target.value,
+    });
+  };
+
   useEffect(() => {
     const fetchGenre = async () => {
       try {
@@ -237,6 +306,19 @@ const Categories = () => {
       dispatch({ type: 'set_hasMore', payload: false });
     }
   }, [state.categories.page, state.categories.total_pages]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get(
+          `${WATCH_PROVIDERS}/${type}?api_key=${API}&${state.ott_country.toLowerCase()}`
+        );
+        dispatch({ type: 'set_ott_providers', payload: res.data });
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [state.ott_country]);
 
   return (
     <>
@@ -358,16 +440,89 @@ const Categories = () => {
                     <hr />
                     <div className={styles.inner_padding}>
                       <h3>User Score</h3>
+                      <Slider
+                        step={1}
+                        min={0}
+                        max={10}
+                        value={[
+                          state.options.vote_average.gte,
+                          state.options.vote_average.lte,
+                        ]}
+                        onChange={handleChangeVoteAverage}
+                        marks={USER_SCORE_MARKS}
+                        getAriaValueText={valueLabelFormat}
+                        valueLabelFormat={valueLabelFormat}
+                        valueLabelDisplay='auto'
+                        color='secondary'
+                      />
                     </div>
                     <hr />
                     <div className={styles.inner_padding}>
-                      <CountryAutoComplete />
+                      <h3>Minimum User Votes</h3>
+                      <Slider
+                        step={50}
+                        min={0}
+                        max={500}
+                        value={state.options.vote_count.gte}
+                        onChange={handleChangeVoteCount}
+                        marks={MINIMUM_USER_VOTES_MARKS}
+                        valueLabelDisplay='auto'
+                        color='secondary'
+                      />
+                    </div>
+                    <hr />
+                    <div className={styles.inner_padding}>
+                      <h3>Runtime</h3>
+                      <Slider
+                        step={15}
+                        min={0}
+                        max={400}
+                        value={[
+                          state.options.with_runtime.gte,
+                          state.options.with_runtime.lte,
+                        ]}
+                        onChange={handleChangeRuntime}
+                        marks={RUNTIME_MARKS}
+                        valueLabelDisplay='auto'
+                        color='secondary'
+                      />
                     </div>
                   </CustomAccordion>
-                  <CustomAccordion
-                    title='Where To Watch'
-                    border
-                  ></CustomAccordion>
+                  <CustomAccordion title='Where To Watch' border>
+                    <div className={styles.inner_padding}>
+                      <FormControl fullWidth>
+                        <Select
+                          value={state.ott_country}
+                          onChange={handleOnChangeOttCountry}
+                          className={styles['custom-select']}
+                        >
+                          {COUNTRIES.map((item) => (
+                            <MenuItem
+                              key={item.code}
+                              value={item.code}
+                              className={styles['menu-item']}
+                            >
+                              <img
+                                loading='lazy'
+                                width='20'
+                                src={`https://flagcdn.com/w20/${item.code.toLowerCase()}.png`}
+                                srcSet={`https://flagcdn.com/w40/${item.code.toLowerCase()}.png 2x`}
+                                alt={item.label}
+                                style={{
+                                  marginRight: '10px',
+                                }}
+                              />
+                              {item.label + ' ' + item.code}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                      {/* {state.ott_providers &&
+                        state.ott_providers.map((item) => (
+                          <>{console.log(item)}</>
+                        ))} */}
+                    </div>
+                  </CustomAccordion>
                   <Button
                     variant='contained'
                     fullWidth

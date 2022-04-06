@@ -92,9 +92,16 @@ hr {
 
 .MuiAutocomplete-inputRoot {
   height: 34px;
-  input {
-    padding: 0 0 0 10px !important;
-  }
+}
+
+span + .MuiFormControl-root .MuiOutlinedInput-root input {
+  padding: 0 0 0 35px !important;
+  font-size: 14px;
+}
+
+.MuiSlider-mark {
+  height: 10px !important;
+  background-color: currentColor !important;
 }
 
 .MuiSelect-select.MuiSelect-outlined {

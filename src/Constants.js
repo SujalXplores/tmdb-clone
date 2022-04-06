@@ -30,4 +30,7 @@ export const SEARCH_URL = `${API_URL}/search/multi?api_key=${API}&query=`;
 export const DISCOVER_URL = `${API_URL}/discover`;
 
 // List of genre
-export const GENRES = `${API_URL}/genre`
+export const GENRES = `${API_URL}/genre`;
+
+// OTT watch providers
+export const WATCH_PROVIDERS = `${API_URL}/watch/providers/`;
