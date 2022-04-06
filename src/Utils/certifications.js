@@ -1,4 +1,4 @@
-export const certifications = [
+export const CERTIFICATIONS = [
   {
     certification: 'U',
     meaning:

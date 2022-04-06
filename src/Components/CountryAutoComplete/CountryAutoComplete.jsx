@@ -1,14 +1,15 @@
 import { Autocomplete, Box, TextField } from '@mui/material';
-import { countries } from '../../Utils/countries';
+import { COUNTRIES } from '../../Utils/countries';
 
 export const CountryAutoComplete = () => {
   return (
     <Autocomplete
       sx={{
-          background: '#e4e7eb',
-          height: '34px'
+        background: '#e4e7eb',
+        height: '34px',
+        borderRadius: '4px',
       }}
-      options={countries}
+      options={COUNTRIES}
       getOptionLabel={(option) => option.label}
       renderOption={(props, option) => (
         <Box
@@ -30,7 +31,6 @@ export const CountryAutoComplete = () => {
         <TextField
           {...params}
           hiddenLabel
-          defaultValue='IN'
           inputProps={{
             ...params.inputProps,
           }}

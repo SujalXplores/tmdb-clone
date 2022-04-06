@@ -1,4 +1,4 @@
-export const availabilities = [
+export const AVAILABILITIES = [
   {
     id: 0,
     label: 'Stream',

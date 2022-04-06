@@ -8,15 +8,15 @@ import CustomAccordion from './CustomAccordion';
 import CategoryCard from './Category-Card';
 import useTitle from '../../Hooks/useTitle';
 import { API, DISCOVER_URL, GENRES } from '../../Constants';
-import { sortOptions } from '../../Utils/sort-options';
+import { SORT_OPTIONS } from '../../Utils/sort-options';
 import { serializeObject } from '../../Helpers/ObjectToUrl';
 import { Checkbox } from '../../Components/Checkbox/Checkbox';
 import { categoryUrl } from '../../Helpers/CategoryUrl';
-import { availabilities } from '../../Utils/availabilities';
+import { AVAILABILITIES } from '../../Utils/availabilities';
+import { CERTIFICATIONS } from '../../Utils/certifications';
+import { CountryAutoComplete } from '../../Components/CountryAutoComplete/CountryAutoComplete';
 
 import styles from './Categories.module.scss';
-import { certifications } from '../../Utils/certifications';
-import { CountryAutoComplete } from '../../Components/CountryAutoComplete/CountryAutoComplete';
 
 const Categories = () => {
   const params = useParams();
@@ -36,7 +36,7 @@ const Categories = () => {
     allGenreList: [],
     options: data,
     searchAllAvailabilities: true,
-    availabilities: new Array(availabilities.length).fill(true),
+    availabilities: new Array(AVAILABILITIES.length).fill(true),
     certifications: [],
   };
 
@@ -190,7 +190,7 @@ const Categories = () => {
     });
 
     const newArray = newAvailabilities
-      .map((item, index) => (item ? availabilities[index].value : null))
+      .map((item, index) => (item ? AVAILABILITIES[index].value : null))
       .filter((item) => item !== null);
 
     dispatch({
@@ -247,7 +247,7 @@ const Categories = () => {
                           onChange={handleChangeSort}
                           className={styles['custom-select']}
                         >
-                          {sortOptions.map((item) => (
+                          {SORT_OPTIONS.map((item) => (
                             <MenuItem
                               key={item.value}
                               value={item.value}
@@ -270,7 +270,7 @@ const Categories = () => {
                         onChange={toggleAllAvailabilities}
                       />
                       {!state.searchAllAvailabilities &&
-                        availabilities.map((item) => (
+                        AVAILABILITIES.map((item) => (
                           <Checkbox
                             key={item.id}
                             value={item.value}
@@ -303,23 +303,27 @@ const Categories = () => {
                     <div className={styles.inner_padding}>
                       <h3>Certification</h3>
                       <ul className={styles.multi_select}>
-                        {certifications.map((item) => (
-                          <li
-                            key={item.order}
-                            className={
-                              state.certifications.includes(item.certification)
-                                ? styles.active
-                                : ''
-                            }
-                            onClick={() =>
-                              toggleCertification(item.certification)
-                            }
-                          >
-                            {item.certification}
-                          </li>
-                        ))}
+                        {type === 'movie' &&
+                          CERTIFICATIONS.map((item) => (
+                            <li
+                              key={item.order}
+                              className={
+                                state.certifications.includes(
+                                  item.certification
+                                )
+                                  ? styles.active
+                                  : ''
+                              }
+                              onClick={() =>
+                                toggleCertification(item.certification)
+                              }
+                            >
+                              {item.certification}
+                            </li>
+                          ))}
                       </ul>
                     </div>
+                    <hr />
                     <div className={styles.inner_padding}>
                       <CountryAutoComplete />
                     </div>

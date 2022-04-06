@@ -1,4 +1,4 @@
-export const sortOptions = [
+export const SORT_OPTIONS = [
   {
     value: 'popularity.desc',
     label: 'Popularity Descending',
