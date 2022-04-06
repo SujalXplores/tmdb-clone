@@ -15,6 +15,7 @@ import { categoryUrl } from '../../Helpers/CategoryUrl';
 import { AVAILABILITIES } from '../../Utils/availabilities';
 import { CERTIFICATIONS } from '../../Utils/certifications';
 import { CountryAutoComplete } from '../../Components/CountryAutoComplete/CountryAutoComplete';
+import { LANGUAGES } from '../../Utils/languages';
 
 import styles from './Categories.module.scss';
 
@@ -209,6 +210,16 @@ const Categories = () => {
     });
   };
 
+  const handleOnChangeLanguage = (e) => {
+    dispatch({
+      type: 'set_options',
+      payload: {
+        ...state.options,
+        with_original_language: e.target.value,
+      },
+    });
+  };
+
   useEffect(() => {
     const fetchGenre = async () => {
       try {
@@ -222,7 +233,7 @@ const Categories = () => {
   }, [type]);
 
   useEffect(() => {
-    if (state.categories.page === state.categories.total_pages) {
+    if (state.categories.page === state.categories.total_pages - 1) {
       dispatch({ type: 'set_hasMore', payload: false });
     }
   }, [state.categories.page, state.categories.total_pages]);
@@ -325,6 +336,31 @@ const Categories = () => {
                     </div>
                     <hr />
                     <div className={styles.inner_padding}>
+                      <h3>Language</h3>
+                      <FormControl fullWidth>
+                        <Select
+                          value={state.options.with_original_language || 'en'}
+                          onChange={handleOnChangeLanguage}
+                          className={styles['custom-select']}
+                        >
+                          {LANGUAGES.map((item) => (
+                            <MenuItem
+                              key={item.iso_639_1}
+                              value={item.iso_639_1}
+                              className={styles['menu-item']}
+                            >
+                              {item.english_name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </div>
+                    <hr />
+                    <div className={styles.inner_padding}>
+                      <h3>User Score</h3>
+                    </div>
+                    <hr />
+                    <div className={styles.inner_padding}>
                       <CountryAutoComplete />
                     </div>
                   </CustomAccordion>
@@ -368,7 +404,7 @@ const Categories = () => {
                               <CategoryCard key={data.id} {...{ data, type }} />
                             ))}
                           </InfiniteScroll>
-                          {state.categories.page <=
+                          {state.categories.page <
                             state.categories.total_pages && (
                             <Button
                               className={styles.load_more}
