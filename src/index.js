@@ -10,6 +10,7 @@ import './index.scss';
 
 const theme = createTheme({
   typography: {
+    fontFamily: ['Source Sans Pro', 'Arial', 'sans-serif'].join(','),
     button: {
       textTransform: 'none',
     },
