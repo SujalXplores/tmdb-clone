@@ -184,11 +184,56 @@
         display: inline-flex;
         width: 50px;
         margin-top: 8px;
+        cursor: pointer;
 
-        img {
-            border-radius: 8px;
+        span {
+            display: block;
+            line-height: 0;
             width: 50px;
             height: 50px;
+
+            .ott_img {
+                border-radius: 8px;
+                width: 50px;
+                height: 50px;
+                position: relative;
+                top: 0;
+                left: 0;
+            }
+
+            &:hover div,
+            .active {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                align-content: center;
+                position: relative;
+                top: -50px;
+                width: 50px;
+                height: 50px;
+                background: rgba(1, 180, 228, 0.9);
+                z-index: 2;
+                border-radius: 8px;
+                font-size: 2em;
+
+                .tick {
+                    background-image: url("https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-739-check-white-a09b2a26e235b77489dfd57be3b66a17ff86efd5fb94d6db5f10cd3ced01e5a6.svg");
+                    position: relative;
+                    top: 0;
+                    left: 0;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-width: 1em;
+                    min-height: 1em;
+                    width: 1em;
+                    height: 1em;
+                    line-height: inherit;
+                    background-position: center center;
+                    background-repeat: no-repeat;
+                    color: inherit;
+                }
+            }
         }
     }
 }

@@ -214,18 +214,27 @@ export default function Filters(props) {
               {props.state.ott_providers.map((provider) => (
                 <li
                   key={provider.provider_id}
-                  className={
-                    props.state.ott_providers.includes(provider.provider_id)
-                      ? styles.active
-                      : ''
-                  }
                   onClick={() => props.toggleOttProvider(provider.provider_id)}
                 >
                   <CustomTooltip title={provider.provider_name} placement='top'>
-                    <img
-                      src={STREAMING_URL + provider.logo_path}
-                      alt={provider.provider_name}
-                    />
+                    <span>
+                      <img
+                        className={styles.ott_img}
+                        src={STREAMING_URL + provider.logo_path}
+                        alt={provider.provider_name}
+                      />
+                      <div
+                        className={
+                          props.state.ott_provider_filter.includes(
+                            provider.provider_id
+                          )
+                            ? styles.active
+                            : ''
+                        }
+                      >
+                        <span className={styles.tick}></span>
+                      </div>
+                    </span>
                   </CustomTooltip>
                 </li>
               ))}
