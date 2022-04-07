@@ -280,11 +280,12 @@ const Categories = () => {
   };
 
   const handleOnChangeLanguage = (e) => {
+    const language = e.target.value === 'xx' ? '' : e.target.value;
     dispatch({
       type: 'set_options',
       payload: {
         ...state.options,
-        with_original_language: e.target.value,
+        with_original_language: language,
       },
     });
   };

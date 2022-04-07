@@ -237,3 +237,18 @@
         }
     }
 }
+
+.help-icon {
+    margin-left: 6px;
+    opacity: 0.4;
+    background-image: url("../../assets/icons/icon-help.svg");
+    min-width: 1em;
+    min-height: 1em;
+    width: 1em;
+    height: 1em;
+    line-height: inherit;
+    background-position: center center;
+    background-repeat: no-repeat;
+    color: inherit;
+    cursor: pointer;
+}

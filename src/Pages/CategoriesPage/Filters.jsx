@@ -110,16 +110,24 @@ export default function Filters(props) {
         </div>
         <hr />
         <div className={styles.inner_padding}>
-          <h3>Language</h3>
+          <h3>
+            Language
+            <CustomTooltip
+              title='Filter items based on their original language.'
+              placement='top'
+            >
+              <span className={styles['help-icon']}></span>
+            </CustomTooltip>
+          </h3>
           <FormControl fullWidth>
             <Select
-              value={props.state.options.with_original_language || 'en'}
+              value={props.state.options.with_original_language || 'xx'}
               onChange={props.handleOnChangeLanguage}
               className={styles['custom-select']}
             >
-              {LANGUAGES.map((item) => (
+              {LANGUAGES.map((item, index) => (
                 <MenuItem
-                  key={item.iso_639_1}
+                  key={item.iso_639_1 + index}
                   value={item.iso_639_1}
                   className={styles['menu-item']}
                 >
@@ -146,6 +154,12 @@ export default function Filters(props) {
             valueLabelFormat={props.valueLabelFormat}
             valueLabelDisplay='auto'
             color='secondary'
+            sx={{
+              '& .MuiSlider-thumb': {
+                width: 14,
+                height: 14,
+              },
+            }}
           />
         </div>
         <hr />
@@ -160,6 +174,12 @@ export default function Filters(props) {
             marks={MINIMUM_USER_VOTES_MARKS}
             valueLabelDisplay='auto'
             color='secondary'
+            sx={{
+              '& .MuiSlider-thumb': {
+                width: 14,
+                height: 14,
+              },
+            }}
           />
         </div>
         <hr />
@@ -177,6 +197,12 @@ export default function Filters(props) {
             marks={RUNTIME_MARKS}
             valueLabelDisplay='auto'
             color='secondary'
+            sx={{
+              '& .MuiSlider-thumb': {
+                width: 14,
+                height: 14,
+              },
+            }}
           />
         </div>
       </CustomAccordion>

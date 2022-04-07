@@ -1,8 +1,8 @@
 export const LANGUAGES = [
   {
     iso_639_1: 'xx',
-    english_name: 'No Language',
-    name: 'No Language',
+    english_name: 'None Selected',
+    name: 'None Selected',
   },
   {
     iso_639_1: 'aa',
