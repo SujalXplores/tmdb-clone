@@ -6,13 +6,13 @@ import { Button } from '@mui/material';
 
 import CategoryCard from './Category-Card';
 import useTitle from '../../Hooks/useTitle';
+import Filters from './Filters';
 import { API, DISCOVER_URL, GENRES, WATCH_PROVIDERS } from '../../Constants';
 import { serializeObject } from '../../Helpers/ObjectToUrl';
 import { categoryUrl } from '../../Helpers/CategoryUrl';
 import { AVAILABILITIES } from '../../Utils/availabilities';
 
 import styles from './Categories.module.scss';
-import Filters from './Filters';
 
 const Categories = () => {
   const params = useParams();
@@ -309,6 +309,10 @@ const Categories = () => {
     });
   };
 
+  const setHasMoreTrue = () => {
+    dispatch({ type: 'set_hasMore', payload: true });
+  };
+
   return (
     <>
       <section className={styles.inner_content}>
@@ -320,20 +324,21 @@ const Categories = () => {
               </div>
               <div className={styles.content}>
                 <Filters
-                  type={type}
-                  state={state}
-                  handleSearch={handleSearch}
-                  handleChangeSort={handleChangeSort}
-                  toggleGenre={toggleGenre}
-                  toggleCertification={toggleCertification}
-                  toggleAvailability={toggleAvailability}
-                  toggleAllAvailabilities={toggleAllAvailabilities}
-                  handleOnChangeLanguage={handleOnChangeLanguage}
-                  valueLabelFormat={valueLabelFormat}
-                  handleChangeVoteAverage={handleChangeVoteAverage}
-                  handleChangeVoteCount={handleChangeVoteCount}
-                  handleChangeRuntime={handleChangeRuntime}
-                  handleOnChangeOttCountry={handleOnChangeOttCountry}
+                  {...{
+                    type,
+                    state,
+                    handleSearch,
+                    handleChangeSort,
+                    toggleGenre,
+                    toggleCertification,
+                    toggleAvailability,
+                    toggleAllAvailabilities,
+                    handleOnChangeLanguage,
+                    handleChangeVoteAverage,
+                    handleChangeVoteCount,
+                    handleChangeRuntime,
+                    handleOnChangeOttCountry,
+                  }}
                 />
                 <div>
                   <div className={styles.right_media_container}>
@@ -356,9 +361,7 @@ const Categories = () => {
                               className={styles.load_more}
                               variant='contained'
                               fullWidth
-                              onClick={() =>
-                                dispatch({ type: 'set_hasMore', payload: true })
-                              }
+                              onClick={setHasMoreTrue}
                             >
                               Load More
                             </Button>

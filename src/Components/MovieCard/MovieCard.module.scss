@@ -13,6 +13,7 @@
     flex-wrap: wrap;
     align-content: flex-start;
     margin-left: 20px;
+    animation: fade-in-out 2s ease-in-out alternate;
 
     &:first-child {
         margin-left: 40px;
@@ -74,4 +75,13 @@
 .release_date {
     font-size: 1em;
     color: #00000099;
+}
+
+@keyframes fade-in-out {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
