@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useCallback, useLayoutEffect, useState } from 'react';
-import { ReactComponent as PersonMale } from '../../assets/person-male.svg';
-import { ReactComponent as PersonFemale } from '../../assets/person-female.svg';
+import { ReactComponent as PersonMale } from '../../assets/icons/person-male.svg';
+import { ReactComponent as PersonFemale } from '../../assets/icons/person-female.svg';
 import {
   API,
   API_URL,
@@ -11,8 +11,8 @@ import {
   SEASON_POSTER_URL,
   SOCIAL_URL,
 } from '../../Constants';
-import imageErrorSrc from '../../assets/image-fallback.svg';
-import avatarErrorSrc from '../../assets/person-male.svg';
+import imageErrorSrc from '../../assets/icons/image-fallback.svg';
+import avatarErrorSrc from '../../assets/icons/person-male.svg';
 
 import styles from './CastContainer.module.scss';
 import { convertDate } from '../../Helpers/ConvertDate';

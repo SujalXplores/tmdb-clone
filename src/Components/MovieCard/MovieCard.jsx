@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { CardActionArea } from '@mui/material';
 
-import imageErrorSrc from '../../assets/image-fallback.svg';
+import imageErrorSrc from '../../assets/icons/image-fallback.svg';
 import { IMAGE_URL } from '../../Constants';
 import { convertDate } from '../../Helpers/ConvertDate';
 import { RatingProgress } from '../RatingProgress/RatingProgress';

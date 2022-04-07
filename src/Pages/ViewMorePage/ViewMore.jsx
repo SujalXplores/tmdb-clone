@@ -17,7 +17,7 @@ import { RatingProgress } from '../../Components/RatingProgress/RatingProgress';
 import { TrailerModal } from '../../Components/TrailerModal/TrailerModal';
 import { CastContainer } from '../../Components/CastContainer/CastContainer';
 import useTitle from '../../Hooks/useTitle';
-import imageErrorSrc from '../../assets/image-fallback.svg';
+import imageErrorSrc from '../../assets/icons/image-fallback.svg';
 
 import styles from './ViewMore.module.scss';
 

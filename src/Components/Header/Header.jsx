@@ -15,8 +15,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import { useAuth } from '../../Auth/authContext';
 import { LogoutDialog } from '../LogoutDialog/LogoutDialog';
-import { default as logoBig } from '../../assets/logo_big.svg';
-import { default as logoSmall } from '../../assets/logo_small.svg';
+import { default as logoBig } from '../../assets/icons/logo_big.svg';
+import { default as logoSmall } from '../../assets/icons/logo_small.svg';
 import styles from './Header.module.scss';
 
 function HideOnScroll(props) {

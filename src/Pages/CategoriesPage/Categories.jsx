@@ -338,6 +338,7 @@ const Categories = () => {
                     handleChangeVoteCount,
                     handleChangeRuntime,
                     handleOnChangeOttCountry,
+                    valueLabelFormat,
                   }}
                 />
                 <div>

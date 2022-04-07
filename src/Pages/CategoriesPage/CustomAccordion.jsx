@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 
-import { default as arrowRight } from '../../assets/icon-right-arrow.svg';
+import { default as arrowRight } from '../../assets/icons/icon-right-arrow.svg';
 
 import styles from './Categories.module.scss';
 
