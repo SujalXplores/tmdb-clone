@@ -5,6 +5,9 @@ import {
   Slider,
   Typography,
 } from '@mui/material';
+
+import CustomAccordion from './CustomAccordion';
+import SearchButton from './SearchButton';
 import { AVAILABILITIES } from '../../Utils/availabilities';
 import { LANGUAGES } from '../../Utils/languages';
 import {
@@ -12,15 +15,14 @@ import {
   RUNTIME_MARKS,
   USER_SCORE_MARKS,
 } from '../../Utils/slider-defaults';
-import { SORT_OPTIONS } from '../../Utils/sort-options';
-import CustomAccordion from './CustomAccordion';
-import SearchButton from './SearchButton';
 import { Checkbox } from '../../Components/Checkbox/Checkbox';
 import { CERTIFICATIONS } from '../../Utils/certifications';
-
-import styles from './Categories.module.scss';
+import { SORT_OPTIONS } from '../../Utils/sort-options';
 import { OTT_REGIONS } from '../../Utils/ott-regions';
 import { STREAMING_URL } from '../../Constants';
+import { CustomTooltip } from '../../Components/Tooltip/Tooltip';
+
+import styles from './Categories.module.scss';
 
 export default function Filters(props) {
   return (
@@ -219,10 +221,12 @@ export default function Filters(props) {
                   }
                   onClick={() => props.toggleOttProvider(provider.provider_id)}
                 >
-                  <img
-                    src={STREAMING_URL + provider.logo_path}
-                    alt={provider.provider_name}
-                  />
+                  <CustomTooltip title={provider.provider_name} placement='top'>
+                    <img
+                      src={STREAMING_URL + provider.logo_path}
+                      alt={provider.provider_name}
+                    />
+                  </CustomTooltip>
                 </li>
               ))}
             </ul>
