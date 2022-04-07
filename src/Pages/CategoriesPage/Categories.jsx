@@ -2,27 +2,17 @@ import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroller';
 import { useEffect, useMemo, useReducer } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, FormControl, MenuItem, Select, Slider } from '@mui/material';
+import { Button } from '@mui/material';
 
-import CustomAccordion from './CustomAccordion';
 import CategoryCard from './Category-Card';
 import useTitle from '../../Hooks/useTitle';
 import { API, DISCOVER_URL, GENRES, WATCH_PROVIDERS } from '../../Constants';
-import { SORT_OPTIONS } from '../../Utils/sort-options';
 import { serializeObject } from '../../Helpers/ObjectToUrl';
-import { Checkbox } from '../../Components/Checkbox/Checkbox';
 import { categoryUrl } from '../../Helpers/CategoryUrl';
 import { AVAILABILITIES } from '../../Utils/availabilities';
-import { CERTIFICATIONS } from '../../Utils/certifications';
-import { LANGUAGES } from '../../Utils/languages';
 
 import styles from './Categories.module.scss';
-import {
-  MINIMUM_USER_VOTES_MARKS,
-  RUNTIME_MARKS,
-  USER_SCORE_MARKS,
-} from '../../Utils/slider-defaults';
-import { COUNTRIES } from '../../Utils/countries';
+import Filters from './Filters';
 
 const Categories = () => {
   const params = useParams();
@@ -131,8 +121,47 @@ const Categories = () => {
   }, initialState);
 
   const defaultUrl = useMemo(() => serializeObject(data), [data]);
-
   const url = useMemo(() => serializeObject(state.options), [state.options]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get(`${GENRES}/${type}/list?api_key=${API}`);
+        dispatch({ type: 'set_allGenreList', payload: res.data.genres });
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [type]);
+
+  useEffect(() => {
+    if (state.categories.page === state.categories.total_pages - 1) {
+      dispatch({ type: 'set_hasMore', payload: false });
+    }
+  }, [state.categories.page, state.categories.total_pages]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get(
+          `${WATCH_PROVIDERS}/${type}?api_key=${API}&watch_region=${state.ott_country.toLowerCase()}`
+        );
+        console.log('Providers', res.data);
+        dispatch({ type: 'set_ott_providers', payload: res.data.results });
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [state.ott_country, type]);
+
+  useEffect(() => {
+    dispatch({ type: 'set_hasMore', payload: false });
+    dispatch({
+      type: 'set_options',
+      payload: data,
+    });
+    handleLoadMore(1);
+  }, [type, category, data]);
 
   const handleLoadMore = async (page) => {
     try {
@@ -146,15 +175,6 @@ const Categories = () => {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    dispatch({ type: 'set_hasMore', payload: false });
-    dispatch({
-      type: 'set_options',
-      payload: data,
-    });
-    handleLoadMore(1);
-  }, [type, category, data]);
 
   const handleSearch = async () => {
     try {
@@ -289,37 +309,6 @@ const Categories = () => {
     });
   };
 
-  useEffect(() => {
-    const fetchGenre = async () => {
-      try {
-        const res = await axios.get(`${GENRES}/${type}/list?api_key=${API}`);
-        dispatch({ type: 'set_allGenreList', payload: res.data.genres });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchGenre();
-  }, [type]);
-
-  useEffect(() => {
-    if (state.categories.page === state.categories.total_pages - 1) {
-      dispatch({ type: 'set_hasMore', payload: false });
-    }
-  }, [state.categories.page, state.categories.total_pages]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await axios.get(
-          `${WATCH_PROVIDERS}/${type}?api_key=${API}&${state.ott_country.toLowerCase()}`
-        );
-        dispatch({ type: 'set_ott_providers', payload: res.data });
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, [state.ott_country]);
-
   return (
     <>
       <section className={styles.inner_content}>
@@ -330,220 +319,22 @@ const Categories = () => {
                 <h2>{title}</h2>
               </div>
               <div className={styles.content}>
-                <div className={styles.filter_container}>
-                  <CustomAccordion title='Sort' border>
-                    <div className={styles.inner_padding}>
-                      <h3>Sort Results By</h3>
-                      <FormControl fullWidth>
-                        <Select
-                          value={state.options.sort_by}
-                          onChange={handleChangeSort}
-                          className={styles['custom-select']}
-                        >
-                          {SORT_OPTIONS.map((item) => (
-                            <MenuItem
-                              key={item.value}
-                              value={item.value}
-                              className={styles['menu-item']}
-                            >
-                              {item.label}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </div>
-                  </CustomAccordion>
-                  <CustomAccordion title='Filters' border>
-                    <div className={styles.inner_padding}>
-                      <h3>Availabilities</h3>
-                      <Checkbox
-                        value='all'
-                        label='Search all availabilities?'
-                        checked={state.searchAllAvailabilities}
-                        onChange={toggleAllAvailabilities}
-                      />
-                      {!state.searchAllAvailabilities &&
-                        AVAILABILITIES.map((item) => (
-                          <Checkbox
-                            key={item.id}
-                            value={item.value}
-                            checked={state.availabilities[item.id]}
-                            onChange={() => toggleAvailability(item.id)}
-                            label={item.label}
-                          />
-                        ))}
-                    </div>
-                    <hr />
-                    <div className={styles.inner_padding}>
-                      <h3>Genres</h3>
-                      <ul className={styles.multi_select}>
-                        {state.allGenreList.map((genre) => (
-                          <li
-                            key={genre.id}
-                            className={
-                              state.genreFilterArr.includes(genre.id)
-                                ? styles.active
-                                : ''
-                            }
-                            onClick={() => toggleGenre(genre.id)}
-                          >
-                            {genre.name}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <hr />
-                    <div className={styles.inner_padding}>
-                      <h3>Certification</h3>
-                      <ul className={styles.multi_select}>
-                        {type === 'movie' &&
-                          CERTIFICATIONS.map((item) => (
-                            <li
-                              key={item.order}
-                              className={
-                                state.certifications.includes(
-                                  item.certification
-                                )
-                                  ? styles.active
-                                  : ''
-                              }
-                              onClick={() =>
-                                toggleCertification(item.certification)
-                              }
-                            >
-                              {item.certification}
-                            </li>
-                          ))}
-                      </ul>
-                    </div>
-                    <hr />
-                    <div className={styles.inner_padding}>
-                      <h3>Language</h3>
-                      <FormControl fullWidth>
-                        <Select
-                          value={state.options.with_original_language || 'en'}
-                          onChange={handleOnChangeLanguage}
-                          className={styles['custom-select']}
-                        >
-                          {LANGUAGES.map((item) => (
-                            <MenuItem
-                              key={item.iso_639_1}
-                              value={item.iso_639_1}
-                              className={styles['menu-item']}
-                            >
-                              {item.english_name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </div>
-                    <hr />
-                    <div className={styles.inner_padding}>
-                      <h3>User Score</h3>
-                      <Slider
-                        step={1}
-                        min={0}
-                        max={10}
-                        value={[
-                          state.options.vote_average.gte,
-                          state.options.vote_average.lte,
-                        ]}
-                        onChange={handleChangeVoteAverage}
-                        marks={USER_SCORE_MARKS}
-                        getAriaValueText={valueLabelFormat}
-                        valueLabelFormat={valueLabelFormat}
-                        valueLabelDisplay='auto'
-                        color='secondary'
-                      />
-                    </div>
-                    <hr />
-                    <div className={styles.inner_padding}>
-                      <h3>Minimum User Votes</h3>
-                      <Slider
-                        step={50}
-                        min={0}
-                        max={500}
-                        value={state.options.vote_count.gte}
-                        onChange={handleChangeVoteCount}
-                        marks={MINIMUM_USER_VOTES_MARKS}
-                        valueLabelDisplay='auto'
-                        color='secondary'
-                      />
-                    </div>
-                    <hr />
-                    <div className={styles.inner_padding}>
-                      <h3>Runtime</h3>
-                      <Slider
-                        step={15}
-                        min={0}
-                        max={400}
-                        value={[
-                          state.options.with_runtime.gte,
-                          state.options.with_runtime.lte,
-                        ]}
-                        onChange={handleChangeRuntime}
-                        marks={RUNTIME_MARKS}
-                        valueLabelDisplay='auto'
-                        color='secondary'
-                      />
-                    </div>
-                  </CustomAccordion>
-                  <CustomAccordion title='Where To Watch' border>
-                    <div className={styles.inner_padding}>
-                      <FormControl fullWidth>
-                        <Select
-                          value={state.ott_country}
-                          onChange={handleOnChangeOttCountry}
-                          className={styles['custom-select']}
-                        >
-                          {COUNTRIES.map((item) => (
-                            <MenuItem
-                              key={item.code}
-                              value={item.code}
-                              className={styles['menu-item']}
-                            >
-                              <img
-                                loading='lazy'
-                                width='20'
-                                src={`https://flagcdn.com/w20/${item.code.toLowerCase()}.png`}
-                                srcSet={`https://flagcdn.com/w40/${item.code.toLowerCase()}.png 2x`}
-                                alt={item.label}
-                                style={{
-                                  marginRight: '10px',
-                                }}
-                              />
-                              {item.label + ' ' + item.code}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                      {/* {state.ott_providers &&
-                        state.ott_providers.map((item) => (
-                          <>{console.log(item)}</>
-                        ))} */}
-                    </div>
-                  </CustomAccordion>
-                  <Button
-                    variant='contained'
-                    fullWidth
-                    sx={{
-                      backgroundColor: '#01b4e4',
-                      height: '44px',
-                      borderRadius: '20px',
-                      fontSize: '1.2em',
-                      fontWeight: '600',
-                      fontFamily: 'inherit',
-                      mt: '7px',
-                      lineHeight: '1',
-                      '&:hover': {
-                        backgroundColor: '#032541',
-                      },
-                    }}
-                    onClick={handleSearch}
-                  >
-                    Search
-                  </Button>
-                </div>
+                <Filters
+                  type={type}
+                  state={state}
+                  handleSearch={handleSearch}
+                  handleChangeSort={handleChangeSort}
+                  toggleGenre={toggleGenre}
+                  toggleCertification={toggleCertification}
+                  toggleAvailability={toggleAvailability}
+                  toggleAllAvailabilities={toggleAllAvailabilities}
+                  handleOnChangeLanguage={handleOnChangeLanguage}
+                  valueLabelFormat={valueLabelFormat}
+                  handleChangeVoteAverage={handleChangeVoteAverage}
+                  handleChangeVoteCount={handleChangeVoteCount}
+                  handleChangeRuntime={handleChangeRuntime}
+                  handleOnChangeOttCountry={handleOnChangeOttCountry}
+                />
                 <div>
                   <div className={styles.right_media_container}>
                     <section className={styles.panel_results}>
