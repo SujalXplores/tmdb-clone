@@ -1,93 +1,316 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroller';
+import { useEffect, useMemo, useReducer } from 'react';
+import { useParams } from 'react-router-dom';
+import { Button } from '@mui/material';
 
-import CustomAccordion from './CustomAccordion';
 import CategoryCard from './Category-Card';
-import { categoryUrl } from '../../Helpers/CategoryUrl';
 import useTitle from '../../Hooks/useTitle';
+import Filters from './Filters';
+import { API, DISCOVER_URL, GENRES, WATCH_PROVIDERS } from '../../Constants';
+import { serializeObject } from '../../Helpers/ObjectToUrl';
+import { categoryUrl } from '../../Helpers/CategoryUrl';
+import { AVAILABILITIES } from '../../Utils/availabilities';
 
 import styles from './Categories.module.scss';
-import {
-  Button,
-  Chip,
-  FormControl,
-  MenuItem,
-  Select,
-  Stack,
-} from '@mui/material';
-import { sortByCategory } from '../../Helpers/CategoryFilters';
 
 const Categories = () => {
-  const [hasMore, setHasMore] = useState(false);
-  const [categories, setCategories] = useState({
-    results: [],
-    page: 1,
-    total_pages: 1,
-  });
-  const [sort, setSort] = useState('popularity.desc');
-
-  const handleChangeSort = (event) => {
-    setSort(event.target.value);
-  };
-
   const params = useParams();
   const { type, category } = params;
-  const { url, title } = categoryUrl(type, category);
+  const { data, title } = categoryUrl(type, category);
 
   useTitle(`${title} — The Movie Database (TMDB)`);
 
+  const initialState = {
+    categories: {
+      results: [],
+      page: 1,
+      total_pages: 1,
+    },
+    hasMore: false,
+    genreFilterArr: [],
+    allGenreList: [],
+    options: data,
+    searchAllAvailabilities: true,
+    availabilities: new Array(AVAILABILITIES.length).fill(true),
+    certifications: [],
+    ott_country: 'IN',
+    ott_providers: [],
+  };
+
+  const [state, dispatch] = useReducer((state, action) => {
+    switch (action.type) {
+      case 'set_categories':
+        if (action.payload.page === 1) {
+          return {
+            ...state,
+            categories: action.payload,
+          };
+        } else {
+          return {
+            ...state,
+            categories: {
+              results: [...state.categories.results, ...action.payload.results],
+              page: action.payload.page,
+              total_pages: action.payload.total_pages,
+            },
+          };
+        }
+      case 'set_hasMore':
+        return {
+          ...state,
+          hasMore: action.payload,
+        };
+      case 'set_genreFilterArr':
+        return {
+          ...state,
+          genreFilterArr: action.payload,
+        };
+      case 'set_allGenreList':
+        return {
+          ...state,
+          allGenreList: action.payload,
+        };
+      case 'set_options':
+        return {
+          ...state,
+          options: action.payload,
+        };
+      case 'set_sort':
+        return {
+          ...state,
+          options: {
+            ...state.options,
+            sort_by: action.payload,
+          },
+        };
+      case 'set_availabilities':
+        return {
+          ...state,
+          availabilities: action.payload,
+        };
+      case 'set_searchAllAvailabilities':
+        return {
+          ...state,
+          searchAllAvailabilities: action.payload,
+          options: {
+            ...state.options,
+            with_ott_monetization_types: action.payload
+              ? ''
+              : 'flatrate|free|ads|rent|buy',
+          },
+        };
+      case 'set_certifications':
+        return {
+          ...state,
+          certifications: action.payload,
+        };
+      case 'set_ott_country':
+        return {
+          ...state,
+          ott_country: action.payload,
+        };
+      case 'set_ott_providers':
+        return {
+          ...state,
+          ott_providers: action.payload,
+        };
+      default:
+        return state;
+    }
+  }, initialState);
+
+  const defaultUrl = useMemo(() => serializeObject(data), [data]);
+  const url = useMemo(() => serializeObject(state.options), [state.options]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get(`${GENRES}/${type}/list?api_key=${API}`);
+        dispatch({ type: 'set_allGenreList', payload: res.data.genres });
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [type]);
+
+  useEffect(() => {
+    if (state.categories.page === state.categories.total_pages - 1) {
+      dispatch({ type: 'set_hasMore', payload: false });
+    }
+  }, [state.categories.page, state.categories.total_pages]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get(
+          `${WATCH_PROVIDERS}/${type}?api_key=${API}&watch_region=${state.ott_country.toLowerCase()}`
+        );
+        console.log('Providers', res.data);
+        dispatch({ type: 'set_ott_providers', payload: res.data.results });
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [state.ott_country, type]);
+
+  useEffect(() => {
+    dispatch({ type: 'set_hasMore', payload: false });
+    dispatch({
+      type: 'set_options',
+      payload: data,
+    });
+    handleLoadMore(1);
+  }, [type, category, data]);
+
   const handleLoadMore = async (page) => {
     try {
-      const response = await axios.get(`${url}&page=${page}`);
-      console.log('page->', response.data);
-      if (response.data.page === 1) {
-        setCategories({
-          results: response.data.results,
-          page: response.data.page,
-          total_pages: response.data.total_pages,
-        });
-      } else {
-        setCategories((prevState) => {
-          return {
-            ...prevState,
-            results: [...prevState.results, ...response.data.results],
-            page: response.data.page,
-            total_pages: response.data.total_pages,
-          };
-        });
-      }
-      console.log('state:::', categories, 'HAS MORE:::', hasMore);
+      const options = page === 1 ? defaultUrl : url;
+      console.log('LOAD MORE URL:::', url);
+      const response = await axios.get(
+        `${DISCOVER_URL}/${type}?api_key=${API}&${options}&page=${page}`
+      );
+      dispatch({ type: 'set_categories', payload: response.data });
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    if (categories.page === categories.total_pages) {
-      setHasMore(false);
+  const handleSearch = async () => {
+    try {
+      const res = await axios.get(
+        `${DISCOVER_URL}/${type}?api_key=${API}&${url}`
+      );
+      dispatch({ type: 'set_categories', payload: res.data });
+    } catch (error) {
+      console.log(error);
     }
-  }, [categories.page, categories.total_pages]);
+  };
 
-  useEffect(() => {
-    setHasMore(false);
-  }, [category]);
-
-  useEffect(() => {
-    handleLoadMore(1);
-  }, [url]);
-
-  const handleSearch = () => {
-    console.log('search');
-    const filteredData = sortByCategory(sort, categories.results);
-    console.log(filteredData);
-    setCategories((prevState) => {
-      return {
-        ...prevState,
-        results: filteredData,
-      };
+  const handleChangeSort = (event) => {
+    dispatch({
+      type: 'set_options',
+      payload: { ...state.options, sort_by: event.target.value },
     });
+  };
+
+  const toggleGenre = (genre) => {
+    const newGenreFilterArr = state.genreFilterArr.includes(genre)
+      ? state.genreFilterArr.filter((item) => item !== genre)
+      : [...state.genreFilterArr, genre];
+    dispatch({ type: 'set_genreFilterArr', payload: newGenreFilterArr });
+    dispatch({
+      type: 'set_options',
+      payload: { ...state.options, with_genres: newGenreFilterArr.join(',') },
+    });
+  };
+
+  const toggleCertification = (certification) => {
+    const newCertifications = state.certifications.includes(certification)
+      ? state.certifications.filter((item) => item !== certification)
+      : [...state.certifications, certification];
+    dispatch({
+      type: 'set_certifications',
+      payload: newCertifications,
+    });
+    dispatch({
+      type: 'set_options',
+      payload: { ...state.options, certification: newCertifications.join('|') },
+    });
+  };
+
+  const toggleAvailability = (id) => {
+    const newAvailabilities = [...state.availabilities];
+    newAvailabilities[id] = !newAvailabilities[id];
+    dispatch({
+      type: 'set_availabilities',
+      payload: newAvailabilities,
+    });
+
+    const newArray = newAvailabilities
+      .map((item, index) => (item ? AVAILABILITIES[index].value : null))
+      .filter((item) => item !== null);
+
+    dispatch({
+      type: 'set_options',
+      payload: {
+        ...state.options,
+        with_ott_monetization_types: newArray.join('|'),
+      },
+    });
+  };
+
+  const toggleAllAvailabilities = () => {
+    dispatch({
+      type: 'set_searchAllAvailabilities',
+      payload: !state.searchAllAvailabilities,
+    });
+  };
+
+  const handleOnChangeLanguage = (e) => {
+    dispatch({
+      type: 'set_options',
+      payload: {
+        ...state.options,
+        with_original_language: e.target.value,
+      },
+    });
+  };
+
+  const valueLabelFormat = () => {
+    const { gte, lte } = state.options.vote_average;
+    return `Rated ${gte}-${lte}`;
+  };
+
+  const handleChangeVoteAverage = (e, newValue) => {
+    const [gte, lte] = newValue;
+    dispatch({
+      type: 'set_options',
+      payload: {
+        ...state.options,
+        vote_average: {
+          gte: gte,
+          lte: lte,
+        },
+      },
+    });
+  };
+
+  const handleChangeVoteCount = (e, newValue) => {
+    dispatch({
+      type: 'set_options',
+      payload: {
+        ...state.options,
+        vote_count: {
+          gte: newValue,
+        },
+      },
+    });
+  };
+
+  const handleChangeRuntime = (e, newValue) => {
+    const [gte, lte] = newValue;
+    dispatch({
+      type: 'set_options',
+      payload: {
+        ...state.options,
+        with_runtime: {
+          gte: gte,
+          lte: lte,
+        },
+      },
+    });
+  };
+
+  const handleOnChangeOttCountry = (e) => {
+    dispatch({
+      type: 'set_ott_country',
+      payload: e.target.value,
+    });
+  };
+
+  const setHasMoreTrue = () => {
+    dispatch({ type: 'set_hasMore', payload: true });
   };
 
   return (
@@ -100,111 +323,58 @@ const Categories = () => {
                 <h2>{title}</h2>
               </div>
               <div className={styles.content}>
-                <div className={styles.filter_container}>
-                  <CustomAccordion title='Sort' border>
-                    <h3>Sort Results By</h3>
-                    <FormControl fullWidth>
-                      <Select value={sort} onChange={handleChangeSort}>
-                        <MenuItem value='popularity.desc'>
-                          Popularity Descending
-                        </MenuItem>
-                        <MenuItem value='popularity.asc'>
-                          Popularity Ascending
-                        </MenuItem>
-                        <MenuItem value='vote_average.asc'>
-                          Rating Ascending
-                        </MenuItem>
-                        <MenuItem value='vote_average.desc'>
-                          Rating Descending
-                        </MenuItem>
-                        <MenuItem value='primary_release_date.desc'>
-                          Release Date Descending
-                        </MenuItem>
-                        <MenuItem value='primary_release_date.asc'>
-                          Release Date Ascending
-                        </MenuItem>
-                        <MenuItem value='title.asc'>Title (A-Z)</MenuItem>
-                        <MenuItem value='title.desc'>Title (Z-A)</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </CustomAccordion>
-                  <CustomAccordion title='Filters' border>
-                    <h3>Genres</h3>
-                    <ul className='multi_select text'>
-                      <li data-value='28'>Action</li>
-                      <li data-value='12'>Adventure</li>
-                      <li data-value='16'>Animation</li>
-                      <li data-value='35'>Comedy</li>
-                      <li data-value='80'>Crime</li>
-                      <li data-value='99'>Documentary</li>
-                      <li data-value='18'>Drama</li>
-                      <li data-value='10751'>Family</li>
-                      <li data-value='14'>Fantasy</li>
-                      <li data-value='36'>History</li>
-                      <li data-value='27'>Horror</li>
-                      <li data-value='10402'>Music</li>
-                      <li data-value='9648'>Mystery</li>
-                      <li data-value='10749'>Romance</li>
-                      <li data-value='878'>Science Fiction</li>
-                      <li data-value='10770'>TV Movie</li>
-                      <li data-value='53'>Thriller</li>
-                      <li data-value='10752'>War</li>
-                      <li data-value='37'>Western</li>
-                    </ul>
-                  </CustomAccordion>
-                  <Button
-                    variant='contained'
-                    fullWidth
-                    sx={{
-                      backgroundColor: '#01b4e4',
-                      height: '44px',
-                      borderRadius: '20px',
-                      fontSize: '1.2em',
-                      fontWeight: '600',
-                      fontFamily: 'inherit',
-                      mt: '7px',
-                      lineHeight: '1',
-                      '&:hover': {
-                        backgroundColor: '#032541',
-                      },
-                    }}
-                    onClick={handleSearch}
-                  >
-                    Search
-                  </Button>
-                </div>
+                <Filters
+                  {...{
+                    type,
+                    state,
+                    handleSearch,
+                    handleChangeSort,
+                    toggleGenre,
+                    toggleCertification,
+                    toggleAvailability,
+                    toggleAllAvailabilities,
+                    handleOnChangeLanguage,
+                    handleChangeVoteAverage,
+                    handleChangeVoteCount,
+                    handleChangeRuntime,
+                    handleOnChangeOttCountry,
+                    valueLabelFormat,
+                  }}
+                />
                 <div>
                   <div className={styles.right_media_container}>
                     <section className={styles.panel_results}>
-                      {categories.results.length > 0 && (
+                      {state.categories && state.categories.results.length > 0 && (
                         <div className={styles.media_item_results}>
                           <InfiniteScroll
                             className={styles.page_wrapper}
                             pageStart={1}
                             loadMore={handleLoadMore}
-                            hasMore={hasMore}
-                            loader={
-                              <div className='loader' key={0}>
-                                Loading...
-                              </div>
-                            }
+                            hasMore={state.hasMore}
                           >
-                            {categories.results.map((data) => (
+                            {state.categories.results.map((data) => (
                               <CategoryCard key={data.id} {...{ data, type }} />
                             ))}
                           </InfiniteScroll>
-                          {categories.page <= categories.total_pages && (
+                          {state.categories.page <
+                            state.categories.total_pages && (
                             <Button
                               className={styles.load_more}
                               variant='contained'
                               fullWidth
-                              onClick={() => setHasMore(true)}
+                              onClick={setHasMoreTrue}
                             >
                               Load More
                             </Button>
                           )}
                         </div>
                       )}
+                      {state.categories &&
+                        state.categories.results.length === 0 && (
+                          <span>
+                            No items were found that match your query.
+                          </span>
+                        )}
                     </section>
                   </div>
                 </div>

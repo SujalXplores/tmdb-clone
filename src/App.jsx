@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { AuthDialog } from './Components/AuthDialog/AuthDialog';
 import Footer from './Components/Footer/Footer';
 import Header from './Components/Header/Header';
@@ -19,7 +20,7 @@ const App = () => {
   };
 
   const openLoginPopup = () => {
-    console.log('open')
+    console.log('open');
     setDialogProps({
       open: true,
       handleClose,

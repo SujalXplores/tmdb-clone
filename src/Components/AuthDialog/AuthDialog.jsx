@@ -154,7 +154,7 @@ export const AuthDialog = ({ open, handleClose, defaultTab = 0 }) => {
               label='Email Address'
               type='email'
               fullWidth
-              variant='outlined'
+              variant='filled'
               InputProps={{
                 endAdornment: <MailOutlineIcon />,
               }}
@@ -170,7 +170,7 @@ export const AuthDialog = ({ open, handleClose, defaultTab = 0 }) => {
               label='Password'
               type='password'
               fullWidth
-              variant='outlined'
+              variant='filled'
               value={enteredLoginInPassword}
               onChange={loginInPasswordChangeHandler}
               onBlur={loginInPasswordBlurHandler}
@@ -196,7 +196,7 @@ export const AuthDialog = ({ open, handleClose, defaultTab = 0 }) => {
               label='Email Address'
               type='email'
               fullWidth
-              variant='outlined'
+              variant='filled'
               InputProps={{
                 endAdornment: <MailOutlineIcon />,
               }}
@@ -212,7 +212,7 @@ export const AuthDialog = ({ open, handleClose, defaultTab = 0 }) => {
               label='Password'
               type='password'
               fullWidth
-              variant='outlined'
+              variant='filled'
               value={enteredSignUpPassword}
               onChange={signUpPasswordChangeHandler}
               onBlur={signUpPasswordBlurHandler}
@@ -225,7 +225,7 @@ export const AuthDialog = ({ open, handleClose, defaultTab = 0 }) => {
               label='Confirm Password'
               type='password'
               fullWidth
-              variant='outlined'
+              variant='filled'
               value={enteredSignUpPasswordConfirm}
               onChange={signUpPasswordConfirmChangeHandler}
               onBlur={signUpPasswordConfirmBlurHandler}

@@ -1,0 +1,67 @@
+.form-field {
+    display: inline-flex;
+    width: 100%;
+
+    .checkbox {
+        min-width: 16px;
+        border-radius: 0.25rem;
+        width: 1rem;
+        height: 1rem;
+        line-height: initial;
+        border: 1px solid;
+        outline: 0;
+        display: inline-block;
+        vertical-align: middle;
+        position: relative;
+        border-color: #adb5bd;
+        color: transparent;
+        background-color: #fff;
+        appearance: none;
+    }
+
+    .checked {
+        border-color: #01b4e4;
+        color: #fff;
+        background-color: #01b4e4;
+
+        &::before {
+            border-radius: 0.25rem;
+            transform: scale(1) translate(-50%, -50%);
+            width: 1rem;
+            height: 1rem;
+            font-size: 1rem;
+            line-height: 1;
+            overflow: hidden;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            content: "";
+            background-repeat: no-repeat;
+            background-size: 50%;
+            background-position: 50%;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%23ffffff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z'/%3e%3c/svg%3e");
+        }
+    }
+
+    .checkbox + .label,
+    .label + .checkbox {
+        margin-left: 0.25rem;
+    }
+
+    .checkbox + .label {
+        display: inline;
+    }
+
+    .label {
+        line-height: calc(1rem + 1px);
+        display: inline-flex;
+        align-items: flex-start;
+        vertical-align: middle;
+        position: relative;
+        cursor: pointer;
+    }
+}
+
+.form-field + label {
+    margin-top: 6px;
+}

@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useCallback, useLayoutEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { ColorExtractor } from 'react-color-extractor';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 import {
@@ -18,15 +17,13 @@ import { RatingProgress } from '../../Components/RatingProgress/RatingProgress';
 import { TrailerModal } from '../../Components/TrailerModal/TrailerModal';
 import { CastContainer } from '../../Components/CastContainer/CastContainer';
 import useTitle from '../../Hooks/useTitle';
-import imageErrorSrc from '../../assets/image-fallback.svg';
+import imageErrorSrc from '../../assets/icons/image-fallback.svg';
 
 import styles from './ViewMore.module.scss';
 
 const ViewMore = () => {
   const params = useParams();
   const navigate = useNavigate();
-
-  const [colors, setColors] = useState([]);
   const [movieData, setMovieData] = useState([]);
   const [trailerData, setTrailerData] = useState([]);
   const [providers, setProviders] = useState([]);
@@ -45,7 +42,7 @@ const ViewMore = () => {
     try {
       const movie = await axios.get(url);
       setMovieData(movie.data);
-      console.log('✅ Movie details fetched successfully');
+      console.log('✅ Movie details fetched successfully', movie.data);
     } catch (e) {
       if (e?.response?.status === 404) {
         navigate('/not-found', { replace: true });
@@ -88,10 +85,6 @@ const ViewMore = () => {
     } — The Movie Database (TMDB)`
   );
 
-  const getColors = (color) => {
-    setColors(color);
-  };
-
   const handleClose = () => {
     setModalProps((prevState) => ({
       ...prevState,
@@ -112,10 +105,10 @@ const ViewMore = () => {
     backgroundImage: `url(${BACKDROP_URL}${movieData.backdrop_path})`,
   };
 
+  const gradient = `to right, rgb(32, 32, 32) 150px, rgba(32, 32, 32, 0.84) 100%`;
+
   const bgBackDrop = {
-    backgroundImage: `linear-gradient(to right, ${colors[2]} 150px, ${
-      colors[5] + 'd6'
-    } 100%)`,
+    backgroundImage: `linear-gradient(${gradient})`,
   };
 
   const date = movieData.release_date || movieData.first_air_date;
@@ -126,7 +119,10 @@ const ViewMore = () => {
       <>
         <section className={styles.viewMore}>
           <div className={styles.header} style={bgImage}>
-            <div className={styles.backdrop} style={bgBackDrop}>
+            <div
+              className={styles.backdrop}
+              style={movieData.poster_path ? bgBackDrop : {}}
+            >
               <div
                 className={`${styles['single-column']} ${
                   movieData.poster_path ? 'font-white' : 'font-black'
@@ -148,19 +144,17 @@ const ViewMore = () => {
                       }}
                     >
                       <div className={styles.image_content}>
-                        <ColorExtractor getColors={getColors}>
-                          <img
-                            className={`${styles.poster} ${
-                              !movieData.poster_path
-                                ? styles['fallback-poster']
-                                : ''
-                            }`}
-                            src={`${POSTER_URL}/${movieData.poster_path}`}
-                            alt='poster'
-                            loading='lazy'
-                            onError={(e) => (e.target.src = imageErrorSrc)}
-                          />
-                        </ColorExtractor>
+                        <img
+                          className={`${styles.poster} ${
+                            !movieData.poster_path
+                              ? styles['fallback-poster']
+                              : ''
+                          }`}
+                          src={`${POSTER_URL}/${movieData.poster_path}`}
+                          alt='poster'
+                          loading='lazy'
+                          onError={(e) => (e.target.src = imageErrorSrc)}
+                        />
                       </div>
                     </div>
                     {providers && providers.IN && (
@@ -213,29 +207,33 @@ const ViewMore = () => {
                           </span>
                         </h2>
                         <div className={styles.facts}>
-                          <span className={styles.release}>
-                            {date && slashDate(date)}{' '}
-                            {movieData &&
-                              movieData.production_countries[0] &&
-                              ' (' +
-                                movieData.production_countries[0].iso_3166_1 +
-                                ')'}
-                          </span>
-                          {movieData.genres?.length > 0 && (
+                          {date && params.type === 'movie' && (
                             <>
-                              <span className={styles.divider}>•</span>
-                              <span className={styles.genres}>
-                                {genreNames(movieData.genres)}
+                              <span className={styles.release}>
+                                {slashDate(date)}{' '}
+                                {movieData &&
+                                  movieData.production_countries[0] &&
+                                  ' (' +
+                                    movieData.production_countries[0]
+                                      .iso_3166_1 +
+                                    ')'}
                               </span>
+                              <span className={styles.divider}>•</span>
                             </>
                           )}
-                          {(movieData.runtime ||
+                          {movieData.genres && (
+                            <span className={styles.genres}>
+                              {console.log(movieData.genres)}
+                              {genreNames(movieData.genres)}
+                            </span>
+                          )}
+                          {(movieData.runtime ??
                             movieData.episode_run_time[0]) && (
                             <>
                               <span className={styles.divider}>•</span>
                               <span className={styles.runtime}>
                                 {convertRuntime(
-                                  movieData.runtime ||
+                                  movieData.runtime ??
                                     movieData.episode_run_time[0]
                                 )}
                               </span>
@@ -247,8 +245,11 @@ const ViewMore = () => {
                         <li className={`${styles.chart} rating-progress`}>
                           <RatingProgress
                             size={60}
+                            isViewMore
+                            hover
+                            borderThickness={3}
+                            fontSize='16px'
                             vote_average={movieData.vote_average}
-                            styles={styles}
                             thickness={2.8}
                           />
                           <div className={styles.text}>

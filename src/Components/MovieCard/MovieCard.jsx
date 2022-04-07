@@ -1,10 +1,11 @@
-import { CardActionArea } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { CardActionArea } from '@mui/material';
 
-import imageErrorSrc from '../../assets/image-fallback.svg';
+import imageErrorSrc from '../../assets/icons/image-fallback.svg';
 import { IMAGE_URL } from '../../Constants';
 import { convertDate } from '../../Helpers/ConvertDate';
 import { RatingProgress } from '../RatingProgress/RatingProgress';
+
 import styles from './MovieCard.module.scss';
 
 const MovieCard = ({ data }) => {
@@ -33,12 +34,7 @@ const MovieCard = ({ data }) => {
         </div>
       </CardActionArea>
       <div className={styles.movie__content}>
-        <RatingProgress
-          size={35}
-          vote_average={data.vote_average}
-          styles={styles}
-          showNR
-        />
+        <RatingProgress size={35} vote_average={data.vote_average} showNR />
         <h2 className={styles.title} onClick={onViewMoreInfo}>
           {data.title || data.name}
         </h2>

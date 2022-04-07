@@ -1,0 +1,45 @@
+@font-face {
+    font-family: "Consensus";
+    src: url("../../assets/fonts/Consensus.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+.rating {
+    .rating__circle {
+        position: relative;
+        display: inline-flex;
+        background: #081c22;
+        border-radius: 50%;
+
+        .rating__text-container {
+            inset: 0;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .rating__text {
+                color: #fff;
+                font-family: "Consensus";
+                padding-top: 1px;
+                padding-left: 1px;
+                font-weight: normal;
+                font-variant: normal;
+                line-height: 1;
+                -webkit-font-smoothing: antialiased;
+            }
+        }
+    }
+}
+
+.position {
+    position: absolute;
+    top: -20px;
+}
+
+.scale.rating:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}

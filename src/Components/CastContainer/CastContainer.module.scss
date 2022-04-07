@@ -191,7 +191,7 @@
 
 .recommendations {
     width: 100%;
-    padding: 30px 0;
+    padding-top: 30px;
     border-top: 1px solid #d7d7d7;
 
     h3 {
@@ -336,12 +336,19 @@
     @media (max-width: 768px) {
         width: 100%;
         min-width: 0;
+        padding-top: 30px;
     }
 
     .split_column {
         section {
             margin-bottom: 30px;
             width: 100%;
+
+            h4 {
+                font-size: 1.1em;
+                font-weight: 600;
+                margin-bottom: 10px;
+            }
         }
     }
 
@@ -351,6 +358,7 @@
 
         & strong {
             display: block;
+            font-weight: 600;
         }
     }
 }
@@ -359,6 +367,7 @@
     h4 {
         font-size: 1.1em;
         margin-bottom: 10px;
+        font-weight: 600;
     }
 
     .keywords {
@@ -366,7 +375,7 @@
             margin-right: 5px;
             margin-bottom: 10px;
             line-height: 24px;
-            font-size: 0.9em;
+            font-size: 14px;
             white-space: nowrap;
             display: inline-block;
         }
@@ -421,7 +430,7 @@
         align-items: center;
 
         .calendar {
-            background-image: url("../../assets/icon-calender.svg");
+            background-image: url("../../assets/icons/icon-calender.svg");
             margin-right: 4px;
             position: relative;
             top: 0;
@@ -527,7 +536,6 @@
                                 padding-bottom: 0;
                                 font-size: 1.3em;
                                 font-weight: 700;
-                                margin: 0 0 4px 0;
                                 cursor: pointer;
 
                                 &:hover {
@@ -553,7 +561,7 @@
                                 .star {
                                     margin-right: 2px;
                                     filter: invert(1);
-                                    background-image: url("../../assets/rating-star.svg");
+                                    background-image: url("../../assets/icons/rating-star.svg");
                                     position: relative;
                                     top: 0;
                                     left: 0;

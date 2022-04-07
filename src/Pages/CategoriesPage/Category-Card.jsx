@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { IMAGE_URL } from '../../Constants';
 import { convertDate } from '../../Helpers/ConvertDate';
 import { RatingProgress } from '../../Components/RatingProgress/RatingProgress';
-import imageErrorSrc from '../../assets/image-fallback.svg';
+import imageErrorSrc from '../../assets/icons/image-fallback.svg';
 import styles from './Category-Card.module.scss';
 
 const CategoryCard = ({ data, type }) => {
@@ -27,7 +27,6 @@ const CategoryCard = ({ data, type }) => {
         <RatingProgress
           size={35}
           vote_average={data.vote_average}
-          styles={styles}
           showNR
         />
         <h2>

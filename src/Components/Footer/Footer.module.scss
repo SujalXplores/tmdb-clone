@@ -45,7 +45,11 @@
 
                 .column {
                     width: auto;
-                    margin-bottom: 20px;
+                    margin-top: 20px;
+
+                    @media screen and (min-width: 1636px) {
+                        margin-top: 0;                        
+                    }
 
                     ul {
                         list-style-type: disc;
