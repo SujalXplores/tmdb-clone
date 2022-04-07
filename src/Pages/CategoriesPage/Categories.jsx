@@ -109,6 +109,10 @@ const Categories = () => {
       case 'set_ott_country':
         return {
           ...state,
+          options: {
+            ...state.options,
+            ott_region: action.payload,
+          },
           ott_country: action.payload,
           ott_provider_filter: [],
         };
