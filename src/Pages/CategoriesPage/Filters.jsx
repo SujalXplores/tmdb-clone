@@ -81,62 +81,64 @@ export default function Filters(props) {
         <hr />
         <div className={styles.inner_padding}>
           <h3>{props.type === 'movie' ? 'Release Dates' : 'Air Dates'}</h3>
-          <Checkbox
-            value='all'
-            label={
-              props.type === 'movie'
-                ? 'Search all releases?'
-                : 'Search all episodes?'
-            }
-            checked={props.state.searchAllDates}
-            onChange={props.toggleAllDates}
-          />
-          {!props.state.searchAllDates && (
+          {props.type === 'movie' ? (
+            <Checkbox
+              value='all'
+              label='Search all releases?'
+              checked={props.state.searchAllDates}
+              onChange={props.toggleAllDates}
+            />
+          ) : (
+            <Checkbox
+              value='all'
+              label='Search all episodes?'
+              checked={props.state.searchAllEpisodes}
+              onChange={props.toggleAllEpisodes}
+            />
+          )}
+          {!props.state.searchAllDates && props.type === 'movie' && (
             <>
-              {props.type === 'movie' ? (
-                <>
-                  <Checkbox
-                    value='all'
-                    label='Search all countries?'
-                    checked={props.state.searchAllCountries}
-                    onChange={props.toggleAllCountries}
-                    style={{ paddingBottom: '20px' }}
-                  />
-                  {!props.state.searchAllCountries && (
-                    <FormControl fullWidth sx={{ mb: '10px' }}>
-                      <Select
-                        value={props.state.region}
-                        onChange={props.handleOnChangeRegion}
-                        className={styles['custom-select']}
+              <Checkbox
+                value='all'
+                label='Search all countries?'
+                checked={props.state.searchAllCountries}
+                onChange={props.toggleAllCountries}
+                style={{ paddingBottom: '20px' }}
+              />
+              {!props.state.searchAllCountries && (
+                <FormControl fullWidth sx={{ mb: '10px' }}>
+                  <Select
+                    value={props.state.region}
+                    onChange={props.handleOnChangeRegion}
+                    className={styles['custom-select']}
+                  >
+                    {ALL_COUNTRIES.map((item) => (
+                      <MenuItem
+                        key={item.code}
+                        value={item.code}
+                        className={styles['menu-item']}
                       >
-                        {ALL_COUNTRIES.map((item) => (
-                          <MenuItem
-                            key={item.code}
-                            value={item.code}
-                            className={styles['menu-item']}
-                          >
-                            <img
-                              src={`${FLAG_API}/${item.code}.png`}
-                              alt={item.label}
-                              className={styles['flag-icon']}
-                            />
-                            {item.label}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  )}
-                  {RELEASE_TYPES.map((item) => (
-                    <Checkbox
-                      key={item.id}
-                      value={item.value}
-                      checked={props.state.releaseTypes[item.id]}
-                      onChange={() => props.toggleReleaseType(item.id)}
-                      label={item.label}
-                    />
-                  ))}
-                </>
-              ) : (
+                        <img
+                          src={`${FLAG_API}/${item.code}.png`}
+                          alt={item.label}
+                          className={styles['flag-icon']}
+                        />
+                        {item.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              )}
+              {RELEASE_TYPES.map((item) => (
+                <Checkbox
+                  key={item.id}
+                  value={item.value}
+                  checked={props.state.releaseTypes[item.id]}
+                  onChange={() => props.toggleReleaseType(item.id)}
+                  label={item.label}
+                />
+              ))}
+              {props.type === 'tv' && props.state.searchAllEpisodes && (
                 <Checkbox
                   value='all'
                   label='Search first air date?'

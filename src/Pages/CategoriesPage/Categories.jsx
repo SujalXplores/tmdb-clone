@@ -34,6 +34,7 @@ const Categories = () => {
     options: data,
     searchAllAvailabilities: true,
     searchAllDates: true,
+    searchAllEpisodes: true,
     releaseTypes: new Array(RELEASE_TYPES.length).fill(true),
     availabilities: new Array(AVAILABILITIES.length).fill(true),
     certifications: [],
@@ -113,6 +114,22 @@ const Categories = () => {
           options: {
             ...state.options,
             with_release_type: action.payload ? '' : '1|2|3|4|5|6',
+          },
+        };
+      case 'set_searchAllEpisodes':
+        return {
+          ...state,
+          searchAllEpisodes: action.payload,
+          options: {
+            ...state.options,
+            air_date: {
+              gte: action.payload ? state.options.first_air_date.gte ?? '' : '',
+              lte: action.payload ? state.options.first_air_date.lte ?? '' : '',
+            },
+            first_air_date: {
+              gte: action.payload ? '' : state.options.air_date.gte ?? '',
+              lte: action.payload ? '' : state.options.air_date.lte ?? '',
+            },
           },
         };
       case 'set_releaseTypes':
@@ -344,6 +361,13 @@ const Categories = () => {
     });
   };
 
+  const toggleAllEpisodes = () => {
+    dispatch({
+      type: 'set_searchAllEpisodes',
+      payload: !state.searchAllEpisodes,
+    });
+  };
+
   const toggleAllCountries = () => {
     dispatch({
       type: 'set_searchAllCountries',
@@ -447,6 +471,7 @@ const Categories = () => {
                     toggleAllAvailabilities,
                     toggleOttProvider,
                     toggleAllDates,
+                    toggleAllEpisodes,
                     toggleReleaseType,
                     toggleAllCountries,
                     handleOnChangeLanguage,
