@@ -11,6 +11,7 @@ import { API, DISCOVER_URL, GENRES, WATCH_PROVIDERS } from '../../Constants';
 import { serializeObject } from '../../Helpers/ObjectToUrl';
 import { categoryUrl } from '../../Helpers/CategoryUrl';
 import { AVAILABILITIES } from '../../Utils/availabilities';
+import { RELEASE_TYPES } from '../../Utils/release-types';
 
 import styles from './Categories.module.scss';
 
@@ -32,11 +33,14 @@ const Categories = () => {
     allGenreList: [],
     options: data,
     searchAllAvailabilities: true,
+    searchAllDates: true,
+    releaseTypes: new Array(RELEASE_TYPES.length).fill(true),
     availabilities: new Array(AVAILABILITIES.length).fill(true),
     certifications: [],
     ott_country: 'IN',
     ott_providers: [],
     ott_provider_filter: [],
+    searchAllCountries: true,
   };
 
   const [state, dispatch] = useReducer((state, action) => {
@@ -101,6 +105,20 @@ const Categories = () => {
               : 'flatrate|free|ads|rent|buy',
           },
         };
+      case 'set_searchAllDates':
+        return {
+          ...state,
+          searchAllDates: action.payload,
+          options: {
+            ...state.options,
+            with_release_type: action.payload ? '' : '1|2|3|4|5|6',
+          },
+        };
+      case 'set_releaseTypes':
+        return {
+          ...state,
+          releaseTypes: action.payload,
+        };
       case 'set_certifications':
         return {
           ...state,
@@ -125,6 +143,15 @@ const Categories = () => {
         return {
           ...state,
           ott_providers: action.payload,
+        };
+      case 'set_searchAllCountries':
+        return {
+          ...state,
+          searchAllCountries: action.payload,
+          options: {
+            ...state.options,
+            region: action.payload ? '' : 'IN',
+          }
         };
       default:
         return state;
@@ -272,10 +299,45 @@ const Categories = () => {
     });
   };
 
+  const toggleReleaseType = (id) => {
+    const newReleaseTypes = [...state.releaseTypes];
+    newReleaseTypes[id] = !newReleaseTypes[id];
+    dispatch({
+      type: 'set_releaseTypes',
+      payload: newReleaseTypes,
+    });
+
+    const newArray = newReleaseTypes
+      .map((item, index) => (item ? RELEASE_TYPES[index].value : null))
+      .filter((item) => item !== null);
+
+    dispatch({
+      type: 'set_options',
+      payload: {
+        ...state.options,
+        with_release_type: newArray.join('|'),
+      },
+    });
+  };
+
   const toggleAllAvailabilities = () => {
     dispatch({
       type: 'set_searchAllAvailabilities',
       payload: !state.searchAllAvailabilities,
+    });
+  };
+
+  const toggleAllDates = () => {
+    dispatch({
+      type: 'set_searchAllDates',
+      payload: !state.searchAllDates,
+    });
+  };
+
+  const toggleAllCountries = () => {
+    dispatch({
+      type: 'set_searchAllCountries',
+      payload: !state.searchAllCountries,
     });
   };
 
@@ -367,6 +429,9 @@ const Categories = () => {
                     toggleAvailability,
                     toggleAllAvailabilities,
                     toggleOttProvider,
+                    toggleAllDates,
+                    toggleReleaseType,
+                    toggleAllCountries,
                     handleOnChangeLanguage,
                     handleChangeVoteAverage,
                     handleChangeVoteCount,
