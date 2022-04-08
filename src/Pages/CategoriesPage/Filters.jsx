@@ -109,9 +109,7 @@ export default function Filters(props) {
                         onChange={props.handleOnChangeRegion}
                         className={styles['custom-select']}
                       >
-                        {ALL_COUNTRIES.sort((a, b) =>
-                          a.label.localeCompare(b.label)
-                        ).map((item) => (
+                        {ALL_COUNTRIES.map((item) => (
                           <MenuItem
                             key={item.code}
                             value={item.code}
@@ -205,9 +203,9 @@ export default function Filters(props) {
               onChange={props.handleOnChangeLanguage}
               className={styles['custom-select']}
             >
-              {LANGUAGES.map((item, index) => (
+              {LANGUAGES.map((item) => (
                 <MenuItem
-                  key={item.iso_639_1 + index}
+                  key={item.iso_639_1}
                   value={item.iso_639_1}
                   className={styles['menu-item']}
                 >
@@ -279,9 +277,7 @@ export default function Filters(props) {
               onChange={props.handleOnChangeOttCountry}
               className={styles['custom-select']}
             >
-              {OTT_REGIONS.sort((a, b) =>
-                a.native_name.localeCompare(b.native_name)
-              ).map((item) => (
+              {OTT_REGIONS.map((item) => (
                 <MenuItem
                   key={item.iso_3166_1}
                   value={item.iso_3166_1}
