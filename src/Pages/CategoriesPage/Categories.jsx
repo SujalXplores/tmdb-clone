@@ -36,6 +36,7 @@ const Categories = () => {
     certifications: [],
     ott_country: 'IN',
     ott_providers: [],
+    ott_provider_filter: [],
   };
 
   const [state, dispatch] = useReducer((state, action) => {
@@ -108,7 +109,17 @@ const Categories = () => {
       case 'set_ott_country':
         return {
           ...state,
+          options: {
+            ...state.options,
+            ott_region: action.payload,
+          },
           ott_country: action.payload,
+          ott_provider_filter: [],
+        };
+      case 'set_ott_provider_filter':
+        return {
+          ...state,
+          ott_provider_filter: action.payload,
         };
       case 'set_ott_providers':
         return {
@@ -195,13 +206,34 @@ const Categories = () => {
   };
 
   const toggleGenre = (genre) => {
+    console.log(genre);
     const newGenreFilterArr = state.genreFilterArr.includes(genre)
       ? state.genreFilterArr.filter((item) => item !== genre)
       : [...state.genreFilterArr, genre];
+    console.log(newGenreFilterArr);
     dispatch({ type: 'set_genreFilterArr', payload: newGenreFilterArr });
     dispatch({
       type: 'set_options',
       payload: { ...state.options, with_genres: newGenreFilterArr.join(',') },
+    });
+  };
+
+  const toggleOttProvider = (provider) => {
+    console.log(provider);
+    const newOttProviderFilterArr = state.ott_provider_filter.includes(provider)
+      ? state.ott_provider_filter.filter((item) => item !== provider)
+      : [...state.ott_provider_filter, provider];
+    console.log(newOttProviderFilterArr);
+    dispatch({
+      type: 'set_ott_provider_filter',
+      payload: newOttProviderFilterArr,
+    });
+    dispatch({
+      type: 'set_options',
+      payload: {
+        ...state.options,
+        with_ott_providers: newOttProviderFilterArr.join('|'),
+      },
     });
   };
 
@@ -248,11 +280,12 @@ const Categories = () => {
   };
 
   const handleOnChangeLanguage = (e) => {
+    const language = e.target.value === 'xx' ? '' : e.target.value;
     dispatch({
       type: 'set_options',
       payload: {
         ...state.options,
-        with_original_language: e.target.value,
+        with_original_language: language,
       },
     });
   };
@@ -333,6 +366,7 @@ const Categories = () => {
                     toggleCertification,
                     toggleAvailability,
                     toggleAllAvailabilities,
+                    toggleOttProvider,
                     handleOnChangeLanguage,
                     handleChangeVoteAverage,
                     handleChangeVoteCount,
