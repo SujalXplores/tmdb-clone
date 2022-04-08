@@ -19,7 +19,7 @@ import { Checkbox } from '../../Components/Checkbox/Checkbox';
 import { CERTIFICATIONS } from '../../Utils/certifications';
 import { SORT_OPTIONS } from '../../Utils/sort-options';
 import { OTT_REGIONS } from '../../Utils/ott-regions';
-import { STREAMING_URL } from '../../Constants';
+import { FLAG_API, STREAMING_URL } from '../../Constants';
 import { CustomTooltip } from '../../Components/Tooltip/Tooltip';
 import { RELEASE_TYPES } from '../../Utils/release-types';
 import { ALL_COUNTRIES } from '../../Utils/countries';
@@ -27,6 +27,13 @@ import { ALL_COUNTRIES } from '../../Utils/countries';
 import styles from './Categories.module.scss';
 
 export default function Filters(props) {
+  const sliderStyle = {
+    '& .MuiSlider-thumb': {
+      width: 14,
+      height: 14,
+    },
+  };
+
   return (
     <div className={styles.filter_container}>
       <CustomAccordion title='Sort' border>
@@ -98,8 +105,8 @@ export default function Filters(props) {
                   {!props.state.searchAllCountries && (
                     <FormControl fullWidth sx={{ mb: '10px' }}>
                       <Select
-                        value={props.state.ott_country}
-                        onChange={props.handleOnChangeOttCountry}
+                        value={props.state.region}
+                        onChange={props.handleOnChangeRegion}
                         className={styles['custom-select']}
                       >
                         {ALL_COUNTRIES.sort((a, b) =>
@@ -111,12 +118,9 @@ export default function Filters(props) {
                             className={styles['menu-item']}
                           >
                             <img
-                              src={`https://flagcdn.com/w20/${item.code.toLowerCase()}.png`}
-                              srcSet={`https://flagcdn.com/w40/${item.code.toLowerCase()}.png 2x`}
+                              src={`${FLAG_API}/${item.code}.png`}
                               alt={item.label}
-                              style={{
-                                marginRight: '5px',
-                              }}
+                              className={styles['flag-icon']}
                             />
                             {item.label}
                           </MenuItem>
@@ -230,12 +234,7 @@ export default function Filters(props) {
             valueLabelFormat={props.valueLabelFormat}
             valueLabelDisplay='auto'
             color='secondary'
-            sx={{
-              '& .MuiSlider-thumb': {
-                width: 14,
-                height: 14,
-              },
-            }}
+            sx={sliderStyle}
           />
         </div>
         <hr />
@@ -250,12 +249,7 @@ export default function Filters(props) {
             marks={MINIMUM_USER_VOTES_MARKS}
             valueLabelDisplay='auto'
             color='secondary'
-            sx={{
-              '& .MuiSlider-thumb': {
-                width: 14,
-                height: 14,
-              },
-            }}
+            sx={sliderStyle}
           />
         </div>
         <hr />
@@ -273,12 +267,7 @@ export default function Filters(props) {
             marks={RUNTIME_MARKS}
             valueLabelDisplay='auto'
             color='secondary'
-            sx={{
-              '& .MuiSlider-thumb': {
-                width: 14,
-                height: 14,
-              },
-            }}
+            sx={sliderStyle}
           />
         </div>
       </CustomAccordion>
@@ -299,12 +288,9 @@ export default function Filters(props) {
                   className={styles['menu-item']}
                 >
                   <img
-                    src={`https://flagcdn.com/w20/${item.iso_3166_1.toLowerCase()}.png`}
-                    srcSet={`https://flagcdn.com/w40/${item.iso_3166_1.toLowerCase()}.png 2x`}
+                    src={`${FLAG_API}/${item.iso_3166_1}.png`}
                     alt={item.native_name}
-                    style={{
-                      marginRight: '5px',
-                    }}
+                    className={styles['flag-icon']}
                   />
                   {item.native_name}
                 </MenuItem>
