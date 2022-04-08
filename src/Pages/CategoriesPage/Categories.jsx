@@ -38,6 +38,7 @@ const Categories = () => {
     availabilities: new Array(AVAILABILITIES.length).fill(true),
     certifications: [],
     ott_country: 'IN',
+    region: 'IN',
     ott_providers: [],
     ott_provider_filter: [],
     searchAllCountries: true,
@@ -151,7 +152,16 @@ const Categories = () => {
           options: {
             ...state.options,
             region: action.payload ? '' : 'IN',
-          }
+          },
+        };
+      case 'set_region':
+        return {
+          ...state,
+          options: {
+            ...state.options,
+            region: action.payload,
+          },
+          region: action.payload,
         };
       default:
         return state;
@@ -182,7 +192,7 @@ const Categories = () => {
     (async () => {
       try {
         const res = await axios.get(
-          `${WATCH_PROVIDERS}/${type}?api_key=${API}&watch_region=${state.ott_country.toLowerCase()}`
+          `${WATCH_PROVIDERS}/${type}?api_key=${API}&language=en-US&watch_region=${state.ott_country}`
         );
         console.log('Providers', res.data);
         dispatch({ type: 'set_ott_providers', payload: res.data.results });
@@ -404,6 +414,13 @@ const Categories = () => {
     });
   };
 
+  const handleOnChangeRegion = (e) => {
+    dispatch({
+      type: 'set_region',
+      payload: e.target.value,
+    });
+  };
+
   const setHasMoreTrue = () => {
     dispatch({ type: 'set_hasMore', payload: true });
   };
@@ -437,6 +454,7 @@ const Categories = () => {
                     handleChangeVoteCount,
                     handleChangeRuntime,
                     handleOnChangeOttCountry,
+                    handleOnChangeRegion,
                     valueLabelFormat,
                   }}
                 />

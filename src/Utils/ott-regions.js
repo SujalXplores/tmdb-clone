@@ -1,5 +1,10 @@
 export const OTT_REGIONS = [
   {
+    iso_3166_1: 'AE',
+    english_name: 'United Arab Emirates',
+    native_name: 'United Arab Emirates',
+  },
+  {
     iso_3166_1: 'AR',
     english_name: 'Argentina',
     native_name: 'Argentina',
@@ -18,6 +23,11 @@ export const OTT_REGIONS = [
     iso_3166_1: 'BE',
     english_name: 'Belgium',
     native_name: 'Belgium',
+  },
+  {
+    iso_3166_1: 'BG',
+    english_name: 'Bulgaria',
+    native_name: 'Bulgaria',
   },
   {
     iso_3166_1: 'BR',
@@ -73,6 +83,16 @@ export const OTT_REGIONS = [
     iso_3166_1: 'GB',
     english_name: 'United Kingdom',
     native_name: 'United Kingdom',
+  },
+  {
+    iso_3166_1: 'HK',
+    english_name: 'Hong Kong',
+    native_name: 'Hong Kong SAR China',
+  },
+  {
+    iso_3166_1: 'HR',
+    english_name: 'Croatia',
+    native_name: 'Croatia',
   },
   {
     iso_3166_1: 'HU',
@@ -158,6 +178,11 @@ export const OTT_REGIONS = [
     iso_3166_1: 'SE',
     english_name: 'Sweden',
     native_name: 'Sweden',
+  },
+  {
+    iso_3166_1: 'SK',
+    english_name: 'Slovakia',
+    native_name: 'Slovakia',
   },
   {
     iso_3166_1: 'TR',

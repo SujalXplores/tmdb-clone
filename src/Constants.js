@@ -1,4 +1,4 @@
-export const API = '982ce394b5d4c2a27b5dc0e30774b674';
+export const API = '15d2ea6d0dc1d476efbca3eba2b9bbfb';
 const BASE_URL = 'https://www.themoviedb.org/t/p';
 export const IMAGE_URL = `${BASE_URL}/w220_and_h330_face`;
 export const POSTER_URL = `${BASE_URL}/w300_and_h450_bestv2`;
@@ -33,4 +33,5 @@ export const DISCOVER_URL = `${API_URL}/discover`;
 export const GENRES = `${API_URL}/genre`;
 
 // OTT watch providers
-export const WATCH_PROVIDERS = `${API_URL}/watch/providers/`;
+export const WATCH_PROVIDERS = `${API_URL}/watch/providers`;
+export const FLAG_API = 'https://raw.githubusercontent.com/SujalShah3234/All-Country-Flags/master';
