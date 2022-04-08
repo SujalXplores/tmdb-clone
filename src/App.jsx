@@ -20,7 +20,6 @@ const App = () => {
   };
 
   const openLoginPopup = () => {
-    console.log('open');
     setDialogProps({
       open: true,
       handleClose,

@@ -1,4 +1,4 @@
-export const COUNTRIES = [
+export const ALL_COUNTRIES = [
   { code: 'AD', label: 'Andorra' },
   {
     code: 'AE',
