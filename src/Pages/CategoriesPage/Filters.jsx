@@ -21,6 +21,8 @@ import { SORT_OPTIONS } from '../../Utils/sort-options';
 import { OTT_REGIONS } from '../../Utils/ott-regions';
 import { STREAMING_URL } from '../../Constants';
 import { CustomTooltip } from '../../Components/Tooltip/Tooltip';
+import { RELEASE_TYPES } from '../../Utils/release-types';
+import { ALL_COUNTRIES } from '../../Utils/countries';
 
 import styles from './Categories.module.scss';
 
@@ -68,6 +70,80 @@ export default function Filters(props) {
                 label={item.label}
               />
             ))}
+        </div>
+        <hr />
+        <div className={styles.inner_padding}>
+          <h3>{props.type === 'movie' ? 'Release Dates' : 'Air Dates'}</h3>
+          <Checkbox
+            value='all'
+            label={
+              props.type === 'movie'
+                ? 'Search all releases?'
+                : 'Search all episodes?'
+            }
+            checked={props.state.searchAllDates}
+            onChange={props.toggleAllDates}
+          />
+          {!props.state.searchAllDates && (
+            <>
+              {props.type === 'movie' ? (
+                <>
+                  <Checkbox
+                    value='all'
+                    label='Search all countries?'
+                    checked={props.state.searchAllCountries}
+                    onChange={props.toggleAllCountries}
+                    style={{ paddingBottom: '20px' }}
+                  />
+                  {!props.state.searchAllCountries && (
+                    <FormControl fullWidth sx={{ mb: '10px' }}>
+                      <Select
+                        value={props.state.ott_country}
+                        onChange={props.handleOnChangeOttCountry}
+                        className={styles['custom-select']}
+                      >
+                        {ALL_COUNTRIES.sort((a, b) =>
+                          a.label.localeCompare(b.label)
+                        ).map((item) => (
+                          <MenuItem
+                            key={item.code}
+                            value={item.code}
+                            className={styles['menu-item']}
+                          >
+                            <img
+                              src={`https://flagcdn.com/w20/${item.code.toLowerCase()}.png`}
+                              srcSet={`https://flagcdn.com/w40/${item.code.toLowerCase()}.png 2x`}
+                              alt={item.label}
+                              style={{
+                                marginRight: '5px',
+                              }}
+                            />
+                            {item.label}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  )}
+                  {RELEASE_TYPES.map((item) => (
+                    <Checkbox
+                      key={item.id}
+                      value={item.value}
+                      checked={props.state.releaseTypes[item.id]}
+                      onChange={() => props.toggleReleaseType(item.id)}
+                      label={item.label}
+                    />
+                  ))}
+                </>
+              ) : (
+                <Checkbox
+                  value='all'
+                  label='Search first air date?'
+                  // checked={props.state.searchFirstAirDate}
+                  // onChange={props.toggleFirstAirDate}
+                />
+              )}
+            </>
+          )}
         </div>
         <hr />
         <div className={styles.inner_padding}>
@@ -214,23 +290,23 @@ export default function Filters(props) {
               onChange={props.handleOnChangeOttCountry}
               className={styles['custom-select']}
             >
-              {OTT_REGIONS.map((item) => (
+              {OTT_REGIONS.sort((a, b) =>
+                a.native_name.localeCompare(b.native_name)
+              ).map((item) => (
                 <MenuItem
                   key={item.iso_3166_1}
                   value={item.iso_3166_1}
                   className={styles['menu-item']}
                 >
                   <img
-                    loading='lazy'
-                    width='20'
                     src={`https://flagcdn.com/w20/${item.iso_3166_1.toLowerCase()}.png`}
                     srcSet={`https://flagcdn.com/w40/${item.iso_3166_1.toLowerCase()}.png 2x`}
                     alt={item.native_name}
                     style={{
-                      marginRight: '10px',
+                      marginRight: '5px',
                     }}
                   />
-                  {item.native_name + ' ' + item.iso_3166_1}
+                  {item.native_name}
                 </MenuItem>
               ))}
             </Select>
