@@ -5,7 +5,7 @@ const SearchButton = ({ handleSearch }) => {
   const { elRef, isVisible } = useElementOnScreen({
     root: null,
     rootMargin: '0px',
-    threshold: 1.0,
+    threshold: 0,
   });
 
   const defaultStyle = {
