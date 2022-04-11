@@ -133,8 +133,8 @@ export default function Filters(props) {
                 <Checkbox
                   key={item.id}
                   value={item.value}
-                  checked={props.state.releaseTypes[item.id]}
-                  onChange={() => props.toggleReleaseType(item.id)}
+                  checked={props.state.releaseTypes?.includes(item.value)}
+                  onChange={() => props.toggleReleaseType(item.value)}
                   label={item.label}
                 />
               ))}

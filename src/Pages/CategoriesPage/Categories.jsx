@@ -11,7 +11,6 @@ import { API, DISCOVER_URL, GENRES, WATCH_PROVIDERS } from '../../Constants';
 import { serializeObject } from '../../Helpers/ObjectToUrl';
 import { categoryUrl } from '../../Helpers/CategoryUrl';
 import { AVAILABILITIES } from '../../Utils/availabilities';
-import { RELEASE_TYPES } from '../../Utils/release-types';
 
 import styles from './Categories.module.scss';
 
@@ -35,7 +34,10 @@ const Categories = () => {
     searchAllAvailabilities: true,
     searchAllDates: true,
     searchAllEpisodes: true,
-    releaseTypes: new Array(RELEASE_TYPES.length).fill(true),
+    releaseTypes:
+      data?.with_release_type !== ''
+        ? data?.with_release_type?.split('|')
+        : ['1', '2', '3', '4', '5', '6'],
     availabilities: new Array(AVAILABILITIES.length).fill(true),
     certifications: [],
     ott_country: 'IN',
@@ -136,6 +138,10 @@ const Categories = () => {
         return {
           ...state,
           releaseTypes: action.payload,
+          options: {
+            ...state.options,
+            with_release_type: action.payload?.join('|'),
+          },
         };
       case 'set_certifications':
         return {
@@ -225,6 +231,19 @@ const Categories = () => {
       type: 'set_options',
       payload: data,
     });
+
+    if (data && data.with_release_type) {
+      dispatch({
+        type: 'set_releaseTypes',
+        payload: data.with_release_type.split('|'),
+      });
+    } else {
+      dispatch({
+        type: 'set_releaseTypes',
+        payload: ['1', '2', '3', '4', '5', '6'],
+      });
+    }
+    
     handleLoadMore(1);
   }, [type, category, data]);
 
@@ -326,25 +345,22 @@ const Categories = () => {
     });
   };
 
-  const toggleReleaseType = (id) => {
-    const newReleaseTypes = [...state.releaseTypes];
-    newReleaseTypes[id] = !newReleaseTypes[id];
-    dispatch({
-      type: 'set_releaseTypes',
-      payload: newReleaseTypes,
-    });
-
-    const newArray = newReleaseTypes
-      .map((item, index) => (item ? RELEASE_TYPES[index].value : null))
-      .filter((item) => item !== null);
-
-    dispatch({
-      type: 'set_options',
-      payload: {
-        ...state.options,
-        with_release_type: newArray.join('|'),
-      },
-    });
+  const toggleReleaseType = (value) => {
+    if (state.releaseTypes.includes(value)) {
+      const newReleaseTypes = state.releaseTypes.filter(
+        (item) => item !== value
+      );
+      dispatch({
+        type: 'set_releaseTypes',
+        payload: newReleaseTypes,
+      });
+    } else {
+      const newReleaseTypes = [...state.releaseTypes, value];
+      dispatch({
+        type: 'set_releaseTypes',
+        payload: newReleaseTypes,
+      });
+    }
   };
 
   const toggleAllAvailabilities = () => {

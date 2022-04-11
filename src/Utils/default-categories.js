@@ -25,7 +25,7 @@ export const MOVIE_NOW_PLAYING = {
   vote_count: {
     gte: 0,
   },
-  with_release_type: 3,
+  with_release_type: '3',
   with_runtime: {
     gte: 0,
     lte: 400,
@@ -51,7 +51,7 @@ export const MOVIE_UPCOMING = {
   vote_count: {
     gte: 0,
   },
-  with_release_type: 3,
+  with_release_type: '3',
   with_runtime: {
     gte: 0,
     lte: 400,
