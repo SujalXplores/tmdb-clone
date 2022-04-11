@@ -5,6 +5,11 @@ export const LANGUAGES = [
     name: 'None Selected',
   },
   {
+    iso_639_1: 'ab',
+    english_name: 'Abkhazian',
+    name: '',
+  },
+  {
     iso_639_1: 'aa',
     english_name: 'Afar',
     name: '',
@@ -20,8 +25,28 @@ export const LANGUAGES = [
     name: '',
   },
   {
+    iso_639_1: 'sq',
+    english_name: 'Albanian',
+    name: 'shqip',
+  },
+  {
+    iso_639_1: 'am',
+    english_name: 'Amharic',
+    name: '',
+  },
+  {
+    iso_639_1: 'ar',
+    english_name: 'Arabic',
+    name: 'العربية',
+  },
+  {
     iso_639_1: 'an',
     english_name: 'Aragonese',
+    name: '',
+  },
+  {
+    iso_639_1: 'hy',
+    english_name: 'Armenian',
     name: '',
   },
   {
@@ -50,14 +75,29 @@ export const LANGUAGES = [
     name: 'Azərbaycan',
   },
   {
+    iso_639_1: 'bm',
+    english_name: 'Bambara',
+    name: 'Bamanankan',
+  },
+  {
     iso_639_1: 'ba',
     english_name: 'Bashkir',
     name: '',
   },
   {
-    iso_639_1: 'bm',
-    english_name: 'Bambara',
-    name: 'Bamanankan',
+    iso_639_1: 'eu',
+    english_name: 'Basque',
+    name: 'euskera',
+  },
+  {
+    iso_639_1: 'be',
+    english_name: 'Belarusian',
+    name: 'беларуская мова',
+  },
+  {
+    iso_639_1: 'bn',
+    english_name: 'Bengali',
+    name: 'বাংলা',
   },
   {
     iso_639_1: 'bi',
@@ -65,9 +105,9 @@ export const LANGUAGES = [
     name: '',
   },
   {
-    iso_639_1: 'bo',
-    english_name: 'Tibetan',
-    name: '',
+    iso_639_1: 'bs',
+    english_name: 'Bosnian',
+    name: 'Bosanski',
   },
   {
     iso_639_1: 'br',
@@ -75,14 +115,29 @@ export const LANGUAGES = [
     name: '',
   },
   {
+    iso_639_1: 'bg',
+    english_name: 'Bulgarian',
+    name: 'български език',
+  },
+  {
+    iso_639_1: 'my',
+    english_name: 'Burmese',
+    name: '',
+  },
+  {
+    iso_639_1: 'cn',
+    english_name: 'Cantonese',
+    name: '广州话 / 廣州話',
+  },
+  {
     iso_639_1: 'ca',
     english_name: 'Catalan',
     name: 'Català',
   },
   {
-    iso_639_1: 'cs',
-    english_name: 'Czech',
-    name: 'Český',
+    iso_639_1: 'ch',
+    english_name: 'Chamorro',
+    name: "Finu' Chamorro",
   },
   {
     iso_639_1: 'ce',
@@ -90,8 +145,8 @@ export const LANGUAGES = [
     name: '',
   },
   {
-    iso_639_1: 'cu',
-    english_name: 'Slavic',
+    iso_639_1: 'ny',
+    english_name: 'Chichewa; Nyanja',
     name: '',
   },
   {
@@ -115,9 +170,14 @@ export const LANGUAGES = [
     name: '',
   },
   {
-    iso_639_1: 'cy',
-    english_name: 'Welsh',
-    name: 'Cymraeg',
+    iso_639_1: 'hr',
+    english_name: 'Croatian',
+    name: 'Hrvatski',
+  },
+  {
+    iso_639_1: 'cs',
+    english_name: 'Czech',
+    name: 'Český',
   },
   {
     iso_639_1: 'da',
@@ -125,19 +185,24 @@ export const LANGUAGES = [
     name: 'Dansk',
   },
   {
-    iso_639_1: 'de',
-    english_name: 'German',
-    name: 'Deutsch',
-  },
-  {
     iso_639_1: 'dv',
     english_name: 'Divehi',
     name: '',
   },
   {
+    iso_639_1: 'nl',
+    english_name: 'Dutch',
+    name: 'Nederlands',
+  },
+  {
     iso_639_1: 'dz',
     english_name: 'Dzongkha',
     name: '',
+  },
+  {
+    iso_639_1: 'en',
+    english_name: 'English',
+    name: 'English',
   },
   {
     iso_639_1: 'eo',
@@ -150,9 +215,9 @@ export const LANGUAGES = [
     name: 'Eesti',
   },
   {
-    iso_639_1: 'eu',
-    english_name: 'Basque',
-    name: 'euskera',
+    iso_639_1: 'ee',
+    english_name: 'Ewe',
+    name: 'Èʋegbe',
   },
   {
     iso_639_1: 'fo',
@@ -190,19 +255,29 @@ export const LANGUAGES = [
     name: '',
   },
   {
-    iso_639_1: 'ga',
-    english_name: 'Irish',
-    name: 'Gaeilge',
-  },
-  {
     iso_639_1: 'gl',
     english_name: 'Gallegan',
     name: 'Galego',
   },
   {
-    iso_639_1: 'gv',
-    english_name: 'Manx',
+    iso_639_1: 'lg',
+    english_name: 'Ganda',
     name: '',
+  },
+  {
+    iso_639_1: 'ka',
+    english_name: 'Georgian',
+    name: 'ქართული',
+  },
+  {
+    iso_639_1: 'de',
+    english_name: 'German',
+    name: 'Deutsch',
+  },
+  {
+    iso_639_1: 'el',
+    english_name: 'Greek',
+    name: 'ελληνικά',
   },
   {
     iso_639_1: 'gn',
@@ -225,9 +300,9 @@ export const LANGUAGES = [
     name: 'Hausa',
   },
   {
-    iso_639_1: 'sh',
-    english_name: 'Serbo-Croatian',
-    name: '',
+    iso_639_1: 'he',
+    english_name: 'Hebrew',
+    name: 'עִבְרִית',
   },
   {
     iso_639_1: 'hz',
@@ -235,14 +310,14 @@ export const LANGUAGES = [
     name: '',
   },
   {
+    iso_639_1: 'hi',
+    english_name: 'Hindi',
+    name: 'हिन्दी',
+  },
+  {
     iso_639_1: 'ho',
     english_name: 'Hiri Motu',
     name: '',
-  },
-  {
-    iso_639_1: 'hr',
-    english_name: 'Croatian',
-    name: 'Hrvatski',
   },
   {
     iso_639_1: 'hu',
@@ -250,9 +325,9 @@ export const LANGUAGES = [
     name: 'Magyar',
   },
   {
-    iso_639_1: 'ig',
-    english_name: 'Igbo',
-    name: '',
+    iso_639_1: 'is',
+    english_name: 'Icelandic',
+    name: 'Íslenska',
   },
   {
     iso_639_1: 'io',
@@ -260,23 +335,8 @@ export const LANGUAGES = [
     name: '',
   },
   {
-    iso_639_1: 'ii',
-    english_name: 'Yi',
-    name: '',
-  },
-  {
-    iso_639_1: 'iu',
-    english_name: 'Inuktitut',
-    name: '',
-  },
-  {
-    iso_639_1: 'ie',
-    english_name: 'Interlingue',
-    name: '',
-  },
-  {
-    iso_639_1: 'ia',
-    english_name: 'Interlingua',
+    iso_639_1: 'ig',
+    english_name: 'Igbo',
     name: '',
   },
   {
@@ -285,14 +345,29 @@ export const LANGUAGES = [
     name: 'Bahasa indonesia',
   },
   {
+    iso_639_1: 'ia',
+    english_name: 'Interlingua',
+    name: '',
+  },
+  {
+    iso_639_1: 'ie',
+    english_name: 'Interlingue',
+    name: '',
+  },
+  {
+    iso_639_1: 'iu',
+    english_name: 'Inuktitut',
+    name: '',
+  },
+  {
     iso_639_1: 'ik',
     english_name: 'Inupiaq',
     name: '',
   },
   {
-    iso_639_1: 'is',
-    english_name: 'Icelandic',
-    name: 'Íslenska',
+    iso_639_1: 'ga',
+    english_name: 'Irish',
+    name: 'Gaeilge',
   },
   {
     iso_639_1: 'it',
@@ -300,14 +375,14 @@ export const LANGUAGES = [
     name: 'Italiano',
   },
   {
-    iso_639_1: 'jv',
-    english_name: 'Javanese',
-    name: '',
-  },
-  {
     iso_639_1: 'ja',
     english_name: 'Japanese',
     name: '日本語',
+  },
+  {
+    iso_639_1: 'jv',
+    english_name: 'Javanese',
+    name: '',
   },
   {
     iso_639_1: 'kl',
@@ -320,13 +395,13 @@ export const LANGUAGES = [
     name: '?????',
   },
   {
-    iso_639_1: 'ks',
-    english_name: 'Kashmiri',
+    iso_639_1: 'kr',
+    english_name: 'Kanuri',
     name: '',
   },
   {
-    iso_639_1: 'kr',
-    english_name: 'Kanuri',
+    iso_639_1: 'ks',
+    english_name: 'Kashmiri',
     name: '',
   },
   {
@@ -395,6 +470,11 @@ export const LANGUAGES = [
     name: 'Latviešu',
   },
   {
+    iso_639_1: 'lb',
+    english_name: 'Letzeburgesch',
+    name: '',
+  },
+  {
     iso_639_1: 'li',
     english_name: 'Limburgish',
     name: '',
@@ -410,33 +490,13 @@ export const LANGUAGES = [
     name: 'Lietuvikai',
   },
   {
-    iso_639_1: 'lb',
-    english_name: 'Letzeburgesch',
-    name: '',
-  },
-  {
     iso_639_1: 'lu',
     english_name: 'Luba-Katanga',
     name: '',
   },
   {
-    iso_639_1: 'lg',
-    english_name: 'Ganda',
-    name: '',
-  },
-  {
-    iso_639_1: 'mh',
-    english_name: 'Marshall',
-    name: '',
-  },
-  {
-    iso_639_1: 'ml',
-    english_name: 'Malayalam',
-    name: '',
-  },
-  {
-    iso_639_1: 'mr',
-    english_name: 'Marathi',
+    iso_639_1: 'mk',
+    english_name: 'Macedonian',
     name: '',
   },
   {
@@ -445,9 +505,44 @@ export const LANGUAGES = [
     name: '',
   },
   {
+    iso_639_1: 'ms',
+    english_name: 'Malay',
+    name: 'Bahasa melayu',
+  },
+  {
+    iso_639_1: 'ml',
+    english_name: 'Malayalam',
+    name: '',
+  },
+  {
     iso_639_1: 'mt',
     english_name: 'Maltese',
     name: 'Malti',
+  },
+  {
+    iso_639_1: 'zh',
+    english_name: 'Mandarin',
+    name: '普通话',
+  },
+  {
+    iso_639_1: 'gv',
+    english_name: 'Manx',
+    name: '',
+  },
+  {
+    iso_639_1: 'mi',
+    english_name: 'Maori',
+    name: '',
+  },
+  {
+    iso_639_1: 'mr',
+    english_name: 'Marathi',
+    name: '',
+  },
+  {
+    iso_639_1: 'mh',
+    english_name: 'Marshall',
+    name: '',
   },
   {
     iso_639_1: 'mo',
@@ -457,21 +552,6 @@ export const LANGUAGES = [
   {
     iso_639_1: 'mn',
     english_name: 'Mongolian',
-    name: '',
-  },
-  {
-    iso_639_1: 'mi',
-    english_name: 'Maori',
-    name: '',
-  },
-  {
-    iso_639_1: 'ms',
-    english_name: 'Malay',
-    name: 'Bahasa melayu',
-  },
-  {
-    iso_639_1: 'my',
-    english_name: 'Burmese',
     name: '',
   },
   {
@@ -505,19 +585,9 @@ export const LANGUAGES = [
     name: '',
   },
   {
-    iso_639_1: 'nl',
-    english_name: 'Dutch',
-    name: 'Nederlands',
-  },
-  {
-    iso_639_1: 'nn',
-    english_name: 'Norwegian Nynorsk',
+    iso_639_1: 'se',
+    english_name: 'Northern Sami',
     name: '',
-  },
-  {
-    iso_639_1: 'nb',
-    english_name: 'Norwegian Bokmål',
-    name: 'Bokmål',
   },
   {
     iso_639_1: 'no',
@@ -525,8 +595,13 @@ export const LANGUAGES = [
     name: 'Norsk',
   },
   {
-    iso_639_1: 'ny',
-    english_name: 'Chichewa; Nyanja',
+    iso_639_1: 'nb',
+    english_name: 'Norwegian Bokmål',
+    name: 'Bokmål',
+  },
+  {
+    iso_639_1: 'nn',
+    english_name: 'Norwegian Nynorsk',
     name: '',
   },
   {
@@ -560,6 +635,11 @@ export const LANGUAGES = [
     name: '',
   },
   {
+    iso_639_1: 'fa',
+    english_name: 'Persian',
+    name: 'فارسی',
+  },
+  {
     iso_639_1: 'pl',
     english_name: 'Polish',
     name: 'Polski',
@@ -568,6 +648,16 @@ export const LANGUAGES = [
     iso_639_1: 'pt',
     english_name: 'Portuguese',
     name: 'Português',
+  },
+  {
+    iso_639_1: 'pa',
+    english_name: 'Punjabi',
+    name: 'ਪੰਜਾਬੀ',
+  },
+  {
+    iso_639_1: 'ps',
+    english_name: 'Pushto',
+    name: 'پښتو',
   },
   {
     iso_639_1: 'qu',
@@ -595,6 +685,11 @@ export const LANGUAGES = [
     name: 'Pусский',
   },
   {
+    iso_639_1: 'sm',
+    english_name: 'Samoan',
+    name: '',
+  },
+  {
     iso_639_1: 'sg',
     english_name: 'Sango',
     name: '',
@@ -605,28 +700,18 @@ export const LANGUAGES = [
     name: '',
   },
   {
-    iso_639_1: 'si',
-    english_name: 'Sinhalese',
+    iso_639_1: 'sc',
+    english_name: 'Sardinian',
     name: '',
   },
   {
-    iso_639_1: 'sk',
-    english_name: 'Slovak',
-    name: 'Slovenčina',
+    iso_639_1: 'sr',
+    english_name: 'Serbian',
+    name: 'Srpski',
   },
   {
-    iso_639_1: 'sl',
-    english_name: 'Slovenian',
-    name: 'Slovenščina',
-  },
-  {
-    iso_639_1: 'se',
-    english_name: 'Northern Sami',
-    name: '',
-  },
-  {
-    iso_639_1: 'sm',
-    english_name: 'Samoan',
+    iso_639_1: 'sh',
+    english_name: 'Serbo-Croatian',
     name: '',
   },
   {
@@ -638,6 +723,26 @@ export const LANGUAGES = [
     iso_639_1: 'sd',
     english_name: 'Sindhi',
     name: '',
+  },
+  {
+    iso_639_1: 'si',
+    english_name: 'Sinhalese',
+    name: '',
+  },
+  {
+    iso_639_1: 'cu',
+    english_name: 'Slavic',
+    name: '',
+  },
+  {
+    iso_639_1: 'sk',
+    english_name: 'Slovak',
+    name: 'Slovenčina',
+  },
+  {
+    iso_639_1: 'sl',
+    english_name: 'Slovenian',
+    name: 'Slovenščina',
   },
   {
     iso_639_1: 'so',
@@ -655,26 +760,6 @@ export const LANGUAGES = [
     name: 'Español',
   },
   {
-    iso_639_1: 'sq',
-    english_name: 'Albanian',
-    name: 'shqip',
-  },
-  {
-    iso_639_1: 'sc',
-    english_name: 'Sardinian',
-    name: '',
-  },
-  {
-    iso_639_1: 'sr',
-    english_name: 'Serbian',
-    name: 'Srpski',
-  },
-  {
-    iso_639_1: 'ss',
-    english_name: 'Swati',
-    name: '',
-  },
-  {
     iso_639_1: 'su',
     english_name: 'Sundanese',
     name: '',
@@ -685,13 +770,28 @@ export const LANGUAGES = [
     name: 'Kiswahili',
   },
   {
+    iso_639_1: 'ss',
+    english_name: 'Swati',
+    name: '',
+  },
+  {
     iso_639_1: 'sv',
     english_name: 'Swedish',
     name: 'svenska',
   },
   {
+    iso_639_1: 'tl',
+    english_name: 'Tagalog',
+    name: '',
+  },
+  {
     iso_639_1: 'ty',
     english_name: 'Tahitian',
+    name: '',
+  },
+  {
+    iso_639_1: 'tg',
+    english_name: 'Tajik',
     name: '',
   },
   {
@@ -710,19 +810,14 @@ export const LANGUAGES = [
     name: 'తెలుగు',
   },
   {
-    iso_639_1: 'tg',
-    english_name: 'Tajik',
-    name: '',
-  },
-  {
-    iso_639_1: 'tl',
-    english_name: 'Tagalog',
-    name: '',
-  },
-  {
     iso_639_1: 'th',
     english_name: 'Thai',
     name: 'ภาษาไทย',
+  },
+  {
+    iso_639_1: 'bo',
+    english_name: 'Tibetan',
+    name: '',
   },
   {
     iso_639_1: 'ti',
@@ -735,24 +830,24 @@ export const LANGUAGES = [
     name: '',
   },
   {
-    iso_639_1: 'tn',
-    english_name: 'Tswana',
-    name: '',
-  },
-  {
     iso_639_1: 'ts',
     english_name: 'Tsonga',
     name: '',
   },
   {
-    iso_639_1: 'tk',
-    english_name: 'Turkmen',
+    iso_639_1: 'tn',
+    english_name: 'Tswana',
     name: '',
   },
   {
     iso_639_1: 'tr',
     english_name: 'Turkish',
     name: 'Türkçe',
+  },
+  {
+    iso_639_1: 'tk',
+    english_name: 'Turkmen',
+    name: '',
   },
   {
     iso_639_1: 'tw',
@@ -800,6 +895,11 @@ export const LANGUAGES = [
     name: '',
   },
   {
+    iso_639_1: 'cy',
+    english_name: 'Welsh',
+    name: 'Cymraeg',
+  },
+  {
     iso_639_1: 'wo',
     english_name: 'Wolof',
     name: 'Wolof',
@@ -807,6 +907,11 @@ export const LANGUAGES = [
   {
     iso_639_1: 'xh',
     english_name: 'Xhosa',
+    name: '',
+  },
+  {
+    iso_639_1: 'ii',
+    english_name: 'Yi',
     name: '',
   },
   {
@@ -823,110 +928,5 @@ export const LANGUAGES = [
     iso_639_1: 'zu',
     english_name: 'Zulu',
     name: 'isiZulu',
-  },
-  {
-    iso_639_1: 'ab',
-    english_name: 'Abkhazian',
-    name: '',
-  },
-  {
-    iso_639_1: 'zh',
-    english_name: 'Mandarin',
-    name: '普通话',
-  },
-  {
-    iso_639_1: 'ps',
-    english_name: 'Pushto',
-    name: 'پښتو',
-  },
-  {
-    iso_639_1: 'am',
-    english_name: 'Amharic',
-    name: '',
-  },
-  {
-    iso_639_1: 'ar',
-    english_name: 'Arabic',
-    name: 'العربية',
-  },
-  {
-    iso_639_1: 'bg',
-    english_name: 'Bulgarian',
-    name: 'български език',
-  },
-  {
-    iso_639_1: 'cn',
-    english_name: 'Cantonese',
-    name: '广州话 / 廣州話',
-  },
-  {
-    iso_639_1: 'mk',
-    english_name: 'Macedonian',
-    name: '',
-  },
-  {
-    iso_639_1: 'el',
-    english_name: 'Greek',
-    name: 'ελληνικά',
-  },
-  {
-    iso_639_1: 'fa',
-    english_name: 'Persian',
-    name: 'فارسی',
-  },
-  {
-    iso_639_1: 'he',
-    english_name: 'Hebrew',
-    name: 'עִבְרִית',
-  },
-  {
-    iso_639_1: 'hi',
-    english_name: 'Hindi',
-    name: 'हिन्दी',
-  },
-  {
-    iso_639_1: 'hy',
-    english_name: 'Armenian',
-    name: '',
-  },
-  {
-    iso_639_1: 'en',
-    english_name: 'English',
-    name: 'English',
-  },
-  {
-    iso_639_1: 'ee',
-    english_name: 'Ewe',
-    name: 'Èʋegbe',
-  },
-  {
-    iso_639_1: 'ka',
-    english_name: 'Georgian',
-    name: 'ქართული',
-  },
-  {
-    iso_639_1: 'pa',
-    english_name: 'Punjabi',
-    name: 'ਪੰਜਾਬੀ',
-  },
-  {
-    iso_639_1: 'bn',
-    english_name: 'Bengali',
-    name: 'বাংলা',
-  },
-  {
-    iso_639_1: 'bs',
-    english_name: 'Bosnian',
-    name: 'Bosanski',
-  },
-  {
-    iso_639_1: 'ch',
-    english_name: 'Chamorro',
-    name: "Finu' Chamorro",
-  },
-  {
-    iso_639_1: 'be',
-    english_name: 'Belarusian',
-    name: 'беларуская мова',
   },
 ];
