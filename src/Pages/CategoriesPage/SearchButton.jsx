@@ -33,6 +33,7 @@ const SearchButton = ({ handleSearch }) => {
     left: 0,
     borderRadius: 0,
     zIndex: 5,
+    marginTop: '20px',
     '&:hover': {
       backgroundColor: '#032541',
     },
