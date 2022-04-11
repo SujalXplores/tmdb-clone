@@ -260,3 +260,16 @@
     width: 24px;
     height: 24px;
 }
+
+.year_column {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+
+    .col-1 {
+        display: inline-flex;
+        align-items: center;
+        width: 100px;
+        color: #a4a4a4;
+    }
+}

@@ -146,6 +146,30 @@ export default function Filters(props) {
                   // onChange={props.toggleFirstAirDate}
                 />
               )}
+              <div className={styles.year_column}>
+                <span className={styles['col-1']}>from</span>
+                <span className='k-widget k-datepicker font_size_1'>
+                  <span className='k-picker-wrap k-state-default'>
+                    <input
+                      className='font_size_1 k-input'
+                      type='date'
+                      autocomplete='off'
+                    />
+                  </span>
+                </span>
+              </div>
+              <div className={styles.year_column}>
+                <span className={styles['col-1']}>to</span>
+                <span className='k-widget k-datepicker font_size_1'>
+                  <span className='k-picker-wrap k-state-default'>
+                    <input
+                      className='font_size_1 k-input'
+                      type='date'
+                      autocomplete='off'
+                    />
+                  </span>
+                </span>
+              </div>
             </>
           )}
         </div>
