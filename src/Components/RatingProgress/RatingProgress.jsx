@@ -43,7 +43,7 @@ export const RatingProgress = ({
   const percentage =
     rating === 'NR'
       ? '65'.toString(16).padStart(2, '0')
-      : rating.toString(16).padStart(2, '0');
+      : Math.floor(rating).toString(16).padStart(2, '0');
 
   const classes = useStyles();
 
