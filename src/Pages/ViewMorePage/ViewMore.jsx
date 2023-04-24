@@ -20,11 +20,13 @@ import useTitle from '../../Hooks/useTitle';
 import imageErrorSrc from '../../assets/icons/image-fallback.svg';
 
 import styles from './ViewMore.module.scss';
+import { getDominantColors } from '../../Helpers/GetDominantColor';
 
 const ViewMore = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [movieData, setMovieData] = useState([]);
+  const [backdrop, setBackdrop] = useState({});
   const [trailerData, setTrailerData] = useState([]);
   const [providers, setProviders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -42,6 +44,14 @@ const ViewMore = () => {
     try {
       const movie = await axios.get(url);
       setMovieData(movie.data);
+      const dominantColor = await getDominantColors(`${BACKDROP_URL}${movie.data.backdrop_path}`);
+    
+      const gradient = `to right, ${dominantColor[0]} 150px, ${dominantColor[1]} 100%`;
+    
+      const bgBackDrop = {
+        backgroundImage: `linear-gradient(${gradient})`,
+      };
+      setBackdrop(bgBackDrop);
       console.log('✅ Movie details fetched successfully', movie.data);
     } catch (e) {
       if (e?.response?.status === 404) {
@@ -105,13 +115,9 @@ const ViewMore = () => {
     backgroundImage: `url(${BACKDROP_URL}${movieData.backdrop_path})`,
   };
 
-  const gradient = `to right, rgb(32, 32, 32) 150px, rgba(32, 32, 32, 0.84) 100%`;
-
-  const bgBackDrop = {
-    backgroundImage: `linear-gradient(${gradient})`,
-  };
-
   const date = movieData.release_date || movieData.first_air_date;
+
+  console.info(`L:120 `, movieData);
 
   return (
     !loading &&
@@ -120,8 +126,8 @@ const ViewMore = () => {
         <section className={styles.viewMore}>
           <div className={styles.header} style={bgImage}>
             <div
-              className={styles.backdrop}
-              style={movieData.poster_path ? bgBackDrop : {}}
+              className={`${styles.backdrop} test`}
+              style={movieData.poster_path ? backdrop : {}}
             >
               <div
                 className={`${styles['single-column']} ${
