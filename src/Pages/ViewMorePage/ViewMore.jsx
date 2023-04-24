@@ -25,7 +25,7 @@ import { getDominantColors } from '../../Helpers/GetDominantColor';
 const ViewMore = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const [movieData, setMovieData] = useState([]);
+  const [movieData, setMovieData] = useState({});
   const [backdrop, setBackdrop] = useState({});
   const [trailerData, setTrailerData] = useState([]);
   const [providers, setProviders] = useState([]);
