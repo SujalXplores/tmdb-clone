@@ -73,7 +73,7 @@ const MoviesContainer = ({
 
   const handleScroll = (e) => {
     const element = e.target;
-    if (element.scrollLeft > 25) {
+    if (element.scrollLeft > 50) {
       element.style.setProperty('--opacity', 0);
     } else {
       element.style.setProperty('--opacity', 1);

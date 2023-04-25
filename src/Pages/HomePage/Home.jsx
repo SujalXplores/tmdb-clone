@@ -6,18 +6,18 @@ const HomePage = () => {
     <>
       <HomeBanner />
       <MoviesContainer
-        category='tv'
-        mediaType='popular'
-        title="What's Popular"
-        tabs={['On TV', 'In Theaters']}
-      />
-      <MoviesContainer
         category='trending'
         mediaType='all'
         time='day'
         title='Trending'
         tabs={['Today', 'This Week']}
         isBackground
+      />
+      <MoviesContainer
+        category='tv'
+        mediaType='popular'
+        title="What's Popular"
+        tabs={['On TV', 'In Theaters']}
       />
     </>
   );
