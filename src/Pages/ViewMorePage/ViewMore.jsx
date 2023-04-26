@@ -20,13 +20,15 @@ import useTitle from '../../Hooks/useTitle';
 import imageErrorSrc from '../../assets/icons/image-fallback.svg';
 
 import styles from './ViewMore.module.scss';
-import { getDominantColors } from '../../Helpers/GetDominantColor';
+
+const backdrop = {
+  backgroundImage: 'linear-gradient(to right, rgba(31.5, 31.5, 31.5, 1) calc((50vw - 170px) - 340px), rgba(31.5, 31.5, 31.5, 0.84) 50%, rgba(31.5, 31.5, 31.5, 0.84) 100%)',
+};
 
 const ViewMore = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [movieData, setMovieData] = useState({});
-  const [backdrop, setBackdrop] = useState({});
   const [trailerData, setTrailerData] = useState([]);
   const [providers, setProviders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -44,14 +46,6 @@ const ViewMore = () => {
     try {
       const movie = await axios.get(url);
       setMovieData(movie.data);
-      const dominantColor = await getDominantColors(`${BACKDROP_URL}${movie.data.backdrop_path}`);
-    
-      const gradient = `to right, ${dominantColor[0]} 150px, ${dominantColor[1]} 100%`;
-    
-      const bgBackDrop = {
-        backgroundImage: `linear-gradient(${gradient})`,
-      };
-      setBackdrop(bgBackDrop);
       console.log('✅ Movie details fetched successfully', movie.data);
     } catch (e) {
       if (e?.response?.status === 404) {
